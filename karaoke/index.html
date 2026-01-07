@@ -29,37 +29,6 @@
       backdrop-filter: blur(10px);
     }
 
-    /* Header */
-    .header {
-      text-align: center;
-      padding: 20px 0 25px;
-      background: linear-gradient(135deg, rgba(0,188,212,0.9), rgba(0,151,167,0.9));
-      margin: -25px -25px 25px -25px;
-      border-radius: 20px 20px 0 0;
-    }
-
-    .header h1 {
-      font-size: 24px;
-      font-weight: 800;
-      margin-bottom: 5px;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
-
-    .header .subtitle {
-      font-size: 14px;
-      opacity: 0.9;
-    }
-
-    .header .lesson-badge {
-      display: inline-block;
-      background: rgba(255,255,255,0.2);
-      padding: 4px 12px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 600;
-      margin-top: 10px;
-    }
-
     /* Lyrics Display */
     .lyrics-display {
       background: rgba(0, 0, 0, 0.3);
@@ -196,60 +165,6 @@
       color: #E91E63;
     }
 
-    /* Info Section */
-    .info-section {
-      background: rgba(255, 197, 25, 0.1);
-      border-left: 3px solid #FFC519;
-      padding: 12px 15px;
-      border-radius: 0 8px 8px 0;
-      margin-bottom: 20px;
-      font-size: 13px;
-      line-height: 1.5;
-      color: rgba(255, 255, 255, 0.8);
-    }
-
-    .info-section strong {
-      color: #FFC519;
-    }
-
-    /* Speed Control */
-    .speed-control {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 15px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
-    }
-
-    .speed-control label {
-      font-size: 13px;
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    .speed-btn {
-      padding: 6px 12px;
-      border-radius: 15px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: transparent;
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 13px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .speed-btn:hover {
-      border-color: #00BCD4;
-      color: #00BCD4;
-    }
-
-    .speed-btn.active {
-      background: #00BCD4;
-      border-color: #00BCD4;
-      color: white;
-    }
-
     /* Song Selector */
     .song-selector {
       margin-bottom: 20px;
@@ -301,15 +216,6 @@
         padding: 15px;
       }
 
-      .header {
-        margin: -15px -15px 20px -15px;
-        padding: 15px 0 20px;
-      }
-
-      .header h1 {
-        font-size: 20px;
-      }
-
       .german-line {
         font-size: 20px;
       }
@@ -327,13 +233,6 @@
 </head>
 <body>
   <div class="container">
-    <!-- Header -->
-    <div class="header">
-      <h1 id="songTitle">Karaoke</h1>
-      <p class="subtitle">Sing along and learn German!</p>
-      <span class="lesson-badge" id="lessonBadge">A1</span>
-    </div>
-
     <!-- Song Selector -->
     <div class="song-selector">
       <label for="songSelect">Select a song</label>
@@ -347,12 +246,6 @@
         <option value="hunde">Lesson 13: Hunde Kann Er Nicht Leiden</option>
         <option value="es-regnet">Lesson 14: Es Regnet, Gott Segnet</option>
       </select>
-    </div>
-
-    <!-- Info -->
-    <div class="info-section">
-      <strong>Tip:</strong> Listen and read along. The German text highlights as the song plays.
-      Click anywhere on the progress bar to jump to that part of the song.
     </div>
 
     <!-- Lyrics Display -->
@@ -389,15 +282,6 @@
           ↻
         </button>
       </div>
-    </div>
-
-    <!-- Speed Control -->
-    <div class="speed-control">
-      <label>Speed:</label>
-      <button class="speed-btn" data-speed="0.5">0.5x</button>
-      <button class="speed-btn" data-speed="0.75">0.75x</button>
-      <button class="speed-btn active" data-speed="1">1x</button>
-      <button class="speed-btn" data-speed="1.25">1.25x</button>
     </div>
 
     <!-- Hidden Audio Element -->
@@ -765,9 +649,6 @@
     const lyricsDisplay = document.getElementById('lyricsDisplay');
     const loopBtn = document.getElementById('loopBtn');
     const rewindBtn = document.getElementById('rewindBtn');
-    const songTitleEl = document.getElementById('songTitle');
-    const lessonBadgeEl = document.getElementById('lessonBadge');
-    const speedBtns = document.querySelectorAll('.speed-btn');
 
     let currentSong = null;
     let isPlaying = false;
@@ -785,9 +666,6 @@
       if (!currentSong) {
         currentSong = songs['toeff-toeff'];
       }
-
-      songTitleEl.textContent = currentSong.title;
-      lessonBadgeEl.textContent = currentSong.lesson;
 
       if (currentSong.audio) {
         audio.src = currentSong.audio;
@@ -884,13 +762,12 @@
       loopBtn.classList.toggle('active', isLooping);
     });
 
-    // Speed buttons
-    speedBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        speedBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        audio.playbackRate = parseFloat(btn.dataset.speed);
-      });
+    // Spacebar to play/pause
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' && e.target.tagName !== 'SELECT') {
+        e.preventDefault();
+        playBtn.click();
+      }
     });
 
     // Song selector
