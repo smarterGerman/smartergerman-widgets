@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Karaoke Player - SmarterGerman</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: #fff;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: rgba(30, 30, 30, 0.85);
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 20px 0 25px;
+      background: linear-gradient(135deg, rgba(0,188,212,0.9), rgba(0,151,167,0.9));
+      margin: -25px -25px 25px -25px;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 5px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .header .subtitle {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .header .lesson-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    /* Lyrics Display */
+    .lyrics-display {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 16px;
+      padding: 30px 20px;
+      margin-bottom: 20px;
+      min-height: 140px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .german-line {
+      font-size: 24px;
+      font-weight: 700;
+      color: #E91E63;
+      margin-bottom: 12px;
+      line-height: 1.4;
+      text-shadow: 0 2px 8px rgba(233, 30, 99, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .english-line {
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.7);
+      font-style: italic;
+      line-height: 1.4;
+      transition: all 0.3s ease;
+    }
+
+    .lyrics-display.playing .german-line {
+      animation: pulse-text 0.5s ease;
+    }
+
+    @keyframes pulse-text {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    /* Audio Player */
+    .player-controls {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .progress-container {
+      margin-bottom: 15px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #00BCD4, #00ACC1);
+      border-radius: 3px;
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    .time-display {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 8px;
+    }
+
+    .buttons-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .play-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00BCD4, #00ACC1);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      box-shadow: 0 4px 15px rgba(0, 188, 212, 0.4);
+    }
+
+    .play-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(0, 188, 212, 0.5);
+    }
+
+    .play-btn svg {
+      width: 24px;
+      height: 24px;
+      fill: white;
+    }
+
+    .control-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 14px;
+    }
+
+    .control-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+
+    .control-btn.active {
+      background: rgba(233, 30, 99, 0.3);
+      color: #E91E63;
+    }
+
+    /* Info Section */
+    .info-section {
+      background: rgba(255, 197, 25, 0.1);
+      border-left: 3px solid #FFC519;
+      padding: 12px 15px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 20px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .info-section strong {
+      color: #FFC519;
+    }
+
+    /* Speed Control */
+    .speed-control {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+    }
+
+    .speed-control label {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .speed-btn {
+      padding: 6px 12px;
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: transparent;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .speed-btn:hover {
+      border-color: #00BCD4;
+      color: #00BCD4;
+    }
+
+    .speed-btn.active {
+      background: #00BCD4;
+      border-color: #00BCD4;
+      color: white;
+    }
+
+    /* Song Selector */
+    .song-selector {
+      margin-bottom: 20px;
+    }
+
+    .song-selector label {
+      display: block;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .song-selector select {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.3);
+      color: #fff;
+      font-size: 15px;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+    }
+
+    .song-selector select:focus {
+      outline: none;
+      border-color: #00BCD4;
+    }
+
+    .song-selector select option {
+      background: #1a1a2e;
+      color: #fff;
+      padding: 10px;
+    }
+
+    /* Hidden audio */
+    audio {
+      display: none;
+    }
+
+    /* Mobile */
+    @media (max-width: 500px) {
+      .container {
+        padding: 15px;
+      }
+
+      .header {
+        margin: -15px -15px 20px -15px;
+        padding: 15px 0 20px;
+      }
+
+      .header h1 {
+        font-size: 20px;
+      }
+
+      .german-line {
+        font-size: 20px;
+      }
+
+      .english-line {
+        font-size: 14px;
+      }
+
+      .lyrics-display {
+        padding: 20px 15px;
+        min-height: 120px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1 id="songTitle">Karaoke</h1>
+      <p class="subtitle">Sing along and learn German!</p>
+      <span class="lesson-badge" id="lessonBadge">A1</span>
+    </div>
+
+    <!-- Song Selector -->
+    <div class="song-selector">
+      <label for="songSelect">Select a song</label>
+      <select id="songSelect">
+        <option value="toeff-toeff">Lesson 04: Töff Töff</option>
+        <option value="bescheidenheit">Lesson 08: Bescheidenheit ist eine Zier</option>
+        <option value="deswegen">Lesson 09: Deswegen bin ich ja da</option>
+        <option value="fix-und-foxi">Lesson 10: Fix und Foxi</option>
+        <option value="ich-sehe-was">Lesson 11: Ich sehe was, was Du nicht siehst</option>
+        <option value="kann-ich-ihnen-helfen">Lesson 12: Kann Ich Ihnen Helfen?</option>
+        <option value="hunde">Lesson 13: Hunde Kann Er Nicht Leiden</option>
+        <option value="es-regnet">Lesson 14: Es Regnet, Gott Segnet</option>
+      </select>
+    </div>
+
+    <!-- Info -->
+    <div class="info-section">
+      <strong>Tip:</strong> Listen and read along. The German text highlights as the song plays.
+      Click anywhere on the progress bar to jump to that part of the song.
+    </div>
+
+    <!-- Lyrics Display -->
+    <div class="lyrics-display" id="lyricsDisplay">
+      <div class="german-line" id="germanLine">Press play to start</div>
+      <div class="english-line" id="englishLine">Drücke Play zum Starten</div>
+    </div>
+
+    <!-- Player Controls -->
+    <div class="player-controls">
+      <div class="progress-container">
+        <div class="progress-bar" id="progressBar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="time-display">
+          <span id="currentTime">0:00</span>
+          <span id="duration">0:00</span>
+        </div>
+      </div>
+
+      <div class="buttons-row">
+        <button class="control-btn" id="rewindBtn" title="Rewind 5s">
+          -5s
+        </button>
+        <button class="play-btn" id="playBtn">
+          <svg id="playIcon" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          <svg id="pauseIcon" viewBox="0 0 24 24" style="display:none;">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+          </svg>
+        </button>
+        <button class="control-btn" id="loopBtn" title="Loop">
+          ↻
+        </button>
+      </div>
+    </div>
+
+    <!-- Speed Control -->
+    <div class="speed-control">
+      <label>Speed:</label>
+      <button class="speed-btn" data-speed="0.5">0.5x</button>
+      <button class="speed-btn" data-speed="0.75">0.75x</button>
+      <button class="speed-btn active" data-speed="1">1x</button>
+      <button class="speed-btn" data-speed="1.25">1.25x</button>
+    </div>
+
+    <!-- Hidden Audio Element -->
+    <audio id="audio" preload="auto"></audio>
+  </div>
+
+  <script>
+    // Song data - all 8 A1 karaoke songs
+    const songs = {
+      'toeff-toeff': {
+        title: 'Töff Töff',
+        lesson: 'A1 Lesson 04',
+        audio: 'https://smartergerman.com/wp-content/uploads/2026/01/A1L04-Toff-Toff-final.m4a',
+        lyrics: [
+          [0.0, "Instrumentale Musik", "Instrumental music"],
+          [11.7, "Jetzt fahr'n die zwei nach Hohenwalde.", "Now the two are driving to Hohenwalde."],
+          [14.6, "nem kleinen Ort in Brandenburg.", "a small town in Brandenburg."],
+          [17.4, "Zu dem Kanzler seine Datscha", "To the chancellor's dacha"],
+          [20.2, "Dort entspannt er sich am Wochenende", "There he relaxes on weekends"],
+          [26.1, "Ganz allein auf seinem Waldgelände.", "All alone on his forest grounds."],
+          [31.5, "Die beiden rasen in nem Trabbi", "The two race along in a Trabbi"],
+          [36.9, "durch die wunderschöne Landschaft.", "through the beautiful countryside."],
+          [40.1, "Vorbei an Wäldern, Feldern, Streu-obst-wiesen,", "Past forests, fields, and orchard meadows,"],
+          [42.6, "voller Bremsen, Mücken und dicker Stubenfliegen", "full of horseflies, mosquitoes, and fat houseflies"],
+          [45.1, "Töff Töff, Puff Puff und Knatter Knatter", "Toot toot, puff puff, and clatter clatter"],
+          [50.4, "Die Pappe klingt wie mein alter Vatter", "The cardboard car sounds like my old man"],
+          [53.1, "Doch Meil um Meil sieht man sie kriechen", "But mile after mile you see it crawling"],
+          [56.0, "So'n Trabbi ist nicht totzukriegen.", "Such a Trabbi just won't die."],
+          [59.0, "Töff Töff, Puff Puff und Knatter Knatter", "Toot toot, puff puff, and clatter clatter"],
+          [61.6, "Die Pappe läuft und läuft und läuft ganz tapfer", "The cardboard car runs and runs and runs bravely"],
+          [64.5, "Fällt was ab, Spuke drauf, zusammenkleben", "If something falls off, spit on it, stick it back together"],
+          [67.3, "So'n Trabbi wird uns alle überleben.", "Such a Trabbi will outlive us all."],
+          [70.9, "Nach nur zwei Stunden hat die Fahrt ein Ende.", "After only two hours the journey ends."],
+          [85.2, "Es ist noch früh am Nachmittag.", "It is still early in the afternoon."],
+          [87.8, "Das Örtchen gab's schon vor der Wende", "The little town existed before the reunification"],
+          [90.7, "Der ideale Ort zum Entspannen.", "The ideal place to relax."],
+          [96.3, "Weit weg von Arbeit, Autos und kleinen Tyrannen", "Far from work, cars, and little tyrants"],
+          [102.1, "Töff Töff, Puff Puff und Knatter Knatter", "Toot toot, puff puff, and clatter clatter"],
+          [109.8, "Die Pappe klingt wie mein alter Vatter", "The cardboard car sounds like my old man"],
+          [112.6, "Doch Meil um Meil sieht man sie kriechen", "But mile after mile you see it crawling"],
+          [115.2, "So'n Trabbi ist nicht totzukriegen.", "Such a Trabbi just won't die."],
+          [118.1, "Töff Töff, Puff Puff und Knatter Knatter", "Toot toot, puff puff, and clatter clatter"],
+          [121.0, "Die Pappe läuft und läuft und läuft ganz tapfer", "The cardboard car runs and runs and runs bravely"],
+          [123.8, "Fällt was ab, Spucke drauf, zusammenkleben", "If something falls off, spit on it, stick it back together"],
+          [126.4, "So'n Trabbi wird uns alle überleben.", "Such a Trabbi will outlive us all."],
+          [130.3, "Uuuuuuuuuhhh...", "Uuuuuuuuuhhh..."]
+        ]
+      },
+      'bescheidenheit': {
+        title: 'Bescheidenheit ist eine Zier',
+        lesson: 'A1 Lesson 08',
+        audio: 'https://smartergerman.com/wp-content/uploads/2026/01/A1L08-Bescheidenheit.mp3',
+        lyrics: [
+          [0.0, "Instrumentale Musik", "Instrumental music"],
+          [18.0, "Arbeiten Sie schon lange für Herrn Merkel?", "Have you been working for Mr. Merkel for a long time?"],
+          [22.84, "Oh ja! Wir kennen uns noch aus der Schulzeit.", "Oh yes! We've known each other since school."],
+          [26.82, "Wir sind schon lange befreundet.", "We've been friends for a long time."],
+          [29.26, "Und als ich letztes Jahr meine Stelle", "And last year when I lost my job"],
+          [32.22, "als Inneneinrichter verloren habe,", "as an interior decorator,"],
+          [34.32, "hat er mir netterweise diesen Job vermittelt.", "he kindly got me this job."],
+          [38.48, "Bescheidenheit ist eine Zier", "Modesty is a virtue"],
+          [43.2, "doch weiter kommt man ohne ihr.", "but you get further without it."],
+          [60.44, "Und willst du mehr erreichen,", "And if you want to achieve more,"],
+          [64.4, "gehst du einfach über Leichen.", "You just walk over corpses."],
+          [90.04, "Was genau machen Sie denn für ihn?", "What exactly do you do for him?"],
+          [92.0, "Ich kümmere mich um sein Ferienhaus,", "I take care of his vacation home,"],
+          [95.08, "erledige Einkäufe, mähe den Rasen, reinige die Zimmer", "do errands, mow the lawn, clean the rooms,"],
+          [98.84, "Und ich kümmere mich natürlich um seine Hunde.", "and of course, I take care of his dogs."],
+          [111.02, "Er lächelt gequält.", "He smiles painfully."],
+          [113.14, "Man sieht ihm an, dass er sich um die Tiere Sorgen macht.", "You can tell he worries about the animals."],
+          [116.0, "Während Stefan noch an seinem Tee nippt,", "While Stefan still sips his tea,"],
+          [118.16, "inspiziert Simone die Umgebung.", "Simone inspects the surroundings."],
+          [121.0, "Das Haus des Kanzlers ist sehr bescheiden,", "The chancellor's house is very modest,"],
+          [123.16, "aber mit Stil eingerichtet.", "but tastefully furnished."],
+          [126.0, "Bescheidenheit ist eine Zier", "Modesty is a virtue,"],
+          [131.36, "doch weiter kommt man ohne ihr.", "but you get further without it."],
+          [137.16, "Und willst du mehr erreichen.", "And if you want to achieve more,"],
+          [143.0, "gehst du einfach über Leichen.", "you just walk over corpses."]
+        ]
+      },
+      'deswegen': {
+        title: 'Deswegen bin ich ja da',
+        lesson: 'A1 Lesson 09',
+        audio: 'https://smartergerman.com/wp-content/uploads/2026/01/A1L09-Deswegen-bin-ich-ja-da.m4a',
+        lyrics: [
+          [0.0, "Instrumentale Musik.", "Instrumental music."],
+          [19.5, "Der Kanzler scheint seine Hunde sehr gern zu haben.", "The chancellor seems to be very fond of his dogs."],
+          [23.0, "Überall sind Bilder von ihnen.", "There are pictures of them everywhere."],
+          [25.8, "Über dem Wohnzimmertisch hängt sogar ein riesiges Foto von den beiden Möpsen.", "There's even a huge photo of the two pugs hanging above the living room table."],
+          [32.0, "Herr Müller erzählt:", "Mr. Müller says:"],
+          [33.2, "Herr Merkel hat die beiden Hunde schon seit sie kleine Welpen waren.", "Mr. Merkel has had both dogs since they were little puppies."],
+          [37.0, "Es sind quasi seine Kinder.", "They're basically his children."],
+          [39.5, "Aber nur wenige Menschen wissen, dass es sie gibt.", "But only a few people know they even exist."],
+          [42.3, "Herr Müller macht ein komisches Gesicht.", "Mr. Müller makes a funny face."],
+          [45.0, "Instrumentale Musik.", "Instrumental music."],
+          [57.5, "Ich glaube, es ist ihm ein bisschen peinlich.", "I think he's a little embarrassed about it."],
+          [61.5, "Simone schaut sich die 3D-Skulptur der beiden Möpse an,", "Simone looks at the 3D sculpture of the two pugs."],
+          [65.0, "die auf der Anrichte steht.", "Standing on the sideboard."],
+          [66.1, "und nickt stumm.", "And silently nods."],
+          [67.5, "Dann dreht sie sich zu Herrn Müller um.", "Then she turns to Mr. Müller."],
+          [68.8, "und fragt:", "And asks:"],
+          [70.1, "Nimmt der Kanzler die Hunde nie mit nach Berlin?", "Does the chancellor never take the dogs to Berlin?"],
+          [75.0, "Instrumentale Musik", "Instrumental music"],
+          [99.0, "Herr Müller schüttelt den Kopf.", "Mr. Müller shakes his head."],
+          [102.5, "Nein, die beiden fahren nicht so gerne Auto.", "No, they don't really like riding in the car."],
+          [106.1, "Es stresst sie zu sehr.", "It stresses them out too much."],
+          [108.8, "Deswegen bin ich ja da.", "That's why I'm here."],
+          [111.3, "Instrumentale Musik bis zum Ende.", "Instrumental music until the end."]
+        ]
+      },
+      'fix-und-foxi': {
+        title: 'Fix und Foxi',
+        lesson: 'A1 Lesson 10',
+        audio: 'https://smartergerman.com/wp-content/uploads/2026/01/A1L10-Fix-und-Foxi.m4a',
+        lyrics: [
+          [0.0, "- Gentle Piano -", "- Gentle Piano -"],
+          [6.4, "Jetzt beginnt er zu schluchzen.", "Now he begins to sob."],
+          [9.6, "Eine Träne läuft ihm die Wange runter.", "A tear runs down his cheek."],
+          [14.5, "Simone hat Mitleid mit dem Mann.", "Simone feels sorry for the man."],
+          [18.1, "Tröstend legt sie ihre Hand auf seine Schultern.", "Comfortingly, she puts her hand on his shoulders."],
+          [22.2, "Keine Sorge, Herr Müller.", "Don't worry, Mr. Müller."],
+          [24.6, "Wir finden die beiden schon wieder!", "We'll find them both again!"],
+          [29.5, "Er lächelt gequält", "He smiles painfully"],
+          [32.4, "und wischt sich die Tränen weg.", "and wipes away his tears."],
+          [37.4, "Danke schön.", "Thank you."],
+          [38.8, "Ich schätze Ihre Arbeit und Diskretion wirklich sehr.", "I really appreciate your work and discretion."],
+          [43.2, "Fix und Foxi, wo seid ihr nur?", "Fix and Foxi, where are you?"],
+          [48.3, "Oh-oh-oh, oh-oh-oh", "Oh-oh-oh, oh-oh-oh"],
+          [52.2, "Fix und Foxi, das ist ja Horror pur.", "Fix and Foxi, this is pure horror."],
+          [56.5, "Oh-oh-oh, oh-oh-oh", "Oh-oh-oh, oh-oh-oh"],
+          [60.1, "Fix und Foxi, ich werd hier noch verrückt.", "Fix and Foxi, I'm going crazy here."],
+          [63.8, "Oh-oh-oh, oh-oh-oh", "Oh-oh-oh, oh-oh-oh"],
+          [67.9, "Fix und Foxi, kommt doch bitte schnell zurück!", "Fix and Foxi, please come back quickly!"],
+          [72.1, "Oh-oh-oh, oh-oh-oh", "Oh-oh-oh, oh-oh-oh"],
+          [75.8, "Der Himmel ist bedeckt.", "The sky is overcast."],
+          [78.7, "Dicke Regenwolken ziehen auf.", "Thick rain clouds are gathering."],
+          [84.4, "Simone und Stefan sind im Garten des Kanzlers", "Simone and Stefan are in the chancellor's garden"],
+          [88.8, "und untersuchen die Hundehütten.", "and are examining the dog houses."],
+          [92.4, "Fix und Foxi, wo seid ihr nur?", "Fix and Foxi, where are you?"],
+          [97.3, "Oh-oh-oh, oh-oh-oh", "Oh-oh-oh, oh-oh-oh"],
+          [101.0, "Fix und Foxi, das ist ja Horror pur.", "Fix and Foxi, this is pure horror."],
+          [105.3, "Oh-oh-oh, oh-oh-oh", "Oh-oh-oh, oh-oh-oh"],
+          [108.8, "Fix und Foxi, ich werd hier noch verrückt.", "Fix and Foxi, I'm going crazy here."],
+          [112.5, "Oh-oh-oh, oh-oh-oh", "Oh-oh-oh, oh-oh-oh"],
+          [116.5, "Fix und Foxi, kommt doch bitte schnell zurück!", "Fix and Foxi, please come back quickly!"],
+          [121.2, "Oh-oh-oh, oh-oh-oh", "Oh-oh-oh, oh-oh-oh"],
+          [124.4, "Die Hunde übernachten zwar immer im Haus,", "The dogs always sleep in the house,"],
+          [128.1, "aber zum Spielen sind die Hütten trotzdem praktisch.", "but the huts are still practical for playing."],
+          [131.8, "Foxis Napf ist noch zur Hälfte voll.", "Foxi's bowl is still half full."],
+          [135.9, "Der Napf von Fix ist allerdings verschwunden.", "Fix's bowl, however, has disappeared."],
+          [139.7, "Fix und Foxi, wo seid ihr nur?", "Fix and Foxi, where are you?"],
+          [144.7, "Oh-oh-oh, oh-oh-oh", "Oh-oh-oh, oh-oh-oh"],
+          [148.9, "Fix und Foxi, das ist ja Horror pur.", "Fix and Foxi, this is pure horror."],
+          [153.4, "Oh-oh-oh, oh-oh-oh", "Oh-oh-oh, oh-oh-oh"],
+          [157.0, "Fix und Foxi, ich werd hier noch verrückt.", "Fix and Foxi, I'm going crazy here."],
+          [160.4, "Oh-oh-oh, oh-oh-oh", "Oh-oh-oh, oh-oh-oh"],
+          [164.6, "Fix und Foxi, kommt doch bitte schnell zurück!", "Fix and Foxi, please come back quickly!"],
+          [169.0, "Oh-oh-oh, oh-oh-oh", "Oh-oh-oh, oh-oh-oh"],
+          [172.0, "Oh-oh-oh, oh-oh-oh", "Oh-oh-oh, oh-oh-oh"]
+        ]
+      },
+      'ich-sehe-was': {
+        title: 'Ich sehe was, was Du nicht siehst',
+        lesson: 'A1 Lesson 11',
+        audio: 'https://smartergerman.com/wp-content/uploads/2026/01/A1L11-Ich-sehe-was-final-MASTERED.m4a',
+        lyrics: [
+          [0.0, "Huuuuuuuuuuuuuu", "Huuuuuuuuuuuuuu"],
+          [26.9, "Herr Müller hat die Hunde noch gefüttert.", "Mr. Müller had still fed the dogs."],
+          [36.9, "Dann waren sie auch schon verschwunden.", "Then they had already disappeared."],
+          [46.2, "Simone schaut sich um.", "Simone looks around."],
+          [57.7, "Vielleicht gibt es einen Augenzeugen.", "Maybe there's an eyewitness."],
+          [62.4, "Der was gesehen hat von den Hunden?", "Who saw something of the dogs?"],
+          [66.3, "Nebenan steht ein Einfamilienhaus.", "Next door stands a single-family house."],
+          [70.5, "Stefan macht Fotos vom Garten,", "Stefan takes photos of the garden,"],
+          [74.8, "während Simone zu den Nachbarn geht.", "while Simone goes to the neighbors."],
+          [79.5, "Da bewegt sich doch ein Vorhang.", "There's a curtain moving."],
+          [83.3, "Oder hat den nur der Wind verweht?", "Or did the wind just blow it?"],
+          [91.9, "Ich sehe was, was du nicht siehst.", "I see something that you don't see."],
+          [96.6, "Was siehst du denn? Was siehst du denn?", "What do you see then? What do you see then?"],
+          [100.8, "Ich sehe was, was du nicht siehst.", "I see something that you don't see."],
+          [105.0, "Was siehst du denn? Was siehst du denn?", "What do you see then? What do you see then?"],
+          [118.1, "Sie klingelt an der Tür.", "She rings the doorbell."],
+          [123.5, "Aber niemand macht auf.", "But no one opens up."],
+          [127.6, "Da hat doch jemand hinter dem Fenster gestanden.", "Someone was standing behind the window."],
+          [132.4, "Aber jetzt ist da niemand zu sehen.", "But now there's no one to be seen."],
+          [140.7, "Die Dinge nehmen ihren Lauf.", "Things take their course."],
+          [147.3, "Ich sehe was, was du nicht siehst.", "I see something that you don't see."],
+          [151.2, "Was siehst du denn? Was siehst du denn?", "What do you see then? What do you see then?"],
+          [155.5, "Ich sehe was, was du nicht siehst.", "I see something that you don't see."],
+          [159.6, "Was siehst du denn? Was siehst du denn?", "What do you see then? What do you see then?"]
+        ]
+      },
+      'kann-ich-ihnen-helfen': {
+        title: 'Kann Ich Ihnen Helfen?',
+        lesson: 'A1 Lesson 12',
+        audio: 'https://smartergerman.com/wp-content/uploads/2026/01/A1L12-Kann-ich-ihnen-helfen.m4a',
+        lyrics: [
+          [0.0, "Instrumentale Musik", "Instrumental music"],
+          [19.0, "Simone steigt über den Gartenzaun", "Simone climbs over the garden fence"],
+          [21.6, "Woll'n wir doch mal schau'n", "Let's have a look"],
+          [23.5, "was los ist im Nachbar-Universum", "what's going on in the neighbor universe"],
+          [28.5, "Leise läuft sie ums Haus herum", "Quietly she walks around the house"],
+          [31.6, "Doch leider kann sie nichts erkennen.", "But unfortunately she can't see anything."],
+          [34.9, "Da hört sie eine Stimme", "Then she hears a voice"],
+          [36.8, "und denkt: Ich glaub ich spinne.", "and thinks: I think I'm going crazy."],
+          [38.4, "Sie dreht sich erschrocken um.", "She turns around startled."],
+          [40.7, "Eine alte Dame steht am Gartenzaun.", "An old lady stands at the garden fence."],
+          [44.1, "Kann ich Ihnen helfen?", "Can I help you?"],
+          [47.1, "Nein, danke, ich schaue nur.", "No, thank you, I'm just looking."],
+          [49.9, "Kann ich Ihnen helfen?", "Can I help you?"],
+          [53.7, "Nein, danke, ich schaue nur.", "No, thank you, I'm just looking."],
+          [56.7, "Falls Sie Hilfe brauchen,", "If you need help,"],
+          [60.7, "sagen Sie einfach Bescheid.", "just let me know."],
+          [62.2, "Mach ich.", "I will."],
+          [63.3, "Vielen Dank.", "Thank you very much."],
+          [64.9, "Falls Sie Hilfe brauchen,", "If you need help,"],
+          [67.2, "sagen Sie einfach Bescheid.", "just let me know."],
+          [68.8, "Mach ich.", "I will."],
+          [70.1, "Vielen Dank.", "Thank you very much."],
+          [72.1, "Die alte Dame schaut skeptisch.", "The old lady looks skeptical."],
+          [79.6, "Mein Hund ist weggelaufen", "My dog ran away"],
+          [88.1, "Und wir suchen ihn gerade.", "And we're looking for him right now."],
+          [91.5, "Da entspannt sich die alte Dame.", "Then the old lady relaxes."],
+          [94.8, "Und erklärt Simone die Lage.", "And explains the situation to Simone."],
+          [98.1, "Es würde mich sehr wundern,", "It would really surprise me"],
+          [100.5, "wenn Sie Ihren Hund hier finden.", "if you found your dog here."],
+          [103.1, "Herr Fischer mag gar keine Tiere", "Mr. Fischer doesn't like animals at all"],
+          [108.1, "nicht die des Kanzlers", "not the chancellor's"],
+          [109.7, "und auch nicht Ihre.", "and not yours either."],
+          [111.3, "Kann ich Ihnen helfen?", "Can I help you?"],
+          [113.2, "Nein, danke, ich schaue nur.", "No, thank you, I'm just looking."],
+          [116.1, "Kann ich Ihnen helfen?", "Can I help you?"],
+          [119.9, "Nein, danke, ich schaue nur.", "No, thank you, I'm just looking."],
+          [122.7, "Falls Sie Hilfe brauchen,", "If you need help,"],
+          [127.0, "sagen Sie einfach Bescheid.", "just let me know."],
+          [128.5, "Mach ich.", "I will."],
+          [129.5, "Vielen Dank.", "Thank you very much."],
+          [131.6, "Falls Sie Hilfe brauchen,", "If you need help,"],
+          [133.4, "sagen Sie einfach Bescheid.", "just let me know."],
+          [135.0, "Mach ich.", "I will."],
+          [136.0, "Vielen Dank.", "Thank you very much."],
+          [138.3, "Ihr Hund taucht bestimmt wieder auf.", "Your dog will definitely turn up again."],
+          [154.1, "Mit ein bisschen Glück,", "With a bit of luck,"],
+          [155.6, "kommt er wieder zurück,", "he'll come back"],
+          [157.2, "wenn er Hunger hat.", "when he gets hungry."],
+          [158.8, "Kann ich Ihnen helfen?", "Can I help you?"],
+          [163.1, "Nein, danke, ich schaue nur.", "No, thank you, I'm just looking."],
+          [165.9, "Kann ich Ihnen helfen?", "Can I help you?"],
+          [169.6, "Nein, danke, ich schaue nur.", "No, thank you, I'm just looking."],
+          [172.4, "Falls Sie Hilfe brauchen,", "If you need help,"],
+          [176.5, "sagen Sie einfach Bescheid.", "just let me know."],
+          [178.1, "Mach ich.", "I will."],
+          [179.1, "Vielen Dank.", "Thank you very much."],
+          [181.0, "Falls Sie Hilfe brauchen,", "If you need help,"],
+          [183.0, "sagen Sie einfach Bescheid.", "just let me know."],
+          [184.7, "Mach ich.", "I will."],
+          [185.8, "Vielen Dank.", "Thank you very much."]
+        ]
+      },
+      'hunde': {
+        title: 'Hunde Kann Er Nicht Leiden',
+        lesson: 'A1 Lesson 13',
+        audio: 'https://smartergerman.com/wp-content/uploads/2026/01/A1L13-Nicht-Leiden.m4a',
+        lyrics: [
+          [0.0, "Instrumentale Musik", "Instrumental music"],
+          [11.9, "Wollen Sie mir sagen,", "Are you telling me,"],
+          [13.5, "dass es Menschen gibt,", "that there are people"],
+          [14.5, "die keine Hunde mögen?", "who don't like dogs?"],
+          [19.7, "Ja, mein Nachbar ist so ein Mann.", "Yes, my neighbor is such a man."],
+          [21.2, "Der Tiere wie Ihre", "Who animals like yours"],
+          [22.4, "einfach nicht leiden kann.", "simply can't stand."],
+          [23.9, "Na na na na na", "Na na na na na"],
+          [27.5, "Der Nachbar kann Hunde", "The neighbor can't stand"],
+          [29.8, "überhaupt nicht leiden.", "dogs at all."],
+          [31.3, "Na na na na na", "Na na na na na"],
+          [33.8, "Und schon gar nicht", "And especially not"],
+          [35.3, "diese frechen beiden.", "these two cheeky ones."],
+          [37.8, "Na na na na na", "Na na na na na"],
+          [40.3, "Adlibs", "Adlibs"],
+          [50.0, "Immer wieder hört man sie streiten", "You can always hear them arguing"],
+          [52.3, "Sie müssen wissen,", "You must know,"],
+          [53.4, "Merkels Hunde haben sowohl gute", "Merkel's dogs have both good"],
+          [55.1, "als auch schlechte Seiten", "and bad sides"],
+          [56.3, "Ich sage ihnen ungelogen,", "I tell you honestly,"],
+          [58.2, "die Möpse sind sehr schlecht erzogen", "the pugs are very badly behaved"],
+          [60.0, "aber man muss anerkennen,", "but one must acknowledge"],
+          [61.6, "dass sie auch sehr süß sein können.", "that they can also be very sweet."],
+          [63.2, "Ich hingegen mag Hunde sehr.", "I, on the other hand, like dogs very much."],
+          [64.9, "Na na na na na", "Na na na na na"],
+          [68.4, "Der Nachbar kann Hunde", "The neighbor can't stand"],
+          [71.0, "überhaupt nicht leiden.", "dogs at all."],
+          [72.5, "Na na na na na", "Na na na na na"],
+          [75.0, "Und schon gar nicht", "And especially not"],
+          [77.0, "diese frechen beiden.", "these two cheeky ones."],
+          [78.6, "Na na na na na", "Na na na na na"],
+          [83.7, "Der Nachbar ist wohl eher ein Katzenmensch.", "The neighbor is probably more of a cat person."],
+          [85.3, "Na na na na na", "Na na na na na"]
+        ]
+      },
+      'es-regnet': {
+        title: 'Es Regnet, Gott Segnet',
+        lesson: 'A1 Lesson 14',
+        audio: 'https://smartergerman.com/wp-content/uploads/2026/01/A1L14-Es-Regnet-11.09.25-08.52.m4a',
+        lyrics: [
+          [0.0, "hmmmmm hmmmmm hmmmmm", "hmmmmm hmmmmm hmmmmm"],
+          [14.8, "Simone nickt und lächelt.", "Simone nods and smiles."],
+          [17.4, "Das ist ja interessant.", "That's interesting."],
+          [20.9, "Die Möpse des Kanzlers", "The Chancellor's pugs"],
+          [25.3, "sind hier wohl sehr bekannt.", "are apparently very well known here."],
+          [28.6, "Doch wer war der Täter", "But who was the culprit"],
+          [32.6, "Vielleicht ja der Nachbar.", "Maybe the neighbor."],
+          [36.5, "Den frag ich mal später.", "I'll ask him later."],
+          [39.6, "Dann wird's vielleicht klar.", "Then it might become clear."],
+          [43.9, "Instrumental Music", "Instrumental Music"],
+          [59.3, "Jetzt fängt's an zu regnen.", "Now it starts to rain."],
+          [60.9, "Simone stellt sich unter", "Simone takes shelter"],
+          [62.5, "Da donnert und blitzt es", "There's thunder and lightning"],
+          [64.4, "Der Himmel wird dunkler.", "The sky is getting darker."],
+          [66.3, "Die Dame hat nen Schirm", "The lady has an umbrella"],
+          [68.9, "So kommen Sie doch rein.", "So do come in."],
+          [70.7, "Wasser tropft von ihrer Stirn", "Water drips from her forehead"],
+          [73.1, "Dazu sagt sie nicht nein.", "She doesn't say no to that."],
+          [75.7, "Es regnet, Gott segnet,", "It's raining, God blesses,"],
+          [80.0, "die Erde wird nass.", "the earth gets wet."],
+          [84.0, "Wir sitzen im Trocknen,", "We're sitting in the dry,"],
+          [88.4, "was schadet uns das?", "what harm does that do us?"],
+          [91.4, "Die Tropfen, sie klopfen,", "The drops, they're knocking,"],
+          [95.6, "auf Dach und auf Stein.", "on roof and on stone."],
+          [99.0, "Wir lachen im Warmen,", "We're laughing in the warmth,"],
+          [103.3, "und trinken nen Wein.", "and drinking some wine."],
+          [106.1, "Oooh oooh ooooooooh", "Oooh oooh ooooooooh"],
+          [137.3, "Es gibt frischen Kuchen.", "There's fresh cake."],
+          [140.2, "Zeit hat sie keine", "She has no time"],
+          [141.3, "die Frau zu besuchen.", "to visit the woman."],
+          [143.1, "Aber sie will mal versuchen", "But she wants to try"],
+          [144.9, "mehr über Herrn Fischer zu erfahren.", "to find out more about Mr. Fischer."],
+          [151.2, "So stimmt sie dann zu", "So she agrees then"],
+          [155.4, "zu einem kleinen Kaffeeklatsch.", "to a little coffee chat."],
+          [159.2, "Dann kommt Stefan dazu", "Then Stefan joins in"],
+          [162.6, "und der Regen macht: Pitti Platsch!", "and the rain goes: Pitti Platsch!"],
+          [167.8, "Es regnet, Gott segnet,", "It's raining, God blesses,"],
+          [170.1, "die Erde wird nass.", "the earth gets wet."],
+          [173.6, "Wir sitzen im Trocknen,", "We're sitting in the dry,"],
+          [178.3, "was schadet uns das?", "what harm does that do us?"],
+          [181.8, "Die Tropfen, sie klopfen,", "The drops, they're knocking,"],
+          [186.5, "auf Dach und auf Stein.", "on roof and on stone."],
+          [188.7, "Wir lachen im Warmen,", "We're laughing in the warmth,"],
+          [193.3, "und trinken nen Wein.", "and drinking some wine."],
+          [196.7, "Oooh oooh ooooooooh", "Oooh oooh ooooooooh"]
+        ]
+      }
+    };
+
+    // DOM Elements
+    const audio = document.getElementById('audio');
+    const playBtn = document.getElementById('playBtn');
+    const playIcon = document.getElementById('playIcon');
+    const pauseIcon = document.getElementById('pauseIcon');
+    const progressBar = document.getElementById('progressBar');
+    const progressFill = document.getElementById('progressFill');
+    const currentTimeEl = document.getElementById('currentTime');
+    const durationEl = document.getElementById('duration');
+    const germanLine = document.getElementById('germanLine');
+    const englishLine = document.getElementById('englishLine');
+    const lyricsDisplay = document.getElementById('lyricsDisplay');
+    const loopBtn = document.getElementById('loopBtn');
+    const rewindBtn = document.getElementById('rewindBtn');
+    const songTitleEl = document.getElementById('songTitle');
+    const lessonBadgeEl = document.getElementById('lessonBadge');
+    const speedBtns = document.querySelectorAll('.speed-btn');
+
+    let currentSong = null;
+    let isPlaying = false;
+    let isLooping = false;
+
+    // Get song from URL param
+    function getSongFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('song') || 'toeff-toeff';
+    }
+
+    // Load song
+    function loadSong(songId) {
+      currentSong = songs[songId];
+      if (!currentSong) {
+        currentSong = songs['toeff-toeff'];
+      }
+
+      songTitleEl.textContent = currentSong.title;
+      lessonBadgeEl.textContent = currentSong.lesson;
+
+      if (currentSong.audio) {
+        audio.src = currentSong.audio;
+      }
+
+      germanLine.textContent = 'Press play to start';
+      englishLine.textContent = 'Drücke Play zum Starten';
+    }
+
+    // Format time
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    // Update lyrics based on current time
+    function updateLyrics(time) {
+      if (!currentSong || !currentSong.lyrics) return;
+
+      let idx = 0;
+      for (let i = 0; i < currentSong.lyrics.length; i++) {
+        if (time >= currentSong.lyrics[i][0]) idx = i;
+        else break;
+      }
+
+      const [_, german, english] = currentSong.lyrics[idx];
+
+      if (germanLine.textContent !== german) {
+        lyricsDisplay.classList.add('playing');
+        setTimeout(() => lyricsDisplay.classList.remove('playing'), 300);
+      }
+
+      germanLine.textContent = german;
+      englishLine.textContent = english;
+    }
+
+    // Play/Pause
+    playBtn.addEventListener('click', () => {
+      if (isPlaying) {
+        audio.pause();
+        playIcon.style.display = 'block';
+        pauseIcon.style.display = 'none';
+      } else {
+        audio.play();
+        playIcon.style.display = 'none';
+        pauseIcon.style.display = 'block';
+      }
+      isPlaying = !isPlaying;
+    });
+
+    // Time update
+    audio.addEventListener('timeupdate', () => {
+      const progress = (audio.currentTime / audio.duration) * 100;
+      progressFill.style.width = progress + '%';
+      currentTimeEl.textContent = formatTime(audio.currentTime);
+      updateLyrics(audio.currentTime);
+    });
+
+    // Duration loaded
+    audio.addEventListener('loadedmetadata', () => {
+      durationEl.textContent = formatTime(audio.duration);
+    });
+
+    // Song ended
+    audio.addEventListener('ended', () => {
+      if (isLooping) {
+        audio.currentTime = 0;
+        audio.play();
+      } else {
+        isPlaying = false;
+        playIcon.style.display = 'block';
+        pauseIcon.style.display = 'none';
+        germanLine.textContent = 'Song ended';
+        englishLine.textContent = 'Lied beendet';
+      }
+    });
+
+    // Progress bar click
+    progressBar.addEventListener('click', (e) => {
+      const rect = progressBar.getBoundingClientRect();
+      const percent = (e.clientX - rect.left) / rect.width;
+      audio.currentTime = percent * audio.duration;
+    });
+
+    // Rewind button
+    rewindBtn.addEventListener('click', () => {
+      audio.currentTime = Math.max(0, audio.currentTime - 5);
+    });
+
+    // Loop button
+    loopBtn.addEventListener('click', () => {
+      isLooping = !isLooping;
+      loopBtn.classList.toggle('active', isLooping);
+    });
+
+    // Speed buttons
+    speedBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        speedBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        audio.playbackRate = parseFloat(btn.dataset.speed);
+      });
+    });
+
+    // Song selector
+    const songSelect = document.getElementById('songSelect');
+    songSelect.addEventListener('change', (e) => {
+      // Stop current playback
+      audio.pause();
+      isPlaying = false;
+      playIcon.style.display = 'block';
+      pauseIcon.style.display = 'none';
+
+      // Load new song
+      loadSong(e.target.value);
+
+      // Reset progress
+      progressFill.style.width = '0%';
+      currentTimeEl.textContent = '0:00';
+      demoTime = 0;
+    });
+
+    // Demo time variable (for demo mode)
+    let demoTime = 0;
+
+    // Initialize
+    const initialSong = getSongFromUrl();
+    loadSong(initialSong);
+    songSelect.value = initialSong;
+
+    // Demo mode - if no audio, simulate with lyrics
+    if (!currentSong.audio) {
+      const demoInterval = setInterval(() => {
+        if (isPlaying) {
+          demoTime += 0.1;
+          const progress = (demoTime / 200) * 100;
+          progressFill.style.width = Math.min(progress, 100) + '%';
+          currentTimeEl.textContent = formatTime(demoTime);
+          updateLyrics(demoTime);
+
+          if (demoTime >= 200) {
+            if (isLooping) {
+              demoTime = 0;
+            } else {
+              isPlaying = false;
+              playIcon.style.display = 'block';
+              pauseIcon.style.display = 'none';
+            }
+          }
+        }
+      }, 100);
+
+      durationEl.textContent = '3:20';
+    }
+  </script>
+</body>
+</html>
