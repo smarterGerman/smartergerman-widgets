@@ -800,9 +800,16 @@
     let demoTime = 0;
 
     // Initialize
-    const initialSong = getSongFromUrl();
+    const params = new URLSearchParams(window.location.search);
+    const songParam = params.get('song');
+    const initialSong = songParam || 'toeff-toeff';
     loadSong(initialSong);
     songSelect.value = initialSong;
+
+    // Hide dropdown if song specified in URL
+    if (songParam) {
+      document.querySelector('.song-selector').style.display = 'none';
+    }
 
     // Demo mode - if no audio, simulate with lyrics
     if (!currentSong.audio) {
