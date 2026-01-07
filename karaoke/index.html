@@ -762,11 +762,19 @@
       loopBtn.classList.toggle('active', isLooping);
     });
 
-    // Spacebar to play/pause
+    // Keyboard shortcuts: Space=play/pause, Left=rewind, Right=forward
     document.addEventListener('keydown', (e) => {
-      if (e.code === 'Space' && e.target.tagName !== 'SELECT') {
+      if (e.target.tagName === 'SELECT') return;
+
+      if (e.code === 'Space') {
         e.preventDefault();
         playBtn.click();
+      } else if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+        audio.currentTime = Math.max(0, audio.currentTime - 5);
+      } else if (e.code === 'ArrowRight') {
+        e.preventDefault();
+        audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
       }
     });
 
