@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEW - Reading - Comprehension</title>
+</head>
+<body>
+<p>DURATION: 10-15 MINS
+</p>
+<hr>
+<p>Read through the text below and highlight any words you are NOT familiar with. Our Vocab Tool will show you their meanings and instantly add them to your personal vocabulary list. Don't worry if you only understand 10% for now. You'll understand a lot more by the end of this chapter.
+</p>
+<p><br>
+</p>
+<div class="vocab-trainer-text" translate="no">
+<h2>Kapitel 01</h2>
+<p>Es ist ein schöner Montagmorgen in Berlin. <br> Die Sonne scheint und <br> die Vögel zwitschern fröhlich in den Bäumen. <br> Simone Tesch fährt in ihr Büro. <br> Es gibt viel zu tun. <br> Simone ist Privatdetektivin von Beruf und <br>hat mit ihrem Assistenten Stefan <br> vor drei Jahren das Detektivbüro Tesch gegründet. <br> Simone ist etwas dominant, <br> müssen Sie wissen. <br> Zusammen lösen Simone und Stefan schwierige Fälle. <br> Als Simone ins Büro kommt,<br> sieht sie einen riesigen Kaffeefleck auf ihren Dokumenten. <br> So ein Mist. <br> Sie versucht die Dokumente zu retten und <br> ist dabei sehr vorsichtig. <br> In diesem Moment kommt ihr Assistent Stefan ins Büro. <br> Er sieht nervös aus.
+</p>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const vocabText = document.querySelector('.vocab-trainer-text');
+    if (!vocabText) return;
+    
+    // Split text into clickable words
+    const paragraphs = vocabText.querySelectorAll('p');
+    paragraphs.forEach(p => {
+        if (p.innerHTML.includes('<span class="vocab-word">')) return; // Skip if already processed
+        
+        const lines = p.innerHTML.split('<br>');
+        const processedLines = lines.map(line => {
+            return line.replace(/([a-zA-ZäöüÄÖÜß]+)/g, '<span class="vocab-word">$1</span>');
+        });
+        p.innerHTML = processedLines.join('<br>');
+    });
+    
+    // Handle word clicks
+    vocabText.addEventListener('click', function(e) {
+        if (e.target.classList.contains('vocab-word')) {
+            e.target.classList.toggle('highlighted');
+            const word = e.target.textContent.trim();
+            
+            // Store in localStorage for vocab tool access
+            let vocabList = JSON.parse(localStorage.getItem('teachableVocabList') || '[]');
+            if (e.target.classList.contains('highlighted')) {
+                if (!vocabList.includes(word)) {
+                    vocabList.push(word);
+                }
+            } else {
+                vocabList = vocabList.filter(w => w !== word);
+            }
+            localStorage.setItem('teachableVocabList', JSON.stringify(vocabList));
+            
+            // Show visual feedback
+            const savedIndicator = document.createElement('div');
+            savedIndicator.className = 'vocab-saved-indicator';
+            savedIndicator.textContent = e.target.classList.contains('highlighted') ? 'Added to vocab list' : 'Removed from vocab list';
+            document.body.appendChild(savedIndicator);
+            setTimeout(() => savedIndicator.remove(), 2000);
+        }
+    });
+});
+</script>
+
+<style>
+.vocab-word {
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-block;
+}
+.vocab-word:hover {
+    background-color: rgba(255, 200, 0, 0.3);
+}
+.vocab-word.highlighted {
+    background-color: #ffcc00;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+.vocab-saved-indicator {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #333;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 10000;
+    animation: slideIn 0.3s ease;
+}
+@keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+</style>
+
+<button id="test-vocab-btn" style="margin-top: 20px; padding: 10px 20px; background: #333; color: white; border: none; border-radius: 5px; cursor: pointer;">Test: Show Saved Words</button>
+<div id="vocab-test-output" style="margin-top: 10px; padding: 10px; background: #f0f0f0; border-radius: 5px; display: none;"></div>
+
+<script>
+document.getElementById('test-vocab-btn').addEventListener('click', function() {
+    const vocabList = JSON.parse(localStorage.getItem('teachableVocabList') || '[]');
+    const output = document.getElementById('vocab-test-output');
+    output.style.display = 'block';
+    if (vocabList.length > 0) {
+        output.innerHTML = '<strong>Saved words (' + vocabList.length + '):</strong><br>' + vocabList.join(', ');
+    } else {
+        output.innerHTML = '<strong>No words saved yet.</strong> Click on some German words above first.';
+    }
+});
+</script>
+</body>
+</html>

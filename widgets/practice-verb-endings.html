@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grammar - Exercise - Verb Endings</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding: 20px; color: #333; }
+    .sg-verb-widget { max-width: 600px; margin: 0 auto; }
+    .sg-verb-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .sg-verb-title { font-size: 20px; font-weight: 600; color: #2c3e50; }
+    .sg-verb-page { font-size: 16px; color: #666; }
+    .sg-verb-list { background: white; border-radius: 8px; border: 1px solid #e0e0e0; }
+    .sg-verb-row { display: flex; align-items: center; gap: 6px; padding: 10px 14px; font-size: 18px; border-bottom: 1px solid #eee; cursor: pointer; }
+    .sg-verb-row:last-child { border-bottom: none; }
+    .sg-verb-row.complete { background: #f0fdf4; }
+    .sg-verb-num { color: #999; font-size: 16px; width: 24px; flex-shrink: 0; }
+    .sg-verb-pronoun { font-weight: 600; color: #00BCD4; flex-shrink: 0; }
+    .sg-verb-input { border: 1px solid #ddd; border-radius: 4px; padding: 6px 8px; width: 100px; font-size: 18px; flex-shrink: 0; }
+    .sg-verb-input:focus { outline: none; border-color: #aaa; }
+    .sg-verb-input.correct { border-color: #22c55e; background: #f0fdf4; }
+    .sg-verb-input.wrong { border-color: #ef4444; }
+    .sg-verb-text { color: #444; }
+    .sg-verb-inf { margin-left: auto; font-size: 15px; color: #E91E63; flex-shrink: 0; }
+    .sg-verb-prefix { background: #fce4ec; border-radius: 2px; padding: 0 3px; }
+    .sg-verb-tr { font-size: 15px; color: #666; font-style: italic; display: none; padding: 4px 14px 10px 52px; background: #fafafa; border-bottom: 1px solid #eee; }
+    .sg-verb-tr.show { display: block; }
+    .sg-verb-hint { display: none; padding: 6px 14px 10px 52px; background: #fff8e1; border-bottom: 1px solid #eee; }
+    .sg-verb-hint.show { display: flex; gap: 10px; align-items: center; }
+    .sg-verb-hint-opt { background: #fff; border: 1px solid #ddd; padding: 4px 12px; border-radius: 4px; font-size: 16px; cursor: pointer; }
+    .sg-verb-hint-opt:hover { background: #f5f5f5; }
+    .sg-verb-hint-btn { background: #f5f5f5; border: 1px solid #ddd; color: #666; font-size: 13px; cursor: pointer; padding: 3px 8px; border-radius: 4px; margin-left: auto; flex-shrink: 0; }
+    .sg-verb-hint-btn:hover { background: #eee; }
+    .sg-verb-nav { display: flex; justify-content: space-between; margin-top: 12px; }
+    .sg-verb-btn { background: #00BCD4; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-size: 16px; cursor: pointer; }
+    .sg-verb-btn:hover { background: #00ACC1; }
+    .sg-verb-btn:disabled { background: #ccc; cursor: not-allowed; }
+    .sg-verb-note { font-size: 14px; color: #999; text-align: center; margin-top: 10px; }
+  </style>
+</head>
+<body>
+<div class="sg-verb-widget">
+  <div class="sg-verb-top">
+    <div class="sg-verb-title">Präsens: Verb-Endungen</div>
+    <div class="sg-verb-page" id="pageIndicator">1 / 6</div>
+  </div>
+  <div class="sg-verb-list" id="sgList"></div>
+  <div class="sg-verb-nav">
+    <button class="sg-verb-btn" id="prevBtn">← Zurück</button>
+    <button class="sg-verb-btn" id="nextBtn">Weiter →</button>
+  </div>
+  <div class="sg-verb-note">Click sentence to translate | ← → pages</div>
+</div>
+
+<script>
+(function(){
+  const ALL=[
+    {pro:'Ich',post:'jeden Morgen Kaffee.',ans:'trinke',inf:'trinken',tr:'I drink coffee every morning.'},
+    {pro:'Du',post:'den Fernseher an.',ans:'machst',inf:'an.machen',tr:'You turn on the TV.'},
+    {pro:'Er',post:'die Zeitung.',ans:'kauft',inf:'kaufen',tr:'He buys the newspaper.'},
+    {pro:'Wir',post:'oft im Büro.',ans:'arbeiten',inf:'arbeiten',tr:'We often work in the office.'},
+    {pro:'Ihr',post:'Frühstück.',ans:'esst',inf:'essen',tr:'You (pl.) eat breakfast.'},
+    {pro:'Sie',post:'im Park.',ans:'spazieren',inf:'spazieren',tr:'They walk in the park.'},
+    {pro:'Ich',post:'Musik.',ans:'höre',inf:'hören',tr:'I listen to music.'},
+    {pro:'Du',post:'das Buch.',ans:'kaufst',inf:'kaufen',tr:'You buy the book.'},
+    {pro:'Sie',post:'alles vor.',ans:'bereiten',inf:'vor.bereiten',tr:'They prepare everything.'},
+    {pro:'Wir',post:'den Garten.',ans:'pflegen',inf:'pflegen',tr:'We maintain the garden.'},
+    {pro:'Er',post:'seine Brille.',ans:'putzt',inf:'putzen',tr:'He cleans his glasses.'},
+    {pro:'Ihr',post:'gerne Kuchen.',ans:'backt',inf:'backen',tr:'You (pl.) like to bake cakes.'},
+    {pro:'Wir',post:'oft zusammen.',ans:'kochen',inf:'kochen',tr:'We often cook together.'},
+    {pro:'Ich',post:'Radio.',ans:'höre',inf:'hören',tr:'I listen to the radio.'},
+    {pro:'Er',post:'die Bücher ab.',ans:'staubt',inf:'ab.stauben',tr:'He dusts the books.'},
+    {pro:'Du',post:'die Tür.',ans:'öffnest',inf:'öffnen',tr:'You open the door.'},
+    {pro:'Ihr',post:'oft laut.',ans:'lacht',inf:'lachen',tr:'You (pl.) often laugh loudly.'},
+    {pro:'Sie',post:'viel Kaffee.',ans:'trinken',inf:'trinken',tr:'They drink a lot of coffee.'},
+    {pro:'Ich',post:'Briefe.',ans:'schreibe',inf:'schreiben',tr:'I write letters.'},
+    {pro:'Du',post:'das oft.',ans:'machst',inf:'machen',tr:'You do that often.'},
+    {pro:'Er',post:'wieder auf.',ans:'taucht',inf:'auf.tauchen',tr:'He appears again.'},
+    {pro:'Wir',post:'an das Projekt.',ans:'denken',inf:'denken',tr:'We think about the project.'},
+    {pro:'Ihr',post:'die Pflanzen.',ans:'gießt',inf:'gießen',tr:'You (pl.) water the plants.'},
+    {pro:'Sie',post:'im Garten.',ans:'arbeiten',inf:'arbeiten',tr:'They work in the garden.'},
+    {pro:'Ich',post:'das Licht an.',ans:'mache',inf:'an.machen',tr:'I turn on the light.'},
+    {pro:'Du',post:'das Fenster.',ans:'schließt',inf:'schließen',tr:'You close the window.'},
+    {pro:'Wir',post:'jeden Tag.',ans:'üben',inf:'üben',tr:'We practice every day.'},
+    {pro:'Er',post:'mit dem Hund.',ans:'spielt',inf:'spielen',tr:'He plays with the dog.'},
+    {pro:'Ihr',post:'nach der Arbeit.',ans:'ruht',inf:'ruhen',tr:'You (pl.) rest after work.'},
+    {pro:'Sie',post:'das Problem.',ans:'lösen',inf:'lösen',tr:'They solve the problem.'},
+    {pro:'Ich',post:'die Wahrheit.',ans:'sage',inf:'sagen',tr:'I tell the truth.'},
+    {pro:'Du',post:'zu spät.',ans:'kommst',inf:'kommen',tr:'You arrive too late.'},
+    {pro:'Er',post:'in Brandenburg.',ans:'wohnt',inf:'wohnen',tr:'He lives in Brandenburg.'},
+    {pro:'Wir',post:'eine Lösung.',ans:'finden',inf:'finden',tr:'We find a solution.'},
+    {pro:'Ihr',post:'Kuchen.',ans:'esst',inf:'essen',tr:'You (pl.) eat cake.'},
+    {pro:'Sie',post:'den Fall.',ans:'bearbeiten',inf:'bearbeiten',tr:'They handle the case.'},
+    {pro:'Wir',post:'die Dokumente.',ans:'prüfen',inf:'prüfen',tr:'We check the documents.'},
+    {pro:'Ihr',post:'noch?',ans:'wartet',inf:'warten',tr:'Are you still waiting?'},
+    {pro:'Ich',post:'im Büro.',ans:'arbeite',inf:'arbeiten',tr:'I work in the office.'},
+    {pro:'Du',post:'jeden Tag.',ans:'lernst',inf:'lernen',tr:'You study every day.'},
+    {pro:'Er',post:'ruhig.',ans:'bleibt',inf:'bleiben',tr:'He stays calm.'},
+    {pro:'Wir',post:'jetzt los.',ans:'gehen',inf:'gehen',tr:'We leave now.'},
+    {pro:'Ihr',post:'im Park.',ans:'liegt',inf:'liegen',tr:'You (pl.) lie in the park.'},
+    {pro:'Sie',post:'dort.',ans:'stehen',inf:'stehen',tr:'They stand there.'},
+    {pro:'Ich',post:'die Wahrheit.',ans:'glaube',inf:'glauben',tr:'I believe the truth.'},
+    {pro:'Du',post:'das Spiel.',ans:'guckst',inf:'gucken',tr:'You watch the game.'},
+    {pro:'Er',post:'noch etwas?',ans:'braucht',inf:'brauchen',tr:'Does he need anything else?'},
+    {pro:'Sie',post:'jetzt.',ans:'kommen',inf:'kommen',tr:'They come now.'}
+  ];
+
+  const ENDINGS={ich:'e',du:'st',er:'t',wir:'en',ihr:'t',sie:'en'};
+
+  const PER_PAGE=8;
+  const PAGES=[];
+  for(let i=0;i<ALL.length;i+=PER_PAGE)PAGES.push(ALL.slice(i,i+PER_PAGE));
+
+  const list=document.getElementById('sgList');
+  const prevBtn=document.getElementById('prevBtn');
+  const nextBtn=document.getElementById('nextBtn');
+  const pageIndicator=document.getElementById('pageIndicator');
+  let page=0,inputs=[];
+
+  function fmtInf(s){
+    if(s.includes('.'))return s.split('.').map((p,i)=>i===0?'<span class="sg-verb-prefix">'+p+'</span>':p).join('.');
+    return s;
+  }
+
+  function getWrongOption(correct,pro){
+    const stem=correct.replace(/(e|st|t|en)$/,'');
+    const proKey=pro.toLowerCase().replace(/[^a-zäöü]/g,'');
+    const others=Object.entries(ENDINGS).filter(([p])=>p!==proKey);
+    const [,end]=others[Math.floor(Math.random()*others.length)];
+    let wrong=stem+end;
+    if(wrong===correct){wrong=stem+(end==='e'?'st':'e');}
+    return wrong;
+  }
+
+  function render(idx){
+    page=Math.max(0,Math.min(PAGES.length-1,idx));
+    pageIndicator.textContent=`${page+1} / ${PAGES.length}`;
+    prevBtn.disabled=(page===0);
+    nextBtn.disabled=(page===PAGES.length-1);
+    list.innerHTML='';
+    inputs=[];
+    const offset=page*PER_PAGE;
+
+    PAGES[page].forEach((it,i)=>{
+      const row=document.createElement('div');
+      row.className='sg-verb-row';
+      row.innerHTML=`<span class="sg-verb-num">${offset+i+1}.</span><input type="text" class="sg-verb-input"><span class="sg-verb-text">${it.pro} ... ${it.post}</span><span class="sg-verb-inf">${fmtInf(it.inf)}</span><button class="sg-verb-hint-btn">50/50</button>`;
+
+      const tr=document.createElement('div');
+      tr.className='sg-verb-tr';
+      tr.textContent=it.tr;
+
+      const hint=document.createElement('div');
+      hint.className='sg-verb-hint';
+      const opts=[it.ans,getWrongOption(it.ans,it.pro)].sort(()=>Math.random()-.5);
+      hint.innerHTML=opts.map(o=>`<button class="sg-verb-hint-opt">${o}</button>`).join('');
+
+      const input=row.querySelector('.sg-verb-input');
+      const hintBtn=row.querySelector('.sg-verb-hint-btn');
+      const ans=it.ans.toLowerCase();
+      inputs.push({input,row,ans,hint});
+
+      input.addEventListener('input',()=>{
+        const v=input.value.trim().toLowerCase();
+        if(!v){input.className='sg-verb-input';row.classList.remove('complete');return;}
+        if(v===ans){
+          input.className='sg-verb-input correct';
+          row.classList.add('complete');
+          hint.classList.remove('show');
+          if(i+1<inputs.length)setTimeout(()=>inputs[i+1].input.focus(),80);
+          else if(page<PAGES.length-1)setTimeout(goNext,200);
+        }else{
+          input.className='sg-verb-input wrong';
+          row.classList.remove('complete');
+        }
+      });
+
+      hintBtn.onclick=(e)=>{
+        e.stopPropagation();
+        hint.classList.toggle('show');
+      };
+
+      hint.querySelectorAll('.sg-verb-hint-opt').forEach(btn=>{
+        btn.onclick=()=>{
+          input.value=btn.textContent;
+          input.dispatchEvent(new Event('input'));
+        };
+      });
+
+      row.addEventListener('click',e=>{if(e.target.tagName!=='INPUT'&&e.target.tagName!=='BUTTON')tr.classList.toggle('show');});
+      list.appendChild(row);
+      list.appendChild(hint);
+      list.appendChild(tr);
+    });
+    list.querySelector('.sg-verb-input')?.focus();
+  }
+
+  function goPrev(){render(page-1);}
+  function goNext(){render(page+1);}
+  prevBtn.onclick=goPrev;
+  nextBtn.onclick=goNext;
+  document.addEventListener('keydown',e=>{
+    const f=document.activeElement;
+    const inInp=f?.classList.contains('sg-verb-input');
+    if(e.key==='ArrowLeft'&&(!inInp||!f.value))goPrev();
+    if(e.key==='ArrowRight'&&(!inInp||!f.value))goNext();
+  });
+  render(0);
+})();
+</script>
+</body>
+</html>

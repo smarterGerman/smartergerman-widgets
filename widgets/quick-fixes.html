@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quick Fixes</title>
+</head>
+<body>
+<style>
+.sg-widget {
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    background: #ffffff;
+    line-height: 1.6;
+    color: #2c3e50;
+    padding: 50px 30px 60px 30px;
+}
+
+.sg-widget * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.sg-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.sg-h1 {
+    font-size: 2.5em;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.sg-subtitle {
+    font-size: 1.2em;
+    color: #546e7a;
+    margin-bottom: 40px;
+    font-style: italic;
+}
+
+.sg-text {
+    font-size: 1.1em;
+    color: #546e7a;
+    line-height: 1.8;
+    margin-bottom: 35px;
+}
+
+/* Accordion Styles */
+.sg-accordion {
+    list-style: none;
+    counter-reset: step-counter;
+    margin-bottom: 40px;
+}
+
+.sg-accordion-item {
+    position: relative;
+    margin-bottom: 10px;
+    counter-increment: step-counter;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.sg-accordion-header {
+    position: relative;
+    padding: 18px 50px 18px 45px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 1.05em;
+    font-weight: 600;
+    user-select: none;
+    color: #2c3e50;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+/* Priority colors - red spectrum for urgency */
+.sg-accordion-item:nth-child(1) .sg-accordion-header { 
+    background: #dc2626; 
+    color: white; 
+}
+.sg-accordion-item:nth-child(2) .sg-accordion-header { 
+    background: #ef4444; 
+    color: white; 
+}
+.sg-accordion-item:nth-child(3) .sg-accordion-header { 
+    background: #f87171; 
+}
+.sg-accordion-item:nth-child(4) .sg-accordion-header { 
+    background: #fca5a5; 
+}
+.sg-accordion-item:nth-child(5) .sg-accordion-header { 
+    background: #fbbf24; 
+}
+.sg-accordion-item:nth-child(6) .sg-accordion-header { 
+    background: #fcd34d; 
+}
+.sg-accordion-item:nth-child(7) .sg-accordion-header { 
+    background: #fde68a; 
+}
+.sg-accordion-item:nth-child(8) .sg-accordion-header { 
+    background: #fef3c7; 
+}
+.sg-accordion-item:nth-child(9) .sg-accordion-header { 
+    background: #e0e7ff; 
+}
+.sg-accordion-item:nth-child(10) .sg-accordion-header { 
+    background: #f0f4ff; 
+}
+
+.sg-accordion-header:hover {
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.sg-accordion-header::before {
+    content: counter(step-counter);
+    position: absolute;
+    left: 18px;
+    width: 24px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9em;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+/* White circle for dark backgrounds */
+.sg-accordion-item:nth-child(1) .sg-accordion-header::before,
+.sg-accordion-item:nth-child(2) .sg-accordion-header::before {
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
+}
+
+.sg-accordion-arrow {
+    position: absolute;
+    right: 18px;
+    transition: transform 0.3s;
+    opacity: 0.7;
+}
+
+.sg-accordion-item:nth-child(1) .sg-accordion-arrow,
+.sg-accordion-item:nth-child(2) .sg-accordion-arrow {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.sg-accordion-item.expanded .sg-accordion-arrow {
+    transform: rotate(90deg);
+}
+
+.sg-accordion-content {
+    display: none;
+    padding: 20px 25px;
+    font-size: 1.05em;
+    line-height: 1.8;
+    color: #546e7a;
+    background: #f8f9fa;
+    border-radius: 0 0 8px 8px;
+    margin-top: -8px;
+    border: 1px solid #e0e0e0;
+    border-top: none;
+}
+
+.sg-accordion-item.expanded .sg-accordion-content {
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.sg-accordion-content code {
+    background: #fee2e2;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+    color: #dc2626;
+    font-weight: 600;
+}
+
+.sg-accordion-content strong {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.sg-hint {
+    display: block;
+    font-size: 0.95em;
+    color: #7a8a96;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #e0e0e0;
+    font-style: italic;
+}
+
+/* Links */
+.sg-link {
+    color: #2c3e50 !important;
+    text-decoration: underline !important;
+    font-weight: 600 !important;
+}
+
+.sg-link:hover {
+    color: #1a252f !important;
+}
+
+/* Footer section */
+.sg-footer-section {
+    text-align: center;
+    padding-top: 30px;
+    margin-top: 40px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.sg-footer-text {
+    font-size: 1.15em;
+    color: #546e7a;
+    margin-bottom: 25px;
+}
+
+.sg-button {
+    display: inline-block;
+    padding: 14px 32px;
+    background: #ff6b6b;
+    color: white !important;
+    border-radius: 8px;
+    text-decoration: none !important;
+    font-size: 1.05em;
+    font-weight: 600;
+    transition: all 0.3s;
+    margin: 10px;
+    cursor: pointer;
+    border: none;
+}
+
+.sg-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+    color: white !important;
+}
+
+.sg-button-secondary {
+    background: #37474f;
+}
+
+.sg-button-secondary:hover {
+    box-shadow: 0 4px 12px rgba(55, 71, 79, 0.3);
+}
+
+/* Hide elements on mobile */
+.sg-desktop-only {
+    display: inline-block;
+}
+
+.sg-mobile-only {
+    display: none;
+}
+
+/* Completed state */
+.sg-accordion-item.completed .sg-accordion-header {
+    opacity: 0.7;
+}
+
+.sg-accordion-item.completed .sg-accordion-header::before {
+    background: #10b981;
+    color: white;
+    content: '✓';
+}
+
+/* Mobile specific styles */
+@media (max-width: 768px) {
+    .sg-widget {
+        padding-bottom: 80px;
+    }
+    
+    /* Hide desktop elements on mobile */
+    .sg-desktop-only {
+        display: none !important;
+    }
+    
+    /* Show mobile elements */
+    .sg-mobile-only {
+        display: inline-block !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .sg-button {
+        display: block;
+        width: calc(100% - 40px);
+        margin: 10px auto;
+    }
+}
+</style>
+
+<div class="sg-widget">
+    <div class="sg-container">
+        <h1 class="sg-h1">Quick Fix Protocol</h1>
+        <p class="sg-subtitle">Resolves 99% of issues in under 2 minutes</p>
+        
+        <p class="sg-text">
+            Having trouble accessing your German learning materials? Video not playing? Tool misbehaving? 
+            These proven troubleshooting steps fix almost all technical issues. Work through them in order—most 
+            problems are solved within the first 4 steps. Never spend more than 5 minutes on technical issues.
+        </p>
+        
+        <ol class="sg-accordion">
+            <li class="sg-accordion-item">
+                <div class="sg-accordion-header" onclick="toggleAccordion(this)">
+                    Download Chrome
+                    <span class="sg-accordion-arrow">›</span>
+                </div>
+                <div class="sg-accordion-content">
+                    Visit <code>chrome.google.com</code> → Download → Install → Set as default browser
+                    <span class="sg-hint">Chrome provides the best compatibility with our learning platform</span>
+                </div>
+            </li>
+            
+            <li class="sg-accordion-item">
+                <div class="sg-accordion-header" onclick="toggleAccordion(this)">
+                    Execute Hard Refresh
+                    <span class="sg-accordion-arrow">›</span>
+                </div>
+                <div class="sg-accordion-content">
+                    <strong>Windows:</strong> <code>Ctrl + Shift + R</code> or <code>Ctrl + F5</code><br><br>
+                    <strong>Mac:</strong> <code>Cmd + Shift + R</code><br><br>
+                    <strong>Mobile:</strong> Pull down to refresh (or close and reopen browser)
+                    <span class="sg-hint">This forces the browser to reload all resources fresh from the server</span>
+                </div>
+            </li>
+            
+            <li class="sg-accordion-item">
+                <div class="sg-accordion-header" onclick="toggleAccordion(this)">
+                    Clear Browser Cache
+                    <span class="sg-accordion-arrow">›</span>
+                </div>
+                <div class="sg-accordion-content">
+                    <strong>Desktop:</strong> Press <code>Ctrl/Cmd + Shift + Delete</code> → Select "Cached images and files" → Clear data<br><br>
+                    <strong>Mobile:</strong> Chrome menu (⋮) → Settings → Privacy → Clear browsing data
+                    <span class="sg-hint">Removes stored files that might be corrupted or outdated</span>
+                </div>
+            </li>
+            
+            <li class="sg-accordion-item">
+                <div class="sg-accordion-header" onclick="toggleAccordion(this)">
+                    Restart Your Device
+                    <span class="sg-accordion-arrow">›</span>
+                </div>
+                <div class="sg-accordion-content">
+                    Fully restart your computer or mobile device (not just sleep mode)
+                    <span class="sg-hint">This clears temporary files and resets network connections</span>
+                </div>
+            </li>
+            
+            <li class="sg-accordion-item">
+                <div class="sg-accordion-header" onclick="toggleAccordion(this)">
+                    Try Different Network
+                    <span class="sg-accordion-arrow">›</span>
+                </div>
+                <div class="sg-accordion-content">
+                    Switch to mobile hotspot or different WiFi to rule out network issues
+                    <span class="sg-hint">Some networks may block educational content</span>
+                </div>
+            </li>
+            
+            <li class="sg-accordion-item">
+                <div class="sg-accordion-header" onclick="toggleAccordion(this)">
+                    Try Different Device
+                    <span class="sg-accordion-arrow">›</span>
+                </div>
+                <div class="sg-accordion-content">
+                    Test on another computer, phone, or tablet to isolate device-specific issues
+                    <span class="sg-hint">If it works on another device, the issue is local to your device</span>
+                </div>
+            </li>
+            
+            <li class="sg-accordion-item">
+                <div class="sg-accordion-header" onclick="toggleAccordion(this)">
+                    Activate VPN (Germany)
+                    <span class="sg-accordion-arrow">›</span>
+                </div>
+                <div class="sg-accordion-content">
+                    <strong>If outside Germany:</strong> Use <code>ProtonVPN</code> (free) → Connect to German server<br><br>
+                    <strong>Alternatives:</strong> <code>Windscribe</code> (10GB/month) or <code>TunnelBear</code> (500MB/month)
+                    <span class="sg-hint">Some content may be region-restricted</span>
+                </div>
+            </li>
+            
+            <li class="sg-accordion-item">
+                <div class="sg-accordion-header" onclick="toggleAccordion(this)">
+                    Check Browser Extensions / Try Incognito
+                    <span class="sg-accordion-arrow">›</span>
+                </div>
+                <div class="sg-accordion-content">
+                    <strong>Quick test:</strong> Open Incognito/Private window with <code>Ctrl/Cmd + Shift + N</code><br><br>
+                    <strong>If that works:</strong> Disable extensions at <code>chrome://extensions</code>
+                    <span class="sg-hint">Extensions like ad blockers can interfere with learning platforms</span>
+                </div>
+            </li>
+            
+            <li class="sg-accordion-item">
+                <div class="sg-accordion-header" onclick="toggleAccordion(this)">
+                    Check Community Inbox
+                    <span class="sg-accordion-arrow">›</span>
+                </div>
+                <div class="sg-accordion-content">
+                    Visit <a href="https://community.smartergerman.com/c/post-any-question-here/" target="_blank" class="sg-link">community.smartergerman.com/c/post-any-question-here/</a>
+                    <span class="sg-hint">Find solutions from other learners and instructors</span>
+                </div>
+            </li>
+            
+            <li class="sg-accordion-item">
+                <div class="sg-accordion-header" onclick="toggleAccordion(this)">
+                    Check Teachable System Status
+                    <span class="sg-accordion-arrow">›</span>
+                </div>
+                <div class="sg-accordion-content">
+                    Visit <a href="https://www.teachablestatus.com" target="_blank" class="sg-link">teachablestatus.com</a> to check for platform outages
+                    <span class="sg-hint">Sometimes the issue is on Teachable's end, not yours</span>
+                </div>
+            </li>
+        </ol>
+        
+        <div class="sg-footer-section">
+            <p class="sg-footer-text">Still experiencing issues after trying these steps?</p>
+            
+            <!-- Desktop buttons -->
+            <a href="https://community.smartergerman.com/c/post-any-question-here/" class="sg-button sg-desktop-only" target="_blank">
+                Contact Support
+            </a>
+            <a href="#" class="sg-button sg-button-secondary sg-desktop-only" download>
+                Download PDF Guide
+            </a>
+            
+            <!-- Mobile button only -->
+            <a href="https://smartergerman.com/contact/" class="sg-button sg-mobile-only" target="_blank">
+                Contact Support
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleAccordion(header) {
+    const item = header.parentElement;
+    item.classList.toggle('expanded');
+}
+
+// Mark as completed on double-click
+document.querySelectorAll('.sg-accordion-header').forEach(header => {
+    header.addEventListener('dblclick', function(e) {
+        e.stopPropagation();
+        this.parentElement.classList.toggle('completed');
+    });
+});
+</script>
+</body>
+</html>

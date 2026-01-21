@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reading - Warm-up - First Practice</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Reading Tool with Audio</title>
+    <style>
+        /* Container */
+        .reading-tool {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            box-sizing: border-box;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .reading-tool * {
+            box-sizing: border-box;
+        }
+        
+        /* Audio Player Styles */
+        .reading-tool .audio-player {
+            background: transparent;
+            color: #1f2937;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .reading-tool .audio-section {
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+            color: #374151;
+            width: 100%;
+        }
+
+        .reading-tool .audio-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .reading-tool .player-pill {
+            background: rgba(255, 255, 255, 0.98);
+            border: 2px solid rgba(168, 85, 247, 0.4);
+            border-radius: 50px;
+            padding: 12px 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.25),
+                0 4px 12px rgba(168, 85, 247, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            min-width: 60%;
+            max-width: 525px;
+        }
+
+        .reading-tool .progress-controls-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+            max-width: 525px;
+            padding: 0 15px;
+        }
+
+        .reading-tool .nav-btn {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
+            border: none;
+            color: #475569;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 45px;
+            height: 45px;
+            font-size: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all .3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+            position: relative;
+        }
+
+        .reading-tool .nav-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%);
+            color: #334155;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .reading-tool .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .reading-tool .play-btn {
+            background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 16px rgba(168, 85, 247, 0.3);
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all .3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+            position: relative;
+        }
+
+        .reading-tool .play-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #9333ea 0%, #db2777 100%);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .reading-tool .play-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .reading-tool .play-btn::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+
+        .reading-tool .play-btn.playing::before {
+            width: 4px;
+            height: 20px;
+            background: white;
+            box-shadow: 8px 0 0 white;
+        }
+
+        .reading-tool .play-btn:not(.playing)::before {
+            border-left: 12px solid white;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+        }
+
+        .reading-tool .speed-btn {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
+            border: none;
+            color: #475569;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 45px;
+            height: 45px;
+            font-size: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all .3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+            position: relative;
+        }
+
+        .reading-tool .speed-btn:hover {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%);
+            color: #334155;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .reading-tool .speed-btn.speed-100 {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            box-shadow: 0 4px 16px rgba(34, 197, 94, 0.3);
+        }
+
+        .reading-tool .speed-btn.speed-100:hover {
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .reading-tool .speed-btn.speed-75 {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: white;
+            box-shadow: 0 4px 16px rgba(251, 191, 36, 0.3);
+        }
+
+        .reading-tool .speed-btn.speed-75:hover {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            box-shadow: 0 6px 20px rgba(251, 191, 36, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .reading-tool .speed-btn.speed-50 {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
+        }
+
+        .reading-tool .speed-btn.speed-50:hover {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .reading-tool .progress-container {
+            flex-grow: 0;
+            flex-shrink: 0;
+            width: 200px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid rgba(168, 85, 247, 0.4);
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 0 9px;
+            box-shadow: 
+                0 4px 16px rgba(0, 0, 0, 0.2),
+                inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .reading-tool .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #a855f7, #ec4899);
+            border-radius: 20px;
+            transition: width .3s ease;
+        }
+
+        .reading-tool .time-display {
+            flex-shrink: 0;
+            font-size: 12px;
+            color: #6b7280;
+            margin: 0;
+            min-width: 75px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        /* Text Content */
+        .reading-tool .text-content {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #374151;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 25px;
+            background: #fefefe;
+            min-height: 200px;
+        }
+        
+        /* Sentences */
+        .reading-tool .sentence {
+            cursor: default;
+            padding: 4px 2px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .reading-tool .sentence:hover {
+            background-color: #f8fafc;
+        }
+        
+        /* Highlight current playing sentence */
+        .reading-tool .sentence.playing {
+            background: #fbbf24;
+            padding: 8px 6px;
+            margin: 2px -4px;
+            box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
+        }
+        
+        /* Paragraphs */
+        .reading-tool .paragraph {
+            display: block;
+            margin: 0 0 16px 0;
+        }
+        
+        .reading-tool .paragraph:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Word information tooltips */
+        .reading-tool .info-word {
+            cursor: pointer;
+            position: relative;
+            display: inline;
+            border-bottom: 1.5px dotted #64748b;
+            padding-bottom: 1px;
+        }
+        
+        .reading-tool .info-word:hover {
+            border-bottom: 1.5px solid #334155;
+        }
+        
+        .reading-tool .info-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1f2937;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: normal;
+            max-width: 250px;
+            min-width: 250px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            z-index: 1000;
+            pointer-events: none;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 5px;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .reading-tool .info-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: #1f2937;
+        }
+
+        /* Show tooltips on hover and click */
+        .reading-tool .info-word:hover .info-tooltip,
+        .reading-tool .info-word.show-tooltip .info-tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-4px);
+        }
+
+        /* Edge detection classes */
+        .reading-tool .info-word.edge-left .info-tooltip {
+            left: 0;
+            transform: translateX(0);
+        }
+
+        .reading-tool .info-word.edge-left .info-tooltip::after {
+            left: 30px;
+            transform: translateX(0);
+        }
+
+        .reading-tool .info-word.edge-right .info-tooltip {
+            left: auto;
+            right: 0;
+            transform: translateX(0);
+        }
+
+        .reading-tool .info-word.edge-right .info-tooltip::after {
+            left: auto;
+            right: 30px;
+            transform: translateX(0);
+        }
+
+        /* For edge-positioned tooltips */
+        .reading-tool .info-word.edge-left:hover .info-tooltip,
+        .reading-tool .info-word.edge-left.show-tooltip .info-tooltip {
+            transform: translateX(0) translateY(-4px);
+        }
+
+        .reading-tool .info-word.edge-right:hover .info-tooltip,
+        .reading-tool .info-word.edge-right.show-tooltip .info-tooltip {
+            transform: translateX(0) translateY(-4px);
+        }
+        
+        .reading-tool .word-count {
+            margin-top: 15px;
+            padding: 8px 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #64748b;
+            text-align: center;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 600px) {
+            .reading-tool .player-pill {
+                padding: 8px 12px;
+                gap: 8px;
+                max-width: calc(100vw - 40px);
+                min-width: auto;
+            }
+
+            .reading-tool .progress-container {
+                width: 120px;
+                height: 10px;
+                margin: 0 4px;
+            }
+
+            .reading-tool .progress-controls-row {
+                max-width: calc(100vw - 60px);
+                gap: 6px;
+                padding: 0 10px;
+            }
+
+            .reading-tool .nav-btn, 
+            .reading-tool .speed-btn {
+                width: 44px;
+                height: 44px;
+                font-size: 15px;
+            }
+
+            .reading-tool .play-btn {
+                width: 53px;
+                height: 53px;
+                font-size: 22px;
+            }
+
+            .reading-tool .time-display {
+                font-size: 10px;
+                min-width: 50px;
+                font-weight: normal;
+            }
+            
+            /* Touch-friendly tooltips on mobile */
+            .reading-tool .info-word {
+                padding: 4px 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="reading-tool">
+        <!-- Audio Player -->
+        <div class="audio-player">
+            <div class="audio-section">
+                <div class="audio-controls">
+                    <div class="player-pill">
+                        <button class="nav-btn" id="prevBtn" title="Previous sentence (← or Shift+Ctrl+←)">‹</button>
+                        <button class="play-btn" id="playBtn" title="Play/Pause (Space or Shift+Ctrl+Enter)"></button>
+                        <button class="nav-btn" id="nextBtn" title="Next sentence (→ or Shift+Ctrl+→)">›</button>
+                        <button class="speed-btn speed-100" id="speedBtn" title="Playback Speed (S or Shift+Ctrl+↓)">100</button>
+                    </div>
+                    
+                    <div class="progress-controls-row">
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progressBar"></div>
+                        </div>
+                        <span class="time-display" id="timeDisplay">0:00 / 0:00</span>
+                    </div>
+                </div>
+                
+                <audio id="audioPlayer" preload="auto"></audio>
+            </div>
+        </div>
+        
+        <!-- Text Content -->
+        <div class="text-content" id="text-content">
+            <p>Loading content...</p>
+        </div>
+        
+        <div class="word-count">
+            <span id="word-count-display">Wörter/Words: 0</span>
+        </div>
+    </div>
+
+    <script>
+        // Audio Player Class
+        class AudioPlayer {
+            constructor() {
+                // DOM elements
+                this.audio = document.getElementById('audioPlayer');
+                this.playBtn = document.getElementById('playBtn');
+                this.prevBtn = document.getElementById('prevBtn');
+                this.nextBtn = document.getElementById('nextBtn');
+                this.speedBtn = document.getElementById('speedBtn');
+                this.progressBar = document.getElementById('progressBar');
+                this.timeDisplay = document.getElementById('timeDisplay');
+                
+                // State
+                this.vttCues = [];
+                this.currentCueIndex = 0;
+                this.isPlaying = false;
+                this.currentSpeed = 1.0;
+                
+                // Callbacks
+                this.onSentenceChange = null;
+                
+                this.initializeEventListeners();
+                this.initializeKeyboardShortcuts();
+            }
+            
+            initializeEventListeners() {
+                // Button events
+                this.playBtn.addEventListener('click', () => this.togglePlayback());
+                this.prevBtn.addEventListener('click', () => this.goToPreviousSentence());
+                this.nextBtn.addEventListener('click', () => this.goToNextSentence());
+                this.speedBtn.addEventListener('click', () => this.toggleSpeed());
+                
+                // Audio events
+                this.audio.addEventListener('play', () => {
+                    this.isPlaying = true;
+                    this.updatePlayButton();
+                });
+                
+                this.audio.addEventListener('pause', () => {
+                    this.isPlaying = false;
+                    this.updatePlayButton();
+                });
+                
+                this.audio.addEventListener('timeupdate', () => {
+                    this.handleTimeUpdate();
+                });
+                
+                this.audio.addEventListener('loadedmetadata', () => {
+                    this.updatePlayButton();
+                    this.audio.playbackRate = this.currentSpeed;
+                    this.updateProgress();
+                });
+                
+                this.audio.addEventListener('error', (e) => {
+                    console.error('Audio loading error:', e);
+                    this.updatePlayButton();
+                });
+            }
+            
+            initializeKeyboardShortcuts() {
+                window.addEventListener('keydown', (e) => {
+                    // Ignore if typing in an input field
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+                    
+                    // Ignore key repeat
+                    if (e.repeat) return;
+                    
+                    // Shift + Ctrl/Cmd combinations (your old shortcuts)
+                    if (e.shiftKey && (e.ctrlKey || e.metaKey)) {
+                        switch(e.key.toLowerCase()) {
+                            case 'enter':
+                                e.preventDefault();
+                                this.togglePlayback();
+                                break;
+                            case 'arrowleft':
+                                e.preventDefault();
+                                this.goToPreviousSentence();
+                                break;
+                            case 'arrowright':
+                                e.preventDefault();
+                                this.goToNextSentence();
+                                break;
+                            case 'arrowdown':
+                                e.preventDefault();
+                                this.toggleSpeed();
+                                break;
+                        }
+                    }
+                    // Simple shortcuts
+                    else if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                        switch(e.key) {
+                            case ' ':
+                                e.preventDefault();
+                                this.togglePlayback();
+                                break;
+                            case 'ArrowLeft':
+                                e.preventDefault();
+                                this.goToPreviousSentence();
+                                break;
+                            case 'ArrowRight':
+                                e.preventDefault();
+                                this.goToNextSentence();
+                                break;
+                            case 's':
+                            case 'S':
+                                e.preventDefault();
+                                this.toggleSpeed();
+                                break;
+                            case '0':
+                                e.preventDefault();
+                                this.resetToStart();
+                                break;
+                        }
+                    }
+                });
+            }
+            
+            togglePlayback() {
+                if (!this.audio) return;
+                
+                if (!this.audio.paused) {
+                    this.audio.pause();
+                } else {
+                    this.audio.play().catch(error => {
+                        console.error('Playback failed:', error);
+                    });
+                }
+            }
+            
+            resetToStart() {
+                this.currentCueIndex = 0;
+                this.updateNavigationButtons();
+                this.seekToCurrentCue();
+                if (this.onSentenceChange) {
+                    this.onSentenceChange(0);
+                }
+            }
+            
+            goToPreviousSentence() {
+                if (this.currentCueIndex > 0) {
+                    this.currentCueIndex--;
+                    this.updateNavigationButtons();
+                    this.seekToCurrentCue();
+                    if (this.onSentenceChange) {
+                        this.onSentenceChange(this.currentCueIndex);
+                    }
+                }
+            }
+            
+            goToNextSentence() {
+                if (this.currentCueIndex < this.vttCues.length - 1) {
+                    this.currentCueIndex++;
+                    this.updateNavigationButtons();
+                    this.seekToCurrentCue();
+                    if (this.onSentenceChange) {
+                        this.onSentenceChange(this.currentCueIndex);
+                    }
+                }
+            }
+            
+            seekToCurrentCue() {
+                if (this.vttCues[this.currentCueIndex] && this.audio) {
+                    this.audio.currentTime = this.vttCues[this.currentCueIndex].start;
+                }
+            }
+            
+            toggleSpeed() {
+                this.speedBtn.classList.remove('speed-100', 'speed-75', 'speed-50');
+                
+                if (this.currentSpeed === 1.0) {
+                    this.currentSpeed = 0.75;
+                    this.speedBtn.textContent = '75';
+                    this.speedBtn.classList.add('speed-75');
+                } else if (this.currentSpeed === 0.75) {
+                    this.currentSpeed = 0.5;
+                    this.speedBtn.textContent = '50';
+                    this.speedBtn.classList.add('speed-50');
+                } else {
+                    this.currentSpeed = 1.0;
+                    this.speedBtn.textContent = '100';
+                    this.speedBtn.classList.add('speed-100');
+                }
+                
+                this.audio.playbackRate = this.currentSpeed;
+            }
+            
+            handleTimeUpdate() {
+                this.updateProgress();
+                
+                // Update current cue index based on playback position
+                if (this.vttCues.length > 0) {
+                    const currentTime = this.audio.currentTime;
+                    for (let i = 0; i < this.vttCues.length; i++) {
+                        if (currentTime >= this.vttCues[i].start && currentTime < this.vttCues[i].end) {
+                            if (this.currentCueIndex !== i) {
+                                this.currentCueIndex = i;
+                                this.updateNavigationButtons();
+                                if (this.onSentenceChange) {
+                                    this.onSentenceChange(this.currentCueIndex);
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            updateProgress() {
+                if (!this.audio || !this.timeDisplay || !this.progressBar) return;
+                
+                const currentTime = this.audio.currentTime;
+                const duration = this.audio.duration;
+                
+                if (duration && !isNaN(duration)) {
+                    const progress = (currentTime / duration) * 100;
+                    this.progressBar.style.width = progress + '%';
+                    
+                    this.timeDisplay.textContent = 
+                        `${this.formatTime(currentTime)} / ${this.formatTime(duration)}`;
+                }
+            }
+            
+            updatePlayButton() {
+                const isDisabled = !this.audio || 
+                    this.audio.networkState === HTMLMediaElement.NETWORK_NO_SOURCE;
+                
+                this.playBtn.disabled = isDisabled;
+                this.playBtn.classList.toggle('playing', this.isPlaying);
+            }
+            
+            updateNavigationButtons() {
+                this.prevBtn.disabled = (this.currentCueIndex <= 0);
+                this.nextBtn.disabled = (this.currentCueIndex >= this.vttCues.length - 1);
+            }
+            
+            formatTime(seconds) {
+                if (isNaN(seconds) || seconds < 0) return '0:00';
+                
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = Math.floor(seconds % 60);
+                return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+            }
+            
+            parseVTT(vttText) {
+                const lines = vttText.split('\n');
+                const cues = [];
+                let i = 0;
+                
+                // Skip headers
+                while (i < lines.length) {
+                    const line = lines[i].trim();
+                    if (line.includes('-->')) break;
+                    i++;
+                }
+                
+                // Parse cues
+                while (i < lines.length) {
+                    const line = lines[i].trim();
+                    
+                    if (line.includes('-->')) {
+                        const timeParts = line.split('-->');
+                        if (timeParts.length >= 2) {
+                            const startTime = this.parseTimeToSeconds(timeParts[0].trim());
+                            const endTime = this.parseTimeToSeconds(
+                                timeParts[1].trim().split(' ')[0]
+                            );
+                            
+                            // Get text for this cue
+                            const textLines = [];
+                            let textLineIndex = i + 1;
+                            
+                            while (textLineIndex < lines.length) {
+                                const textLine = lines[textLineIndex].trim();
+                                if (textLine === '' || textLine.includes('-->')) break;
+                                if (!/^\d+$/.test(textLine) && !textLine.startsWith('NOTE')) {
+                                    textLines.push(textLine);
+                                }
+                                textLineIndex++;
+                            }
+                            
+                            if (textLines.length > 0) {
+                                cues.push({
+                                    start: startTime,
+                                    end: endTime,
+                                    text: textLines.join(' ').trim()
+                                });
+                            }
+                        }
+                    }
+                    i++;
+                }
+                
+                return cues;
+            }
+            
+            parseTimeToSeconds(timeStr) {
+                try {
+                    const parts = timeStr.trim().split(':');
+                    const seconds = parts[parts.length - 1].split(/[.,]/);
+                    const sec = parseInt(seconds[0]) || 0;
+                    const ms = parseInt(seconds[1] || 0);
+                    
+                    if (parts.length === 3) {
+                        const hours = parseInt(parts[0]) || 0;
+                        const minutes = parseInt(parts[1]) || 0;
+                        return hours * 3600 + minutes * 60 + sec + ms / 1000;
+                    } else if (parts.length === 2) {
+                        const minutes = parseInt(parts[0]) || 0;
+                        return minutes * 60 + sec + ms / 1000;
+                    } else {
+                        return sec + ms / 1000;
+                    }
+                } catch (error) {
+                    return 0;
+                }
+            }
+            
+            loadWithVTT(audioUrl, vttContent) {
+                this.audio.src = audioUrl;
+                this.vttCues = this.parseVTT(vttContent);
+                this.currentCueIndex = 0;
+                this.updateNavigationButtons();
+            }
+        }
+        
+        // Main Application
+        let audioPlayer = null;
+        
+        // Audio URL and VTT data
+        const audioURL = 'https://uploads.teachablecdn.com/attachments/ECARB79YQp2qrWL0h7b8_A1-Merkels-Moepse-L01.mp3';
+        
+        const actualVTT = `WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.273
+Es ist ein schöner Montagmorgen in Berlin.
+
+2
+00:00:02.273 --> 00:00:06.141
+Die Sonne scheint und die Vögel zwitschern fröhlich in den Bäumen.
+
+3
+00:00:06.141 --> 00:00:08.749
+Simone Tesch fährt in ihr Büro.
+
+4
+00:00:08.749 --> 00:00:10.855
+Es gibt viel zu tun.
+
+5
+00:00:10.855 --> 00:00:13.737
+Simone ist Privatdetektivin von Beruf
+
+6
+00:00:13.737 --> 00:00:19.449
+und hat mit ihrem Assistenten Stefan vor drei Jahren das Detektivbüro Tesch gegründet.
+
+7
+00:00:19.449 --> 00:00:22.370
+Simone ist etwas dominant, müssen Sie wissen.
+
+8
+00:00:22.370 --> 00:00:25.995
+Zusammen lösen Simone und Stefan schwierige Fälle.
+
+9
+00:00:25.995 --> 00:00:27.922
+Als Simone ins Büro kommt,
+
+10
+00:00:27.922 --> 00:00:31.226
+sieht sie einen riesigen Kaffeefleck auf ihren Dokumenten.
+
+11
+00:00:31.226 --> 00:00:33.125
+So ein Mist.
+
+12
+00:00:33.125 --> 00:00:35.178
+Sie versucht, die Dokumente zu retten,
+
+13
+00:00:35.178 --> 00:00:37.195
+und ist dabei sehr vorsichtig.
+
+14
+00:00:37.195 --> 00:00:40.559
+In diesem Moment kommt ihr Assistent Stefan ins Büro.
+
+15
+00:00:40.559 --> 00:00:42.292
+Er sieht nervös aus.`;
+        
+        const manualParagraphBreaks = [3, 7, 14];
+        
+        const wordInfo = {
+            'schöner': 'Charlie Sheen is <i>beautiful</i>',
+            'sonne': 'Son.ne > sun',
+            'scheint': 'Replace as follows: sch = sh, ei = i',
+            'vögel': 'Rel. to <i>fowl</i>',
+            'zwitschern': 'z = t - sch = t',
+            'bäumen': 'From <i>Baum, tree</i>, rel. to <i>beam</i>',
+            'beruf': 'Contains "ruf, call" - think of <i>my calling</i>',
+            'gegründet': 'contains "Grund, ground" - setting the foundation',
+            'schwierige': 'I always swear when sth is <i>difficult</i>',
+            'fälle': 'From <i>Fall</i> - the <i>case</i> of the <i>falling</i> unicorns',
+            'riesigen': 'Look up <i>Adam Riese</i>. He was a giant.',
+            'kaffeefleck': 'stain - think of: watching a 3h-arthouse flick about a coffee stain',
+            'retten': 'to save - save the rat',
+            'vorsichtig': 'careful - lit. ahead.looking',
+            'sieht': 'Is actually <i>aussehen, to look (like)</i> - The <i>aus</i> is separated.'
+        };
+        
+        function wrapWordsWithInfo(text) {
+            return text.replace(/\b[\wäöüß]+\b/gi, function(word) {
+                const cleanWord = word.toLowerCase().replace(/[.,;:!?]/g, '');
+                const info = wordInfo[cleanWord];
+                
+                if (info) {
+                    return `<span class="info-word" data-word="${cleanWord}">${word}<span class="info-tooltip">${info}</span></span>`;
+                }
+                return word;
+            });
+        }
+        
+        function showContent() {
+            const textContent = document.getElementById('text-content');
+            if (!textContent) return;
+            
+            // Parse VTT to get sentences
+            const vttCues = audioPlayer ? audioPlayer.vttCues : [];
+            
+            if (vttCues.length === 0) {
+                // Try parsing if we don't have cues yet
+                const tempPlayer = new AudioPlayer();
+                const parsedCues = tempPlayer.parseVTT(actualVTT);
+                if (parsedCues.length === 0) {
+                    textContent.innerHTML = '<p style="color: red;">Error: Could not parse VTT data</p>';
+                    return;
+                }
+                vttCues.push(...parsedCues);
+            }
+            
+            // Group sentences into paragraphs using manual breaks
+            const paragraphs = [];
+            let currentParagraph = [];
+            
+            vttCues.forEach((cue, index) => {
+                currentParagraph.push({
+                    text: cue.text.trim(),
+                    index: index,
+                    start: cue.start,
+                    end: cue.end
+                });
+                
+                const isBreakPoint = manualParagraphBreaks.includes(index);
+                const isLastSentence = index === vttCues.length - 1;
+                
+                if (isBreakPoint || isLastSentence) {
+                    paragraphs.push([...currentParagraph]);
+                    currentParagraph = [];
+                }
+            });
+            
+            // Build HTML with info words wrapped
+            let html = '';
+            let paragraphIndex = 0;
+            
+            paragraphs.forEach(paragraph => {
+                html += `<div class="paragraph" data-paragraph="${paragraphIndex}">`;
+                paragraph.forEach(sentence => {
+                    html += `<span class="sentence" data-sentence="${sentence.index}" data-start="${sentence.start}" data-end="${sentence.end}">${wrapWordsWithInfo(sentence.text)}</span> `;
+                });
+                html += '</div>';
+                paragraphIndex++;
+            });
+            
+            textContent.innerHTML = html;
+            
+            // Update word count
+            const totalWords = vttCues.reduce((count, cue) => {
+                return count + cue.text.trim().split(/\s+/).filter(word => word.length > 0).length;
+            }, 0);
+            
+            const wordCountElement = document.getElementById('word-count-display');
+            if (wordCountElement) {
+                wordCountElement.textContent = `Wörter/Words: ${totalWords}`;
+            }
+        }
+        
+        function highlightCurrentSentence(index) {
+            // Remove all playing highlights
+            document.querySelectorAll('.sentence').forEach(el => el.classList.remove('playing'));
+            
+            // Add playing highlight to current sentence
+            const currentSentence = document.querySelector(`.sentence[data-sentence="${index}"]`);
+            if (currentSentence) {
+                currentSentence.classList.add('playing');
+                
+                // Ensure it's visible (scroll if needed)
+                const rect = currentSentence.getBoundingClientRect();
+                const viewHeight = window.innerHeight;
+                const topOffset = rect.top;
+                const bottomOffset = rect.bottom;
+                
+                if (topOffset < 100 || bottomOffset > viewHeight - 100) {
+                    currentSentence.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }
+            }
+        }
+        
+        function detectEdgeWords() {
+            const words = document.querySelectorAll('.info-word');
+            const viewportWidth = window.innerWidth;
+            
+            words.forEach(word => {
+                const rect = word.getBoundingClientRect();
+                const wordCenter = rect.left + (rect.width / 2);
+                
+                // Remove existing classes
+                word.classList.remove('edge-left', 'edge-right');
+                
+                // If word is in left 25% of screen, tooltip goes off left edge
+                if (wordCenter < viewportWidth * 0.25) {
+                    word.classList.add('edge-left');
+                }
+                // If word is in right 25% of screen, tooltip goes off right edge  
+                else if (wordCenter > viewportWidth * 0.75) {
+                    word.classList.add('edge-right');
+                }
+            });
+        }
+        
+        function initialize() {
+            // Initialize audio player
+            audioPlayer = new AudioPlayer();
+            audioPlayer.loadWithVTT(audioURL, actualVTT);
+            
+            // Set up callback for sentence changes
+            audioPlayer.onSentenceChange = (index) => {
+                highlightCurrentSentence(index);
+            };
+            
+            // Show content
+            showContent();
+            
+            // Highlight first sentence
+            highlightCurrentSentence(0);
+            
+            // Detect edge words after content is loaded
+            setTimeout(detectEdgeWords, 100);
+        }
+        
+        // Click handlers for tooltips on mobile
+        document.addEventListener('click', function(e) {
+            // Handle info word tooltips
+            if (e.target.classList.contains('info-word')) {
+                // Toggle this tooltip
+                const wasShowing = e.target.classList.contains('show-tooltip');
+                
+                // Hide all tooltips
+                document.querySelectorAll('.info-word').forEach(w => w.classList.remove('show-tooltip'));
+                
+                // Show this one if it wasn't showing
+                if (!wasShowing) {
+                    e.target.classList.add('show-tooltip');
+                }
+                
+                e.stopPropagation();
+                return;
+            }
+            
+            // Hide all tooltips when clicking elsewhere
+            document.querySelectorAll('.info-word').forEach(w => w.classList.remove('show-tooltip'));
+        });
+        
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', initialize);
+        
+        // Run on page load and resize
+        window.addEventListener('load', detectEdgeWords);
+        window.addEventListener('resize', detectEdgeWords);
+    </script>
+</body>
+</html>
+</body>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dictation 01</title>
+</head>
+<body>
+<div class="dictation-tutorial">
+  <div class="dt-box">
+    <h2>How to Do the Dictation</h2>
+    <ol>
+      <li>Listen until the audio stops. Then write. Don't write while listening.</li>
+      <li><span style="color: #f45284; font-weight: 600;">Hard time? Do 3 sentences. Increase next lesson.</span></li>
+      <li>Feel free to repeat sentences, just don't obsess.</li>
+      <li>Can't understand a word? It's fine. Just continue.</li>
+      <li>Work 10–15 minutes max per session. Then stop.</li>
+    </ol>
+    
+    <!-- Shortcuts Helper Button - inside dt-box -->
+    <div class="shortcuts-helper-container">
+      <button class="shortcuts-helper-btn" id="shortcuts-helper-show" aria-label="Show keyboard shortcuts" title="Show keyboard shortcuts">
+        ?
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal overlay (outside the box) -->
+<div class="shortcuts-helper-overlay" id="shortcuts-helper-overlay">
+  <div class="shortcuts-helper-box">
+    <button class="shortcuts-helper-close-btn" id="shortcuts-helper-close-btn">✕</button>
+    <h2>Keyboard Shortcuts</h2>
+    <ul class="shortcuts-helper-list">
+      <li>
+        <span class="shortcuts-helper-desc">Play/Pause</span>
+        <span class="shortcuts-helper-key">Shift + Cmd/Ctrl + Enter</span>
+      </li>
+      <li>
+        <span class="shortcuts-helper-desc">Back</span>
+        <span class="shortcuts-helper-key">Shift + Cmd/Ctrl + ←</span>
+      </li>
+      <li>
+        <span class="shortcuts-helper-desc">Forward</span>
+        <span class="shortcuts-helper-key">Shift + Cmd/Ctrl + →</span>
+      </li>
+      <li>
+        <span class="shortcuts-helper-desc">Repeat</span>
+        <span class="shortcuts-helper-key">Shift + Cmd/Ctrl + ↑</span>
+      </li>
+      <li>
+        <span class="shortcuts-helper-desc">Change speed</span>
+        <span class="shortcuts-helper-key">Shift + Cmd/Ctrl + ↓</span>
+      </li>
+      <li>
+        <span class="shortcuts-helper-desc">Help</span>
+        <span class="shortcuts-helper-key">Shift + Cmd/Ctrl + /</span>
+      </li>
+      <li>
+        <span class="shortcuts-helper-desc">Submit text</span>
+        <span class="shortcuts-helper-key">Enter</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<style>
+  .dictation-tutorial {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    margin: 2rem auto;
+    max-width: 700px;
+  }
+  .dictation-tutorial .dt-box {
+    background: rgba(240, 245, 255, 0.75);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    border-radius: 20px;
+    padding: 2rem;
+    position: relative; /* IMPORTANT: This makes the button position relative to this box */
+  }
+  .dictation-tutorial h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: #222;
+  }
+  .dictation-tutorial ol {
+    margin: 0;
+    padding-left: 1.4rem;
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.6;
+  }
+  .dictation-tutorial ol li {
+    margin-bottom: 1rem;
+  }
+
+  /* Shortcuts button styles */
+  .shortcuts-helper-container {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    font-family: inherit;
+  }
+
+  .shortcuts-helper-btn {
+    background: linear-gradient(135deg, #f45284 0%, #e91e63 100%) !important;
+    color: white !important;
+    border: 2px solid rgba(255, 255, 255, 0.4) !important;
+    border-radius: 50% !important;
+    padding: 0.6em !important;
+    font-size: 1.8rem !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 12px rgba(244, 82, 132, 0.35) !important;
+    transition: all 0.2s ease !important;
+    outline: none !important;
+    line-height: 1 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 48px !important;
+    height: 48px !important;
+    font-weight: 700 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+    font-family: inherit !important;
+    margin: 0 !important;
+    text-decoration: none !important;
+    vertical-align: middle !important;
+    box-sizing: border-box !important;
+  }
+
+  .shortcuts-helper-btn:hover {
+    background: linear-gradient(135deg, #f76ba1 0%, #ec407a 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 16px rgba(244, 82, 132, 0.45) !important;
+    border-color: rgba(255, 255, 255, 0.6) !important;
+    scale: 1.1 !important;
+    color: white !important;
+  }
+
+  .shortcuts-helper-btn:focus {
+    outline: 2px solid #1976d2;
+    outline-offset: 2px;
+  }
+
+  .shortcuts-helper-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000000;
+  }
+
+  .shortcuts-helper-box {
+    background: #f7f7fa;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    padding: 1.2rem 1.1rem 1.1rem 1.1rem;
+    min-width: 380px;
+    max-width: 400px;
+    width: 90%;
+    border: 1px solid #e3e6ee;
+    position: relative;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .shortcuts-helper-box h2 {
+    margin: 0 0 0.7em 0;
+    font-size: 1.18rem;
+    color: #2d3a4a;
+    letter-spacing: 0.01em;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .shortcuts-helper-close-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+    padding: 0.2em;
+    line-height: 1;
+  }
+
+  .shortcuts-helper-close-btn:hover {
+    color: #333;
+  }
+
+  .shortcuts-helper-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.2rem 0 0 0;
+  }
+
+  .shortcuts-helper-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.35em 0.1em;
+    border-bottom: 1px solid #f3f4f8;
+    font-size: 0.98rem;
+    min-height: 2.2em;
+    transition: background 0.2s;
+  }
+
+  .shortcuts-helper-list li:nth-child(1) .shortcuts-helper-key { 
+    background: #ffebee; color: #d32f2f; border-color: #ffcdd2; 
+  }
+  .shortcuts-helper-list li:nth-child(2) .shortcuts-helper-key { 
+    background: #fff3e0; color: #ef6c00; border-color: #ffe0b2; 
+  }
+  .shortcuts-helper-list li:nth-child(3) .shortcuts-helper-key { 
+    background: #fffde7; color: #fbc02d; border-color: #fff9c4; 
+  }
+  .shortcuts-helper-list li:nth-child(4) .shortcuts-helper-key { 
+    background: #e8f5e9; color: #388e3c; border-color: #c8e6c9; 
+  }
+  .shortcuts-helper-list li:nth-child(5) .shortcuts-helper-key { 
+    background: #e3f2fd; color: #1976d2; border-color: #bbdefb; 
+  }
+  .shortcuts-helper-list li:nth-child(6) .shortcuts-helper-key { 
+    background: #ede7f6; color: #512da8; border-color: #d1c4e9; 
+  }
+  .shortcuts-helper-list li:nth-child(7) .shortcuts-helper-key { 
+    background: #f3e5f5; color: #8e24aa; border-color: #ce93d8; 
+  }
+
+  .shortcuts-helper-list li:last-child {
+    border-bottom: none;
+  }
+
+  .shortcuts-helper-key {
+    background: #f4f6fb;
+    color: #2d3a4a;
+    border-radius: 4px;
+    padding: 0.15em 0.6em;
+    font-family: 'Menlo', 'Consolas', monospace;
+    font-size: 0.9rem;
+    margin-left: 0.7em;
+    border: 1px solid #e3e6ee;
+    box-shadow: 0 1px 1.5px rgba(60,60,100,0.03);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .shortcuts-helper-desc {
+    color: #3a3a3a;
+    flex: 1;
+    font-size: 0.95rem;
+    padding-right: 0.5em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media (max-width: 500px) {
+    .shortcuts-helper-btn {
+      font-size: 1rem;
+      padding: 0.35em 0.5em;
+      min-width: 28px;
+    }
+    .shortcuts-helper-box {
+      padding: 0.8rem 0.7rem;
+      width: 95%;
+      min-width: auto;
+    }
+    .shortcuts-helper-list li {
+      font-size: 0.9rem;
+      min-height: 2em;
+    }
+    .shortcuts-helper-key {
+      font-size: 0.8rem;
+      padding: 0.1em 0.4em;
+    }
+    .shortcuts-helper-desc {
+      font-size: 0.9rem;
+    }
+  }
+</style>
+
+<script>
+(function() {
+  const btn = document.getElementById('shortcuts-helper-show');
+  const overlay = document.getElementById('shortcuts-helper-overlay');
+  const closeBtn = document.getElementById('shortcuts-helper-close-btn');
+  
+  if (!btn || !overlay || !closeBtn) return;
+  
+  function showModal() {
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+  
+  function hideModal() {
+    overlay.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+  
+  btn.addEventListener('click', showModal);
+  closeBtn.addEventListener('click', hideModal);
+  
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) {
+      hideModal();
+    }
+  });
+  
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && overlay.style.display === 'flex') {
+      hideModal();
+    }
+  });
+})();
+</script>
+</body>
+</html>

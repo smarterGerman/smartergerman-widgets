@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practice the Article Signals</title>
+</head>
+<body>
+<style>
+  /* Dark Mode for entire Teachable page */
+  body {
+    background: #111827 !important;
+    color: #e5e7eb !important;
+  }
+  
+  .course-mainbar,
+  .lecture-content,
+  .lecture-container,
+  .course-sidebar,
+  .course-block,
+  #lecture_heading,
+  .fedora-navbar,
+  .lecture-left,
+  .lecture-nav,
+  header.full-width.half-height.is-signed-in,
+  .col-sm-12.course-section,
+  .course-sidebar-head,
+  .course-progress.lecture-page.is-at-top {
+    background: #111827 !important;
+    color: #e5e7eb !important;
+  }
+  
+  .course-mainbar h1,
+  .course-mainbar h2,
+  .course-mainbar h3,
+  .course-mainbar h4,
+  .course-mainbar p,
+  .lecture-content h1,
+  .lecture-content h2,
+  .lecture-content h3,
+  .lecture-content h4,
+  .lecture-content p,
+  .lecture-text-content,
+  .course-sidebar-head h2 {
+    color: #e5e7eb !important;
+  }
+  
+  .course-sidebar {
+    background: #1f2937 !important;
+    border-left: 1px solid #374151 !important;
+  }
+  
+  .course-sidebar-nav-link,
+  .section-title,
+  .section-list {
+    color: #d1d5db !important;
+  }
+  
+  .section-list {
+    background: transparent !important;
+  }
+  
+  .section-title,
+  [role="heading"].section-title,
+  .course-section .section-title {
+    background: #1f2937 !important;
+    color: #d1d5db !important;
+    border-color: #374151 !important;
+  }
+  
+  .section-list,
+  ul.section-list,
+  .course-section .section-list,
+  .section-list li {
+    background: #1f2937 !important;
+    color: #d1d5db !important;
+  }
+  
+  .section-list a,
+  .section-list li a {
+    color: #9ca3af !important;
+  }
+  
+  .section-list a:hover,
+  .section-list li a:hover {
+    color: #06b6d4 !important;
+  }
+  
+  .status-container,
+  span.status-container,
+  [role="img"].status-container {
+    background: transparent !important;
+    color: #9ca3af !important;
+  }
+  
+  .title-container,
+  div.title-container {
+    background: transparent !important;
+    color: #d1d5db !important;
+  }
+  
+  .title-container a,
+  .title-container span {
+    color: #d1d5db !important;
+  }
+  
+  .section-item,
+  li.section-item,
+  .section-item.complete,
+  .section-item.incomplete,
+  li.section-item.complete,
+  li.section-item.incomplete {
+    background: #1f2937 !important;
+    border-color: #374151 !important;
+  }
+  
+  .section-item .item,
+  .section-item a,
+  .section-item span {
+    color: #9ca3af !important;
+  }
+  
+  .section-item:hover,
+  .section-item.complete:hover,
+  .section-item.incomplete:hover {
+    background: #374151 !important;
+  }
+  
+  .section-item:hover a,
+  .section-item:hover span {
+    color: #06b6d4 !important;
+  }
+  
+  /* Very specific targeting for stubborn elements */
+  .course-sidebar .section-list li,
+  .course-sidebar ul.section-list li,
+  .course-sidebar .section-list .section-item,
+  ul.section-list li.section-item.incomplete,
+  ul.section-list li.section-item.complete,
+  .row.lecture-sidebar .section-list li {
+    background: #1f2937 !important;
+    background-color: #1f2937 !important;
+  }
+  
+  .course-sidebar .section-list li *,
+  .section-item * {
+    color: #9ca3af !important;
+  }
+  
+  .course-sidebar .section-list li a,
+  .section-item a {
+    background: transparent !important;
+  }
+  
+  /* Target current and next lecture specifically */
+  .section-item.current-lecture,
+  .section-item.next-lecture,
+  li.section-item.current-lecture,
+  li.section-item.next-lecture,
+  .section-item.incomplete.current-lecture,
+  .section-item.incomplete.next-lecture,
+  [class*="current-lecture"],
+  [class*="next-lecture"] {
+    background: #374151 !important;
+    background-color: #374151 !important;
+    border-color: #06b6d4 !important;
+  }
+  
+  .section-item.current-lecture *,
+  .section-item.next-lecture * {
+    color: #06b6d4 !important;
+  }
+  
+  .course-sidebar-nav-link.active,
+  .course-sidebar-nav-link:hover {
+    background: #374151 !important;
+    color: #06b6d4 !important;
+  }
+  
+  /* Unified Widget Container */
+  .sg-unified-container {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: #1f2937;
+    color: #e5e7eb;
+    border-radius: 16px;
+    padding: 20px;
+    max-width: 900px;
+    margin: 10px auto;
+    line-height: 1.6;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Info Section */
+  .sg-dark-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #06b6d4;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  
+  .sg-dark-subtitle {
+    font-size: 16px;
+    color: #9ca3af;
+    margin-bottom: 25px;
+    text-align: center;
+  }
+  
+  .sg-dark-articles-mini {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .sg-dark-article {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 6px;
+  }
+
+  .sg-dark-article:nth-child(1) {
+    background: #06b6d4;
+    color: white;
+  }
+
+  .sg-dark-article:nth-child(2) {
+    background: #10b981;
+    color: white;
+  }
+
+  .sg-dark-article:nth-child(3) {
+    background: #ec4899;
+    color: white;
+  }
+  
+  .sg-dark-toggle-btn {
+    background: #ec4899;
+    color: white;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto 30px;
+    transition: all 0.2s;
+  }
+  
+  .sg-dark-toggle-btn:hover {
+    background: #db2777;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(236, 72, 153, 0.4);
+  }
+
+  .sg-hide-text-btn {
+    background: #374151;
+    color: #d1d5db;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: block;
+    margin: 20px auto 0;
+    transition: all 0.2s;
+  }
+
+  .sg-hide-text-btn:hover {
+    background: #4b5563;
+    color: #e5e7eb;
+  }
+
+  .sg-toggle-container {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .sg-dark-signals-box {
+    background: #374151;
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+    transition: all 0.3s;
+  }
+  
+  .sg-dark-signals-box.sg-dark-hidden {
+    display: none;
+  }
+  
+  .sg-dark-signal-row {
+    background: #1f2937;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 16px;
+    border-left: 4px solid #06b6d4;
+  }
+  
+  .sg-dark-signal-row:last-child {
+    margin-bottom: 0;
+  }
+  
+  .sg-dark-signal-badge {
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 700;
+    color: #06b6d4;
+    margin-bottom: 12px;
+    padding: 4px 12px;
+    background: rgba(6, 182, 212, 0.1);
+    border-radius: 6px;
+  }
+  
+  .sg-dark-signal-endings {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .sg-dark-ending {
+    background: linear-gradient(135deg, #06b6d4, #0891b2);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(6, 182, 212, 0.3);
+    transition: all 0.2s;
+  }
+  
+  .sg-dark-ending:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.4);
+  }
+  
+  .sg-dark-text {
+    font-size: 16px;
+    color: #d1d5db;
+    margin: 0 0 16px 0;
+    line-height: 1.7;
+  }
+  
+  .sg-dark-text strong {
+    color: #06b6d4;
+    font-weight: 600;
+  }
+  
+  .sg-dark-note {
+    background: #374151;
+    border-left: 5px solid #ec4899;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 25px;
+    margin-bottom: 0;
+    color: #d1d5db;
+    line-height: 1.7;
+  }
+  
+  .sg-dark-note strong {
+    color: #ec4899;
+    font-weight: 600;
+  }
+
+  .sg-info-section {
+    transition: all 0.3s;
+  }
+
+  .sg-info-section.sg-dark-hidden {
+    display: none;
+  }
+
+  /* Divider */
+  .sg-divider {
+    height: 1px;
+    background: #374151;
+    margin: 0 0 40px 0;
+    transition: all 0.3s;
+  }
+
+  .sg-divider.sg-dark-hidden {
+    display: none;
+  }
+
+  /* Trainer Section */
+  .artikel-trainer * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .artikel-progress-bar-container {
+    background: #374151;
+    border-radius: 999px;
+    height: 12px;
+    margin-bottom: 20px;
+  }
+
+  .artikel-progress-bar {
+    background: #06b6d4;
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.3s;
+  }
+
+  .artikel-progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .artikel-progress-current {
+    color: #06b6d4;
+  }
+
+  .artikel-progress-score {
+    color: #22c55e;
+  }
+
+  .artikel-question-area {
+    text-align: center;
+    margin-bottom: 25px;
+  }
+
+  .artikel-question-title {
+    color: #06b6d4;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+
+  .artikel-word-display {
+    font-size: 42px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 10px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .artikel-word-display:active {
+    transform: scale(0.98);
+  }
+
+  .artikel-translation {
+    background: #d97706;
+    color: white;
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    transition: opacity 0.3s;
+  }
+
+  .artikel-hint-section {
+    margin-bottom: 10px;
+    min-height: 24px;
+  }
+
+  .artikel-hint-btn {
+    color: #06b6d4;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 0 5px;
+  }
+
+  .artikel-hint-btn:hover {
+    color: #0891b2;
+  }
+
+  .artikel-ending-display {
+    background: #d97706;
+    color: white;
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: opacity 0.3s;
+  }
+
+  .artikel-button-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .artikel-btn {
+    padding: 16px 14px;
+    font-size: 24px;
+    font-weight: bold;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    cursor: pointer;
+    color: white;
+    transition: all 0.2s;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .artikel-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  .artikel-btn.der {
+    background: #06b6d4;
+    box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+  }
+
+  .artikel-btn.der:hover:not(:disabled) {
+    background: #0891b2;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(6, 182, 212, 0.6);
+  }
+
+  .artikel-btn.das {
+    background: #ea580c;
+    box-shadow: 0 6px 20px rgba(234, 88, 12, 0.5);
+  }
+
+  .artikel-btn.das:hover:not(:disabled) {
+    background: #c2410c;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(234, 88, 12, 0.6);
+  }
+
+  .artikel-btn.die {
+    background: #dc2626;
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.5);
+  }
+
+  .artikel-btn.die:hover:not(:disabled) {
+    background: #b91c1c;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(220, 38, 38, 0.6);
+  }
+
+  .artikel-btn.correct {
+    background: #16a34a !important;
+  }
+
+  .artikel-btn.wrong {
+    background: #dc2626 !important;
+  }
+
+  .artikel-shortcut {
+    font-size: 18px;
+    opacity: 0.95;
+    display: block;
+    margin-top: 8px;
+  }
+
+  .artikel-feedback {
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .artikel-feedback.correct {
+    background: #14532d;
+    color: #86efac;
+    border: 1px solid #22c55e;
+  }
+
+  .artikel-feedback.wrong {
+    background: #450a0a;
+    color: #fca5a5;
+    border: 1px solid #dc2626;
+  }
+
+  .artikel-results {
+    text-align: center;
+  }
+
+  .artikel-results h2 {
+    color: #06b6d4;
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+
+  .artikel-percentage {
+    font-size: 64px;
+    font-weight: bold;
+    color: #22c55e;
+    margin: 30px 0;
+  }
+
+  .artikel-result-text {
+    font-size: 20px;
+    margin-bottom: 30px;
+    color: #d1d5db;
+  }
+
+  .artikel-restart-btn {
+    background: #06b6d4;
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .artikel-restart-btn:hover {
+    background: #0891b2;
+    transform: translateY(-2px);
+  }
+
+  .artikel-hidden {
+    display: none;
+  }
+
+  .artikel-fade-out {
+    opacity: 0;
+  }
+  
+  @media (max-width: 768px) {
+    .sg-unified-container {
+      padding: 16px 14px;
+      margin: 10px auto;
+    }
+    
+    .sg-dark-title {
+      font-size: 26px;
+    }
+    
+    .sg-dark-articles-mini {
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .sg-dark-signal-row {
+      padding: 16px;
+    }
+    
+    .sg-dark-ending {
+      font-size: 14px;
+      padding: 6px 12px;
+    }
+
+    .artikel-button-grid {
+      gap: 12px;
+    }
+
+    .artikel-btn {
+      padding: 12px 10px;
+      font-size: 18px;
+      border-width: 2px;
+    }
+
+    .artikel-shortcut {
+      display: none;
+    }
+
+    .artikel-word-display {
+      font-size: 32px;
+    }
+
+    .artikel-question-title {
+      font-size: 18px;
+    }
+
+    .artikel-progress-info {
+      font-size: 13px;
+    }
+  }
+</style>
+
+<div class="sg-unified-container">
+  <!-- Toggle Button - Always Visible -->
+  <div class="sg-toggle-container">
+    <button class="sg-hide-text-btn" onclick="sgHideText()">
+      <span id="sgHideTextBtn">Hide Instructions</span>
+    </button>
+  </div>
+
+  <!-- Info Section -->
+  <div id="sgInfoSection" class="sg-info-section">
+    <h3 class="sg-dark-title">Article Signal Patterns</h3>
+    <p class="sg-dark-subtitle">
+      Master these word endings to instantly recognize German article genders.
+    </p>
+    
+    <div class="sg-dark-articles-mini">
+      <span class="sg-dark-article">der (m)</span>
+      <span class="sg-dark-article">das (n)</span>
+      <span class="sg-dark-article">die (f)</span>
+    </div>
+
+    <button class="sg-dark-toggle-btn" onclick="sgDarkToggleSignals()">
+      <span id="sgDarkToggleText">Show Signal Patterns</span>
+    </button>
+
+    <div id="sgDarkSignalsBox" class="sg-dark-signals-box sg-dark-hidden" style="padding: 20px 24px; font-size: 15px; line-height: 2;">
+      <div style="margin-bottom: 10px;">
+        <span style="font-weight: 700; color: #06b6d4; margin-right: 12px; font-size: 16px;">der:</span>
+        <span style="background: #06b6d4; color: white; padding: 3px 8px; border-radius: 4px; margin-right: 6px; font-size: 13px; font-weight: 600;">ig</span>
+        <span style="background: #06b6d4; color: white; padding: 3px 8px; border-radius: 4px; margin-right: 6px; font-size: 13px; font-weight: 600;">ling</span>
+        <span style="background: #06b6d4; color: white; padding: 3px 8px; border-radius: 4px; margin-right: 6px; font-size: 13px; font-weight: 600;">or</span>
+        <span style="background: #06b6d4; color: white; padding: 3px 8px; border-radius: 4px; margin-right: 6px; font-size: 13px; font-weight: 600;">ismus</span>
+        <span style="background: #06b6d4; color: white; padding: 3px 8px; border-radius: 4px; font-size: 13px; font-weight: 600;">+er</span>
+      </div>
+      <div style="margin-bottom: 10px;">
+        <span style="font-weight: 700; color: #10b981; margin-right: 12px; font-size: 16px;">das:</span>
+        <span style="background: #10b981; color: white; padding: 3px 8px; border-radius: 4px; margin-right: 6px; font-size: 13px; font-weight: 600;">tum</span>
+        <span style="background: #10b981; color: white; padding: 3px 8px; border-radius: 4px; margin-right: 6px; font-size: 13px; font-weight: 600;">chen</span>
+        <span style="background: #10b981; color: white; padding: 3px 8px; border-radius: 4px; margin-right: 6px; font-size: 13px; font-weight: 600;">ma</span>
+        <span style="background: #10b981; color: white; padding: 3px 8px; border-radius: 4px; margin-right: 6px; font-size: 13px; font-weight: 600;">ment</span>
+        <span style="background: #10b981; color: white; padding: 3px 8px; border-radius: 4px; margin-right: 6px; font-size: 13px; font-weight: 600;">um</span>
+        <span style="background: #10b981; color: white; padding: 3px 8px; border-radius: 4px; margin-right: 6px; font-size: 13px; font-weight: 600;">lein</span>
+        <span style="background: #10b981; color: white; padding: 3px 8px; border-radius: 4px; font-size: 13px; font-weight: 600;">nis</span>
+      </div>
+      <div>
+        <span style="font-weight: 700; color: #ec4899; margin-right: 12px; font-size: 16px;">die:</span>
+        <span style="background: #ec4899; color: white; padding: 3px 8px; border-radius: 4px; margin-right: 6px; font-size: 13px; font-weight: 600;">heit</span>
+        <span style="background: #ec4899; color: white; padding: 3px 8px; border-radius: 4px; margin-right: 6px; font-size: 13px; font-weight: 600;">ung</span>
+        <span style="background: #ec4899; color: white; padding: 3px 8px; border-radius: 4px; margin-right: 6px; font-size: 13px; font-weight: 600;">keit</span>
+        <span style="background: #ec4899; color: white; padding: 3px 8px; border-radius: 4px; margin-right: 6px; font-size: 13px; font-weight: 600;">ei</span>
+        <span style="background: #ec4899; color: white; padding: 3px 8px; border-radius: 4px; margin-right: 6px; font-size: 13px; font-weight: 600;">schaft</span>
+        <span style="background: #ec4899; color: white; padding: 3px 8px; border-radius: 4px; margin-right: 6px; font-size: 13px; font-weight: 600;">ion</span>
+        <span style="background: #ec4899; color: white; padding: 3px 8px; border-radius: 4px; margin-right: 6px; font-size: 13px; font-weight: 600;">ie</span>
+        <span style="background: #ec4899; color: white; padding: 3px 8px; border-radius: 4px; margin-right: 6px; font-size: 13px; font-weight: 600;">tät</span>
+        <span style="background: #ec4899; color: white; padding: 3px 8px; border-radius: 4px; margin-right: 6px; font-size: 13px; font-weight: 600;">ik</span>
+        <span style="background: #ec4899; color: white; padding: 3px 8px; border-radius: 4px; margin-right: 6px; font-size: 13px; font-weight: 600;">+ur</span>
+        <span style="background: #ec4899; color: white; padding: 3px 8px; border-radius: 4px; font-size: 13px; font-weight: 600;">+e</span>
+      </div>
+    </div>
+
+    <p class="sg-dark-text">
+      You'll see <strong>20 random German nouns</strong> and choose the correct article
+      (<strong>der</strong>, <strong>das</strong>, or <strong>die</strong>) for each one.
+      There are <strong>107 different nouns</strong> in total. Each time you repeat the
+      exercise, they appear in a new random order so you practice patterns, not memorized sequences.
+    </p>
+    
+    <div class="sg-dark-note">
+      <strong>Important:</strong> You do not need to know the meaning of the words. This exercise trains you to recognize the article signals, not vocabulary.
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div id="sgDivider" class="sg-divider"></div>
+
+  <!-- Trainer Section -->
+  <div class="artikel-trainer">
+    <!-- Exercise Area -->
+    <div id="artikelExerciseArea">
+      <!-- Progress bar - floating above -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 13px; color: #9ca3af;">
+        <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+          <span style="color: #06b6d4; font-weight: 600;"><span id="artikelCurrentEx">1</span>/20</span>
+          <div style="flex: 1; background: #374151; height: 4px; border-radius: 2px; overflow: hidden;">
+            <div id="artikelProgressBar" style="background: #06b6d4; height: 100%; width: 0%; transition: width 0.3s;"></div>
+          </div>
+        </div>
+        <div style="margin-left: 12px;">
+          Score: <span style="color: #10b981; font-weight: 600;"><span id="artikelScore">0</span></span>
+        </div>
+      </div>
+
+      <!-- Word card -->
+      <div style="background: #111827; border-radius: 12px; padding: 20px; margin-bottom: 12px; text-align: center; border: 2px solid #374151;">
+        <div id="artikelWordDisplay" class="artikel-word-display" onclick="artikelToggleTranslation()" style="font-size: 40px; font-weight: 700; color: #e5e7eb; margin-bottom: 12px; cursor: pointer;">Tisch</div>
+        
+        <div class="artikel-hint-section" style="margin-bottom: 12px; min-height: 24px;">
+          <span id="artikelTranslationDisplay" class="artikel-translation artikel-hidden">table</span>
+          <span id="artikelEndingDisplay" class="artikel-ending-display artikel-hidden">Ending: +isch</span>
+        </div>
+
+        <div style="display: flex; justify-content: center; gap: 6px; flex-wrap: wrap;">
+          <button id="artikelHintBtnTranslation" style="background: #374151; border: none; color: #9ca3af; border-radius: 6px; padding: 6px 12px; fontSize: 11px; cursor: pointer; font-weight: 600;" onclick="artikelToggleTranslation()">
+            Translation (T)
+          </button>
+          <button id="artikelHintBtnEnding" style="background: #374151; border: none; color: #9ca3af; border-radius: 6px; padding: 6px 12px; fontSize: 11px; cursor: pointer; font-weight: 600;" onclick="artikelShowEnding()">
+            Ending (H)
+          </button>
+        </div>
+      </div>
+
+      <!-- Answer buttons -->
+      <div class="artikel-button-grid" style="margin-bottom: 12px;">
+        <button class="artikel-btn der" onclick="artikelCheckAnswer('der')">
+          der<span class="artikel-shortcut">(A)</span>
+        </button>
+        <button class="artikel-btn das" onclick="artikelCheckAnswer('das')">
+          das<span class="artikel-shortcut">(S)</span>
+        </button>
+        <button class="artikel-btn die" onclick="artikelCheckAnswer('die')">
+          die<span class="artikel-shortcut">(D)</span>
+        </button>
+      </div>
+
+      <!-- Feedback -->
+      <div id="artikelFeedback" class="artikel-feedback artikel-hidden"></div>
+    </div>
+
+    <!-- Results Area -->
+    <div id="artikelResults" class="artikel-results artikel-hidden">
+      <h2>Results</h2>
+      <div id="artikelPercentage" class="artikel-percentage">100%</div>
+      <div class="artikel-result-text">
+        You got <span id="artikelResultScore">20</span> out of 20 correct!
+      </div>
+      <button class="artikel-restart-btn" onclick="artikelStartGame()">Practice Again</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function sgDarkToggleSignals() {
+  const box = document.getElementById('sgDarkSignalsBox');
+  const text = document.getElementById('sgDarkToggleText');
+  
+  if (box.classList.contains('sg-dark-hidden')) {
+    box.classList.remove('sg-dark-hidden');
+    text.textContent = 'Hide Signal Patterns';
+  } else {
+    box.classList.add('sg-dark-hidden');
+    text.textContent = 'Show Signal Patterns';
+  }
+}
+
+function sgHideText() {
+  const infoSection = document.getElementById('sgInfoSection');
+  const divider = document.getElementById('sgDivider');
+  const btnText = document.getElementById('sgHideTextBtn');
+  
+  if (infoSection.classList.contains('sg-dark-hidden')) {
+    infoSection.classList.remove('sg-dark-hidden');
+    divider.classList.remove('sg-dark-hidden');
+    btnText.textContent = 'Hide Instructions';
+  } else {
+    infoSection.classList.add('sg-dark-hidden');
+    divider.classList.add('sg-dark-hidden');
+    btnText.textContent = 'Show Instructions';
+  }
+}
+
+// Force dark mode on stubborn elements - but only on pages with this widget
+function sgForceDarkMode() {
+  // Check if this widget exists on the page - if not, don't apply dark mode
+  const widget = document.querySelector('.sg-unified-container');
+  if (!widget) {
+    return; // Exit if widget not found - don't apply dark mode
+  }
+  
+  // Find ALL elements with white or light backgrounds in sidebar
+  const sidebar = document.querySelector('.course-sidebar, .lecture-sidebar, .lecture-left');
+  if (sidebar) {
+    const allElements = sidebar.querySelectorAll('*');
+    allElements.forEach(el => {
+      const computed = window.getComputedStyle(el);
+      const bg = computed.backgroundColor;
+      
+      // If background is white or very light, make it dark
+      if (bg === 'rgb(255, 255, 255)' || 
+          bg === 'rgb(255, 230, 238)' ||
+          bg === 'rgba(255, 255, 255, 1)' ||
+          bg.includes('255, 255, 255') ||
+          bg.includes('250, 250') ||
+          bg.includes('248, 248') ||
+          bg.includes('240, 240')) {
+        el.style.setProperty('background', '#1f2937', 'important');
+        el.style.setProperty('background-color', '#1f2937', 'important');
+      }
+    });
+  }
+  
+  // Target section items specifically
+  const sectionItems = document.querySelectorAll('.section-item, li.section-item, .section-item.complete, .section-item.incomplete, .section-list li');
+  sectionItems.forEach(item => {
+    item.style.setProperty('background', '#1f2937', 'important');
+    item.style.setProperty('background-color', '#1f2937', 'important');
+    item.style.setProperty('border-color', '#374151', 'important');
+  });
+  
+  // Target current and next lecture specifically
+  const currentLecture = document.querySelectorAll('.section-item.current-lecture, .section-item.next-lecture, [class*="current-lecture"], [class*="next-lecture"]');
+  currentLecture.forEach(item => {
+    item.style.setProperty('background', '#374151', 'important');
+    item.style.setProperty('background-color', '#374151', 'important');
+    item.style.setProperty('border-color', '#06b6d4', 'important');
+    
+    const textElements = item.querySelectorAll('*');
+    textElements.forEach(el => {
+      el.style.setProperty('color', '#06b6d4', 'important');
+    });
+  });
+  
+  // Fix all text colors in sidebar
+  const sidebarText = document.querySelectorAll('.section-item *, .section-list li *, .course-sidebar *');
+  sidebarText.forEach(el => {
+    const computed = window.getComputedStyle(el);
+    const color = computed.color;
+    
+    // If text is dark/black, make it light
+    if (color === 'rgb(0, 0, 0)' || 
+        color === 'rgba(0, 0, 0, 1)' ||
+        color.includes('rgb(0, 0, 0)') ||
+        color.includes('33, 33, 33') ||
+        color.includes('51, 51, 51')) {
+      if (!el.closest('.current-lecture') && !el.closest('.next-lecture')) {
+        el.style.setProperty('color', '#9ca3af', 'important');
+      }
+    }
+  });
+  
+  // Target section lists
+  const sectionLists = document.querySelectorAll('.section-list, ul.section-list');
+  sectionLists.forEach(list => {
+    list.style.setProperty('background', '#1f2937', 'important');
+    list.style.setProperty('background-color', '#1f2937', 'important');
+  });
+}
+
+// Run on load and periodically to catch dynamically loaded content
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', sgForceDarkMode);
+} else {
+  sgForceDarkMode();
+}
+
+// Re-run frequently to catch any late-loading elements
+setTimeout(sgForceDarkMode, 100);
+setTimeout(sgForceDarkMode, 300);
+setTimeout(sgForceDarkMode, 500);
+setTimeout(sgForceDarkMode, 1000);
+setTimeout(sgForceDarkMode, 2000);
+setTimeout(sgForceDarkMode, 3000);
+
+// Watch for DOM changes
+const observer = new MutationObserver(() => {
+  setTimeout(sgForceDarkMode, 50);
+});
+observer.observe(document.body, { childList: true, subtree: true });
+
+// Trainer JavaScript
+(function() {
+  'use strict';
+
+  const artikelAllExercises = [
+    // DER (27 words)
+    { word: "König", article: "der", ending: "-ig", translation: "king" },
+    { word: "Honig", article: "der", ending: "-ig", translation: "honey" },
+    { word: "Essig", article: "der", ending: "-ig", translation: "vinegar" },
+    { word: "Käfig", article: "der", ending: "-ig", translation: "cage" },
+    { word: "Pfennig", article: "der", ending: "-ig", translation: "penny" },
+    { word: "Frühling", article: "der", ending: "-ling", translation: "spring" },
+    { word: "Schmetterling", article: "der", ending: "-ling", translation: "butterfly" },
+    { word: "Liebling", article: "der", ending: "-ling", translation: "darling" },
+    { word: "Lehrling", article: "der", ending: "-ling", translation: "apprentice" },
+    { word: "Zwilling", article: "der", ending: "-ling", translation: "twin" },
+    { word: "Motor", article: "der", ending: "-or", translation: "motor" },
+    { word: "Doktor", article: "der", ending: "-or", translation: "doctor" },
+    { word: "Traktor", article: "der", ending: "-or", translation: "tractor" },
+    { word: "Autor", article: "der", ending: "-or", translation: "author" },
+    { word: "Professor", article: "der", ending: "-or", translation: "professor" },
+    { word: "Realismus", article: "der", ending: "-ismus", translation: "realism" },
+    { word: "Tourismus", article: "der", ending: "-ismus", translation: "tourism" },
+    { word: "Optimismus", article: "der", ending: "-ismus", translation: "optimism" },
+    { word: "Kapitalismus", article: "der", ending: "-ismus", translation: "capitalism" },
+    { word: "Sozialismus", article: "der", ending: "-ismus", translation: "socialism" },
+    { word: "Lehrer", article: "der", ending: "-er", translation: "teacher" },
+    { word: "Fahrer", article: "der", ending: "-er", translation: "driver" },
+    { word: "Verkäufer", article: "der", ending: "-er", translation: "salesperson" },
+    { word: "Maler", article: "der", ending: "-er", translation: "painter" },
+    { word: "Bäcker", article: "der", ending: "-er", translation: "baker" },
+    { word: "Schüler", article: "der", ending: "-er", translation: "student" },
+    { word: "Arbeiter", article: "der", ending: "-er", translation: "worker" },
+
+    // DAS (26 words)
+    { word: "Eigentum", article: "das", ending: "-tum", translation: "property" },
+    { word: "Wachstum", article: "das", ending: "-tum", translation: "growth" },
+    { word: "Christentum", article: "das", ending: "-tum", translation: "Christianity" },
+    { word: "Mädchen", article: "das", ending: "-chen", translation: "girl" },
+    { word: "Hähnchen", article: "das", ending: "-chen", translation: "chicken" },
+    { word: "Kaninchen", article: "das", ending: "-chen", translation: "rabbit" },
+    { word: "Brötchen", article: "das", ending: "-chen", translation: "bread roll" },
+    { word: "Kätzchen", article: "das", ending: "-chen", translation: "kitten" },
+    { word: "Hündchen", article: "das", ending: "-chen", translation: "puppy" },
+    { word: "Drama", article: "das", ending: "-ma", translation: "drama" },
+    { word: "Thema", article: "das", ending: "-ma", translation: "topic" },
+    { word: "Klima", article: "das", ending: "-ma", translation: "climate" },
+    { word: "Argument", article: "das", ending: "-ment", translation: "argument" },
+    { word: "Dokument", article: "das", ending: "-ment", translation: "document" },
+    { word: "Instrument", article: "das", ending: "-ment", translation: "instrument" },
+    { word: "Experiment", article: "das", ending: "-ment", translation: "experiment" },
+    { word: "Museum", article: "das", ending: "-um", translation: "museum" },
+    { word: "Studium", article: "das", ending: "-um", translation: "studies" },
+    { word: "Zentrum", article: "das", ending: "-um", translation: "center" },
+    { word: "Datum", article: "das", ending: "-um", translation: "date" },
+    { word: "Büchlein", article: "das", ending: "-lein", translation: "little book" },
+    { word: "Fräulein", article: "das", ending: "-lein", translation: "Miss" },
+    { word: "Geheimnis", article: "das", ending: "-nis", translation: "secret" },
+    { word: "Ergebnis", article: "das", ending: "-nis", translation: "result" },
+    { word: "Zeugnis", article: "das", ending: "-nis", translation: "certificate" },
+    { word: "Verzeichnis", article: "das", ending: "-nis", translation: "directory" },
+
+    // DIE (54 words)
+    { word: "Freiheit", article: "die", ending: "-heit", translation: "freedom" },
+    { word: "Schönheit", article: "die", ending: "-heit", translation: "beauty" },
+    { word: "Krankheit", article: "die", ending: "-heit", translation: "illness" },
+    { word: "Gesundheit", article: "die", ending: "-heit", translation: "health" },
+    { word: "Wahrheit", article: "die", ending: "-heit", translation: "truth" },
+    { word: "Weisheit", article: "die", ending: "-heit", translation: "wisdom" },
+    { word: "Zeitung", article: "die", ending: "-ung", translation: "newspaper" },
+    { word: "Wohnung", article: "die", ending: "-ung", translation: "apartment" },
+    { word: "Hoffnung", article: "die", ending: "-ung", translation: "hope" },
+    { word: "Meinung", article: "die", ending: "-ung", translation: "opinion" },
+    { word: "Rechnung", article: "die", ending: "-ung", translation: "bill" },
+    { word: "Erfahrung", article: "die", ending: "-ung", translation: "experience" },
+    { word: "Möglichkeit", article: "die", ending: "-keit", translation: "possibility" },
+    { word: "Schwierigkeit", article: "die", ending: "-keit", translation: "difficulty" },
+    { word: "Fähigkeit", article: "die", ending: "-keit", translation: "ability" },
+    { word: "Geschwindigkeit", article: "die", ending: "-keit", translation: "speed" },
+    { word: "Gerechtigkeit", article: "die", ending: "-keit", translation: "justice" },
+    { word: "Bäckerei", article: "die", ending: "-ei", translation: "bakery" },
+    { word: "Metzgerei", article: "die", ending: "-ei", translation: "butcher shop" },
+    { word: "Polizei", article: "die", ending: "-ei", translation: "police" },
+    { word: "Malerei", article: "die", ending: "-ei", translation: "painting" },
+    { word: "Bücherei", article: "die", ending: "-ei", translation: "library" },
+    { word: "Freundschaft", article: "die", ending: "-schaft", translation: "friendship" },
+    { word: "Mannschaft", article: "die", ending: "-schaft", translation: "team" },
+    { word: "Gesellschaft", article: "die", ending: "-schaft", translation: "society" },
+    { word: "Wirtschaft", article: "die", ending: "-schaft", translation: "economy" },
+    { word: "Landschaft", article: "die", ending: "-schaft", translation: "landscape" },
+    { word: "Nation", article: "die", ending: "-ion", translation: "nation" },
+    { word: "Information", article: "die", ending: "-ion", translation: "information" },
+    { word: "Religion", article: "die", ending: "-ion", translation: "religion" },
+    { word: "Situation", article: "die", ending: "-ion", translation: "situation" },
+    { word: "Diskussion", article: "die", ending: "-ion", translation: "discussion" },
+    { word: "Familie", article: "die", ending: "-ie", translation: "family" },
+    { word: "Energie", article: "die", ending: "-ie", translation: "energy" },
+    { word: "Theorie", article: "die", ending: "-ie", translation: "theory" },
+    { word: "Industrie", article: "die", ending: "-ie", translation: "industry" },
+    { word: "Biologie", article: "die", ending: "-ie", translation: "biology" },
+    { word: "Universität", article: "die", ending: "-tät", translation: "university" },
+    { word: "Qualität", article: "die", ending: "-tät", translation: "quality" },
+    { word: "Realität", article: "die", ending: "-tät", translation: "reality" },
+    { word: "Aktivität", article: "die", ending: "-tät", translation: "activity" },
+    { word: "Musik", article: "die", ending: "-ik", translation: "music" },
+    { word: "Politik", article: "die", ending: "-ik", translation: "politics" },
+    { word: "Technik", article: "die", ending: "-ik", translation: "technology" },
+    { word: "Natur", article: "die", ending: "-ur", translation: "nature" },
+    { word: "Kultur", article: "die", ending: "-ur", translation: "culture" },
+    { word: "Frisur", article: "die", ending: "-ur", translation: "hairstyle" },
+    { word: "Tasse", article: "die", ending: "-e", translation: "cup" },
+    { word: "Nase", article: "die", ending: "-e", translation: "nose" },
+    { word: "Frage", article: "die", ending: "-e", translation: "question" },
+    { word: "Liebe", article: "die", ending: "-e", translation: "love" },
+    { word: "Note", article: "die", ending: "-e", translation: "grade" },
+    { word: "Gage", article: "die", ending: "-e", translation: "fee" },
+    { word: "Seele", article: "die", ending: "-e", translation: "soul" }
+  ];
+
+  let artikelCurrentExercises = [];
+  let artikelCurrentIndex = 0;
+  let artikelScore = 0;
+  let artikelShowingTranslation = false;
+  let artikelShowingEnding = false;
+  let artikelAnswered = false;
+  let artikelTranslationTimer = null;
+  let artikelEndingTimer = null;
+
+  function artikelShuffleArray(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  }
+
+  window.artikelStartGame = function() {
+    const shuffled = artikelShuffleArray([...artikelAllExercises]);
+    artikelCurrentExercises = shuffled.slice(0, 20);
+    artikelCurrentIndex = 0;
+    artikelScore = 0;
+    
+    document.getElementById('artikelExerciseArea').classList.remove('artikel-hidden');
+    document.getElementById('artikelResults').classList.add('artikel-hidden');
+    
+    artikelShowExercise();
+  }
+
+  function artikelShowExercise() {
+    artikelAnswered = false;
+    artikelShowingTranslation = false;
+    artikelShowingEnding = false;
+    
+    if (artikelTranslationTimer) clearTimeout(artikelTranslationTimer);
+    if (artikelEndingTimer) clearTimeout(artikelEndingTimer);
+    
+    const exercise = artikelCurrentExercises[artikelCurrentIndex];
+    
+    document.getElementById('artikelCurrentEx').textContent = artikelCurrentIndex + 1;
+    document.getElementById('artikelScore').textContent = artikelScore;
+    document.getElementById('artikelWordDisplay').textContent = exercise.word;
+    document.getElementById('artikelTranslationDisplay').classList.add('artikel-hidden');
+    document.getElementById('artikelEndingDisplay').classList.add('artikel-hidden');
+    document.getElementById('artikelHintBtnEnding').classList.remove('artikel-hidden');
+    document.getElementById('artikelHintBtnTranslation').classList.remove('artikel-hidden');
+    document.getElementById('artikelFeedback').classList.add('artikel-hidden');
+    
+    const progressPercent = (artikelCurrentIndex / 20) * 100;
+    document.getElementById('artikelProgressBar').style.width = progressPercent + '%';
+    
+    document.querySelectorAll('.artikel-btn').forEach(btn => {
+      btn.disabled = false;
+      btn.classList.remove('correct', 'wrong');
+    });
+  }
+
+  window.artikelToggleTranslation = function() {
+    if (artikelAnswered) return;
+    
+    artikelShowingTranslation = !artikelShowingTranslation;
+    const translationEl = document.getElementById('artikelTranslationDisplay');
+    const exercise = artikelCurrentExercises[artikelCurrentIndex];
+    
+    if (artikelTranslationTimer) clearTimeout(artikelTranslationTimer);
+    
+    if (artikelShowingTranslation) {
+      translationEl.textContent = exercise.translation;
+      translationEl.className = 'artikel-translation';
+      translationEl.classList.remove('artikel-hidden');
+      
+      artikelTranslationTimer = setTimeout(() => {
+        translationEl.classList.add('artikel-fade-out');
+        setTimeout(() => {
+          translationEl.classList.add('artikel-hidden');
+          translationEl.classList.remove('artikel-fade-out');
+          artikelShowingTranslation = false;
+        }, 500);
+      }, 3000);
+    } else {
+      translationEl.classList.add('artikel-hidden');
+    }
+  }
+
+  window.artikelShowEnding = function() {
+    if (artikelAnswered) return;
+    
+    artikelShowingEnding = true;
+    const endingEl = document.getElementById('artikelEndingDisplay');
+    const exercise = artikelCurrentExercises[artikelCurrentIndex];
+    
+    if (artikelEndingTimer) clearTimeout(artikelEndingTimer);
+    
+    endingEl.textContent = 'Ending: ' + exercise.ending;
+    endingEl.className = 'artikel-ending-display';
+    endingEl.classList.remove('artikel-hidden');
+    document.getElementById('artikelHintBtnEnding').classList.add('artikel-hidden');
+    
+    artikelEndingTimer = setTimeout(() => {
+      endingEl.classList.add('artikel-fade-out');
+      setTimeout(() => {
+        endingEl.classList.add('artikel-hidden');
+        endingEl.classList.remove('artikel-fade-out');
+        document.getElementById('artikelHintBtnEnding').classList.remove('artikel-hidden');
+        artikelShowingEnding = false;
+      }, 500);
+    }, 3000);
+  }
+
+  window.artikelCheckAnswer = function(selectedArticle) {
+    if (artikelAnswered) return;
+    
+    artikelAnswered = true;
+    const exercise = artikelCurrentExercises[artikelCurrentIndex];
+    const isCorrect = selectedArticle === exercise.article;
+    
+    if (artikelTranslationTimer) clearTimeout(artikelTranslationTimer);
+    if (artikelEndingTimer) clearTimeout(artikelEndingTimer);
+    
+    document.querySelectorAll('.artikel-btn').forEach(btn => btn.disabled = true);
+    
+    const buttons = document.querySelectorAll('.artikel-btn');
+    buttons.forEach(btn => {
+      if (btn.textContent.includes(exercise.article)) {
+        btn.classList.add('correct');
+      } else if (btn.textContent.includes(selectedArticle) && !isCorrect) {
+        btn.classList.add('wrong');
+      }
+    });
+    
+    if (isCorrect) {
+      artikelScore++;
+      document.getElementById('artikelScore').textContent = artikelScore;
+    }
+    
+    const feedbackEl = document.getElementById('artikelFeedback');
+    feedbackEl.className = 'artikel-feedback ' + (isCorrect ? 'correct' : 'wrong');
+    feedbackEl.textContent = isCorrect 
+      ? '✓ Correct!' 
+      : `✗ Wrong! Correct is: ${exercise.article} ${exercise.word}`;
+    feedbackEl.classList.remove('artikel-hidden');
+    
+    setTimeout(() => {
+      if (artikelCurrentIndex < 19) {
+        artikelCurrentIndex++;
+        artikelShowExercise();
+      } else {
+        artikelShowResults();
+      }
+    }, 800);
+  }
+
+  function artikelShowResults() {
+    document.getElementById('artikelExerciseArea').classList.add('artikel-hidden');
+    document.getElementById('artikelResults').classList.remove('artikel-hidden');
+    
+    const percentage = Math.round((artikelScore / 20) * 100);
+    document.getElementById('artikelPercentage').textContent = percentage + '%';
+    document.getElementById('artikelResultScore').textContent = artikelScore;
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (document.getElementById('artikelExerciseArea').classList.contains('artikel-hidden')) return;
+    if (artikelAnswered) return;
+    
+    const key = e.key.toLowerCase();
+    
+    if (key === 'a') {
+      artikelCheckAnswer('der');
+    } else if (key === 's') {
+      artikelCheckAnswer('das');
+    } else if (key === 'd') {
+      artikelCheckAnswer('die');
+    } else if (key === 'h') {
+      artikelShowEnding();
+    } else if (key === 't') {
+      artikelToggleTranslation();
+    }
+  });
+
+  // Auto-start
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', artikelStartGame);
+  } else {
+    artikelStartGame();
+  }
+})();
+</script>
+</body>
+</html>

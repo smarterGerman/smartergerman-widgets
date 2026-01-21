@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practice - Dative Prepositions & Articles</title>
+</head>
+<body>
+<style>
+  .sg-unified-container {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: #FAFAFA;
+    color: #2C2C2C;
+    border-radius: 20px;
+    padding: 27px;
+    max-width: 729px;
+    margin: 10px auto;
+    line-height: 1.6;
+    box-shadow: 0 8px 30px rgba(233, 30, 99, 0.25);
+    border: 3px solid #FFA8CC;
+  }
+  .sg-dark-title {
+    font-size: 26px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #E91E63, #9C27B0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 11px;
+    text-align: center;
+  }
+  .sg-dark-subtitle {
+    font-size: 14px;
+    color: #6B4E8C;
+    margin-bottom: 23px;
+    text-align: center;
+    font-weight: 600;
+  }
+  .sg-hide-text-btn {
+    background: linear-gradient(135deg, #E91E63, #9C27B0);
+    color: white;
+    border: none;
+    padding: 11px 25px;
+    border-radius: 23px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto 23px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+  }
+  .sg-hide-text-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
+  }
+  .sg-dark-hidden {
+    display: none !important;
+  }
+  .sg-divider {
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #FFA8CC, transparent);
+    margin: 27px 0;
+    border-radius: 2px;
+  }
+  .exercise-selector-container {
+    text-align: center;
+    margin-bottom: 27px;
+  }
+  .exercise-selector-label {
+    font-size: 14px;
+    color: #6B4E8C;
+    font-weight: 600;
+    margin-bottom: 11px;
+  }
+  .exercise-selector {
+    background: white;
+    border: 3px solid #E91E63;
+    border-radius: 14px;
+    padding: 11px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2C2C2C;
+    cursor: pointer;
+    max-width: 405px;
+    width: 100%;
+    margin: 0 auto;
+    transition: all 0.2s;
+  }
+  .exercise-selector:hover {
+    border-color: #9C27B0;
+    transform: translateY(-2px);
+  }
+  .exercise-selector:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: #CCCCCC;
+  }
+  .artikel-trainer {
+    margin-top: 27px;
+  }
+  .artikel-progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .artikel-end-session-btn {
+    background: linear-gradient(135deg, #F44336, #E53935);
+    color: white;
+    border: none;
+    padding: 7px 14px;
+    border-radius: 14px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);
+  }
+  .artikel-end-session-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
+  }
+  .artikel-progress-current {
+    color: #6B4E8C;
+  }
+  .artikel-progress-score {
+    color: #2C2C2C;
+  }
+  .artikel-progress-bar-container {
+    height: 13px;
+    background: #E0E0E0;
+    border-radius: 11px;
+    overflow: hidden;
+    margin-bottom: 27px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .artikel-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #00BCD4, #00ACC1);
+    transition: width 0.3s ease;
+    border-radius: 11px;
+  }
+  .artikel-question-area {
+    background: white;
+    padding: 27px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 23px;
+  }
+  .artikel-question-text {
+    font-size: 26px;
+    font-weight: 700;
+    color: #2C2C2C;
+    margin-bottom: 18px;
+    line-height: 1.4;
+  }
+  .artikel-question-label {
+    font-size: 14px;
+    color: #6B4E8C;
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+  .artikel-hint-section {
+    min-height: 54px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+    margin-bottom: 18px;
+  }
+  .artikel-translation {
+    font-size: 18px;
+    color: #00BCD4;
+    font-weight: 600;
+    padding: 7px 14px;
+    background: #E0F7FA;
+    border-radius: 11px;
+    animation: fadeIn 0.3s;
+  }
+  .artikel-fade-out {
+    animation: fadeOut 0.5s forwards;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  .artikel-hint-btn {
+    background: linear-gradient(135deg, #9C27B0, #7B1FA2);
+    color: white;
+    border: none;
+    padding: 9px 18px;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 3px 10px rgba(156, 39, 176, 0.3);
+    margin: 0 5px;
+  }
+  .artikel-hint-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(156, 39, 176, 0.4);
+  }
+  .artikel-button-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    max-width: 486px;
+    margin: 0 auto 23px;
+  }
+  .artikel-button-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    max-width: 567px;
+    margin: 0 auto 23px;
+  }
+  .artikel-btn {
+    background: white;
+    border: 3px solid #E0E0E0;
+    padding: 16px;
+    border-radius: 16px;
+    font-size: 20px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    position: relative;
+  }
+  .artikel-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    border-color: #9C27B0;
+  }
+  .artikel-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+  .artikel-btn.correct {
+    background: linear-gradient(135deg, #4CAF50, #45A049) !important;
+    color: white !important;
+    border-color: #4CAF50 !important;
+    animation: pulse 0.5s;
+  }
+  .artikel-btn.wrong {
+    background: linear-gradient(135deg, #F44336, #E53935) !important;
+    color: white !important;
+    border-color: #F44336 !important;
+    animation: shake 0.5s;
+  }
+  .artikel-btn-masculine {
+    background: #5BC0BE;
+    color: white;
+    border-color: #5BC0BE;
+  }
+  .artikel-btn-masculine:hover:not(:disabled) {
+    background: #4AAFAD;
+    border-color: #4AAFAD;
+  }
+  .artikel-btn-neuter {
+    background: #6EC96E;
+    color: white;
+    border-color: #6EC96E;
+  }
+  .artikel-btn-neuter:hover:not(:disabled) {
+    background: #5DB85D;
+    border-color: #5DB85D;
+  }
+  .artikel-btn-feminine {
+    background: #E85D96;
+    color: white;
+    border-color: #E85D96;
+  }
+  .artikel-btn-feminine:hover:not(:disabled) {
+    background: #D74C85;
+    border-color: #D74C85;
+  }
+  .artikel-btn-plural {
+    background: #FFB84D;
+    color: white;
+    border-color: #FFB84D;
+  }
+  .artikel-btn-plural:hover:not(:disabled) {
+    background: #FFA73C;
+    border-color: #FFA73C;
+  }
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+  }
+  @keyframes shake {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-10px);
+    }
+    75% {
+      transform: translateX(10px);
+    }
+  }
+  .artikel-shortcut {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #000000;
+  }
+
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
+    /* Hide keyboard shortcuts on mobile */
+    .artikel-shortcut {
+      display: none;
+    }
+
+    /* Reduce container padding */
+    .sg-unified-container {
+      padding: 20px;
+    }
+
+    /* Make question area more compact */
+    .artikel-question-area {
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    /* Reduce German sentence size significantly */
+    .artikel-question-text {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+
+    /* Reduce question label */
+    .artikel-question-label {
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    /* Compact hint section */
+    .artikel-hint-section {
+      min-height: 40px;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    /* Smaller translation text */
+    .artikel-translation {
+      font-size: 15px;
+      padding: 5px 10px;
+    }
+
+    /* Smaller hint button */
+    .artikel-hint-btn {
+      padding: 7px 14px;
+      font-size: 11px;
+    }
+
+    /* Change 4-column grid to 2 columns on mobile for better readability */
+    .artikel-button-grid-4 {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    /* Compact buttons - readable but not too large */
+    .artikel-btn {
+      font-size: 18px;
+      padding: 14px 12px;
+    }
+
+    /* Reduce progress bar margin */
+    .artikel-progress-bar-container {
+      margin-bottom: 18px;
+    }
+
+    /* Compact feedback */
+    .artikel-feedback {
+      padding: 10px;
+      font-size: 14px;
+      margin-top: 12px;
+    }
+  }
+  .artikel-feedback {
+    text-align: center;
+    padding: 14px;
+    border-radius: 11px;
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 18px;
+    animation: fadeIn 0.3s;
+  }
+  .artikel-feedback.correct {
+    background: #4CAF50;
+    color: white;
+  }
+  .artikel-feedback.wrong {
+    background: #F44336;
+    color: white;
+  }
+  .artikel-hidden {
+    display: none !important;
+  }
+  .artikel-results {
+    text-align: center;
+    padding: 36px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  }
+  .artikel-results h2 {
+    font-size: 26px;
+    color: #E91E63;
+    margin-bottom: 23px;
+    font-weight: 800;
+  }
+  .artikel-percentage {
+    font-size: 59px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #E91E63, #9C27B0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 18px;
+  }
+  .artikel-result-text {
+    font-size: 18px;
+    color: #6B4E8C;
+    margin-bottom: 27px;
+    font-weight: 600;
+  }
+  .artikel-restart-btn {
+    background: linear-gradient(135deg, #00BCD4, #00ACC1);
+    color: white;
+    border: none;
+    padding: 16px 36px;
+    border-radius: 23px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 15px rgba(0, 188, 212, 0.4);
+  }
+  .artikel-restart-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 188, 212, 0.5);
+  }
+  .artikel-change-type-btn {
+    background: linear-gradient(135deg, #9C27B0, #7B1FA2);
+    color: white;
+    border: none;
+    padding: 16px 36px;
+    border-radius: 23px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 15px rgba(156, 39, 176, 0.4);
+    margin-left: 14px;
+  }
+  .artikel-change-type-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(156, 39, 176, 0.5);
+  }
+  .artikel-mistakes-section {
+    margin-top: 36px;
+    text-align: left;
+  }
+  .artikel-mistakes-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #E91E63;
+    margin-bottom: 18px;
+    text-align: center;
+  }
+  .artikel-mistake-item {
+    background: #FFEBEE;
+    border-left: 4px solid #F44336;
+    padding: 14px;
+    border-radius: 11px;
+    margin-bottom: 14px;
+  }
+  .artikel-mistake-question {
+    font-size: 14px;
+    font-weight: 700;
+    color: #2C2C2C;
+    margin-bottom: 7px;
+  }
+  .artikel-mistake-details {
+    font-size: 13px;
+    color: #5C5C5C;
+    margin-bottom: 5px;
+  }
+  .artikel-mistake-your-answer {
+    color: #F44336;
+    font-weight: 600;
+  }
+  .artikel-mistake-correct-answer {
+    color: #4CAF50;
+    font-weight: 600;
+  }
+  .artikel-mistake-explanation {
+    font-size: 13px;
+    color: #6B4E8C;
+    font-weight: 600;
+    margin-top: 7px;
+  }
+  .artikel-mistake-translation {
+    font-size: 12px;
+    color: #00BCD4;
+    font-style: italic;
+    margin-top: 5px;
+  }
+</style>
+
+<div class="sg-unified-container">
+  <button class="sg-hide-text-btn" onclick="sgHideText()" id="sgHideTextBtn">Hide Instructions</button>
+
+  <div id="sgInfoSection">
+    <h1 class="sg-dark-title">DATIVE TRAINER</h1>
+    <p class="sg-dark-subtitle">Master German dative prepositions with focused exercises</p>
+
+    <p>
+      Practice <strong>dative prepositions</strong> (ab, aus, außer, bei, mit, nach, seit, von, zu) and <strong>dative articles</strong> in various ways. Each session shows <strong>20 random exercises from over 200 possibilities</strong> to keep practice fresh.
+    </p>
+  </div>
+
+  <div id="sgDivider" class="sg-divider"></div>
+
+  <div class="exercise-selector-container">
+    <div class="exercise-selector-label">Choose Exercise Type:</div>
+    <select id="exerciseTypeSelector" class="exercise-selector" onchange="changeExerciseType()">
+      <option value="">-- Select Exercise Type --</option>
+      <option value="3">1: 50/50 Preposition Drill</option>
+      <option value="1">2: DAT or AKK Prepositions in Context</option>
+      <option value="2">3: Basic Dative Article Training</option>
+      <option value="4">4: Advanced Dative Article Training</option>
+      <option value="5">5: Contraction Drill</option>
+      <option value="a1b1">6: Dative Mix (from A1-B1 Courses)</option>
+    </select>
+  </div>
+
+  <div class="artikel-trainer">
+    <div id="artikelExerciseArea" class="artikel-hidden">
+      <div class="artikel-progress-info">
+        <span class="artikel-progress-current"><span id="artikelCurrentEx">1</span>/20</span>
+        <span class="artikel-progress-score">Score: <span style="color: #FF9800; font-weight: 700;" id="artikelScore">0</span></span>
+        <button class="artikel-end-session-btn" onclick="artikelEndSession()" title="End session (ESC)">End Session</button>
+      </div>
+      <div class="artikel-progress-bar-container">
+        <div id="artikelProgressBar" class="artikel-progress-bar" style="width: 0%;"></div>
+      </div>
+
+      <div class="artikel-question-area">
+        <div id="artikelQuestionLabel" class="artikel-question-label"></div>
+        <div id="artikelQuestionText" class="artikel-question-text"></div>
+
+        <div class="artikel-hint-section">
+          <span id="artikelTranslationDisplay" class="artikel-translation artikel-hidden"></span>
+        </div>
+
+        <div id="artikelHintButtons">
+          <button id="artikelHintBtnTranslation" class="artikel-hint-btn artikel-hidden" onclick="artikelToggleTranslation()">
+            Translation (T)
+          </button>
+        </div>
+      </div>
+
+      <div id="artikelButtonContainer"></div>
+
+      <div id="artikelFeedback" class="artikel-feedback artikel-hidden"></div>
+    </div>
+
+    <div id="artikelResults" class="artikel-results artikel-hidden">
+      <h2>Results</h2>
+      <div id="artikelPercentage" class="artikel-percentage">100%</div>
+      <div class="artikel-result-text">
+        You got <span id="artikelResultScore">20</span> out of 20 correct!
+      </div>
+      <div>
+        <button class="artikel-restart-btn" onclick="artikelStartGame()">Practice Again</button>
+        <button class="artikel-change-type-btn" onclick="artikelChangeType()">Change Exercise Type</button>
+      </div>
+      <div id="artikelMistakesContainer" class="artikel-mistakes-section artikel-hidden">
+        <div class="artikel-mistakes-title">Review Your Mistakes</div>
+        <div id="artikelMistakesList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function sgHideText() {
+  const infoSection = document.getElementById('sgInfoSection');
+  const divider = document.getElementById('sgDivider');
+  const btnText = document.getElementById('sgHideTextBtn');
+  if (infoSection.classList.contains('sg-dark-hidden')) {
+    infoSection.classList.remove('sg-dark-hidden');
+    divider.classList.remove('sg-dark-hidden');
+    btnText.textContent = 'Hide Instructions';
+  } else {
+    infoSection.classList.add('sg-dark-hidden');
+    divider.classList.add('sg-dark-hidden');
+    btnText.textContent = 'Show Instructions';
+  }
+}
+
+function sgForceLightMode() {
+  const widget = document.querySelector('.sg-unified-container');
+  if (!widget) return;
+  const sidebar = document.querySelector('.course-sidebar, .lecture-sidebar, .lecture-left');
+  if (sidebar) {
+    const allElements = sidebar.querySelectorAll('*');
+    allElements.forEach(el => {
+      const computed = window.getComputedStyle(el);
+      const bg = computed.backgroundColor;
+      if (bg === 'rgb(0, 0, 0)' || bg === 'rgba(0, 0, 0, 1)' || bg.includes('17, 24, 39') || bg.includes('31, 41, 55')) {
+        el.style.setProperty('background', '#FAFAFA', 'important');
+        el.style.setProperty('background-color', '#FAFAFA', 'important');
+      }
+    });
+  }
+  const sectionItems = document.querySelectorAll('.section-item, li.section-item, .section-item.complete, .section-item.incomplete, .section-list li');
+  sectionItems.forEach(item => {
+    item.style.setProperty('background', '#FAFAFA', 'important');
+    item.style.setProperty('background-color', '#FAFAFA', 'important');
+    item.style.setProperty('border-color', '#E0E0E0', 'important');
+  });
+  const currentLecture = document.querySelectorAll('.section-item.current-lecture, .section-item.next-lecture, [class*="current-lecture"], [class*="next-lecture"]');
+  currentLecture.forEach(item => {
+    item.style.setProperty('background', '#F5F5F5', 'important');
+    item.style.setProperty('background-color', '#F5F5F5', 'important');
+    item.style.setProperty('border-color', '#E91E63', 'important');
+    const textElements = item.querySelectorAll('*');
+    textElements.forEach(el => {
+      el.style.setProperty('color', '#E91E63', 'important');
+    });
+  });
+  const sidebarText = document.querySelectorAll('.section-item *, .section-list li *, .course-sidebar *');
+  sidebarText.forEach(el => {
+    const computed = window.getComputedStyle(el);
+    const color = computed.color;
+    if (color === 'rgb(255, 255, 255)' || color === 'rgba(255, 255, 255, 1)' || color.includes('229, 231, 235') || color.includes('209, 213, 219')) {
+      if (!el.closest('.current-lecture') && !el.closest('.next-lecture')) {
+        el.style.setProperty('color', '#5C5C5C', 'important');
+      }
+    }
+  });
+  const sectionLists = document.querySelectorAll('.section-list, ul.section-list');
+  sectionLists.forEach(list => {
+    list.style.setProperty('background', '#FAFAFA', 'important');
+    list.style.setProperty('background-color', '#FAFAFA', 'important');
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', sgForceLightMode);
+} else {
+  sgForceLightMode();
+}
+setTimeout(sgForceLightMode, 100);
+setTimeout(sgForceLightMode, 300);
+setTimeout(sgForceLightMode, 500);
+setTimeout(sgForceLightMode, 1000);
+setTimeout(sgForceLightMode, 2000);
+setTimeout(sgForceLightMode, 3000);
+const observer = new MutationObserver(() => {
+  setTimeout(sgForceLightMode, 50);
+});
+observer.observe(document.body, { childList: true, subtree: true });
+
+(function() {
+  'use strict';
+  
+  const artikelAllExercises = [
+    {type:1,sentence:"Ich fahre ___ meinem Bruder.",correct:"mit",options:["mit","bei","von","für"],translation:"I'm driving with my brother."},{type:1,sentence:"Sie kommt ___ der Schule.",correct:"aus",options:["aus","bei","nach","für"],translation:"She comes from school."},{type:1,sentence:"Er wohnt ___ seinen Eltern.",correct:"bei",options:["bei","mit","von","durch"],translation:"He lives with his parents."},{type:1,sentence:"Das Geschenk ist ___ dich.",correct:"für",options:["mit","bei","von","für"],translation:"The gift is for you."},{type:1,sentence:"Wir arbeiten ___ einem Jahr hier.",correct:"seit",options:["seit","mit","nach","für"],translation:"We've been working here for a year."},{type:1,sentence:"Ich gehe ___ Hause.",correct:"nach",options:["nach","zu","bei","durch"],translation:"I'm going home."},{type:1,sentence:"Sie reist ___ ihren Mann.",correct:"ohne",options:["mit","bei","von","ohne"],translation:"She travels without her husband."},{type:1,sentence:"Das Buch ist ___ meiner Mutter.",correct:"von",options:["von","mit","bei","für"],translation:"The book is from my mother."},{type:1,sentence:"Wir gehen ___ dem Arzt.",correct:"zu",options:["zu","nach","bei","durch"],translation:"We're going to the doctor."},{type:1,sentence:"Er läuft ___ den Park.",correct:"durch",options:["mit","bei","von","durch"],translation:"He runs through the park."},{type:1,sentence:"Ich lerne ___ meiner Freundin.",correct:"mit",options:["mit","bei","von","ohne"],translation:"I'm studying with my girlfriend."},{type:1,sentence:"Sie kauft Blumen ___ ihre Oma.",correct:"für",options:["mit","bei","von","für"],translation:"She buys flowers for her grandma."},{type:1,sentence:"Wir fahren ___ Berlin.",correct:"nach",options:["nach","zu","bei","durch"],translation:"We're driving to Berlin."},{type:1,sentence:"Er kommt ___ dem Büro.",correct:"aus",options:["aus","bei","von","für"],translation:"He comes from the office."},{type:1,sentence:"Ich trinke Kaffee ___ Zucker.",correct:"ohne",options:["mit","bei","von","ohne"],translation:"I drink coffee without sugar."},{type:1,sentence:"Das Auto ist ___ meinem Vater.",correct:"von",options:["von","mit","bei","für"],translation:"The car is from my father."},{type:1,sentence:"Sie geht ___ die Stadt.",correct:"durch",options:["mit","bei","nach","durch"],translation:"She walks through the city."},{type:1,sentence:"Ich bin ___ dir.",correct:"bei",options:["bei","mit","von","zu"],translation:"I'm at your place."},{type:1,sentence:"Er spricht ___ mir.",correct:"mit",options:["mit","bei","von","für"],translation:"He speaks with me."},{type:1,sentence:"Wir gehen ___ das Fenster.",correct:"durch",options:["mit","bei","von","durch"],translation:"We go through the window."},{type:1,sentence:"___ Montag bin ich frei.",correct:"ab",options:["ab","nach","seit","von"],translation:"From Monday I'm free."},{type:1,sentence:"___ nächster Woche arbeite ich.",correct:"ab",options:["ab","mit","nach","seit"],translation:"Starting next week I work."},{type:1,sentence:"Er geht ___ die Straße.",correct:"entlang",options:["entlang","nach","bei","mit"],translation:"He walks along the street."},{type:1,sentence:"___ meiner Schwester bin ich allein.",correct:"außer",options:["außer","mit","bei","für"],translation:"Except for my sister I'm alone."},{type:1,sentence:"Wir lernen ___ gestern.",correct:"seit",options:["seit","ab","nach","für"],translation:"We've been learning since yesterday."},{type:1,sentence:"Ich fahre ___ die Brücke.",correct:"über",options:["über","durch","bei","mit"],translation:"I drive over the bridge."},{type:1,sentence:"Sie kommt ___ dem Bahnhof.",correct:"von",options:["von","mit","bei","für"],translation:"She comes from the station."},{type:1,sentence:"Er arbeitet ___ Pause.",correct:"ohne",options:["ohne","mit","bei","durch"],translation:"He works without a break."},{type:1,sentence:"Das ist ___ meinen Bruder.",correct:"für",options:["für","mit","bei","von"],translation:"That's for my brother."},{type:1,sentence:"Wir treffen uns ___ der Bibliothek.",correct:"bei",options:["bei","mit","von","für"],translation:"We meet at the library."},{type:1,sentence:"Sie fährt ___ dem Tunnel.",correct:"durch",options:["durch","mit","bei","nach"],translation:"She drives through the tunnel."},{type:1,sentence:"Ich komme ___ einer Stunde.",correct:"nach",options:["nach","seit","ab","für"],translation:"I'm coming in an hour."},{type:1,sentence:"Er läuft ___ den Berg.",correct:"gegen",options:["gegen","mit","bei","durch"],translation:"He runs against the mountain."},{type:1,sentence:"Wir warten ___ Mitternacht.",correct:"bis",options:["bis","nach","seit","ab"],translation:"We wait until midnight."},{type:1,sentence:"Sie geht ___ ihren Kindern.",correct:"mit",options:["mit","bei","von","für"],translation:"She goes with her children."},{type:1,sentence:"Das kommt ___ dir.",correct:"von",options:["von","mit","bei","für"],translation:"That comes from you."},{type:1,sentence:"Ich sitze ___ dem Fenster.",correct:"bei",options:["bei","mit","von","durch"],translation:"I sit by the window."},{type:1,sentence:"Er fährt ___ München.",correct:"nach",options:["nach","zu","bei","durch"],translation:"He drives to Munich."},{type:1,sentence:"Sie ist ___ dem Kind.",correct:"bei",options:["bei","mit","von","für"],translation:"She's with the child."},{type:1,sentence:"Wir gehen ___ den Wald.",correct:"durch",options:["durch","mit","bei","nach"],translation:"We walk through the forest."},{type:1,sentence:"Das ist ___ ihn.",correct:"für",options:["für","mit","bei","von"],translation:"That's for him."},{type:1,sentence:"Ich reise ___ Gepäck.",correct:"ohne",options:["ohne","mit","bei","durch"],translation:"I travel without luggage."},{type:2,sentence:"Ich spreche mit ___ Lehrer.",gender:"m",correct:"dem (m)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"I'm speaking with the teacher."},{type:2,sentence:"Sie wohnt bei ___ Freundin.",gender:"f",correct:"der (f)",options:["der (f)","dem (m)","dem (n)","den (pl)"],translation:"She lives with the friend."},{type:2,sentence:"Er kommt aus ___ Haus.",gender:"n",correct:"dem (n)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"He comes from the house."},{type:2,sentence:"Wir fahren mit ___ Auto.",gender:"n",correct:"dem (n)",options:["den (pl)","dem (n)","der (f)","dem (m)"],translation:"We're driving with the car."},{type:2,sentence:"Sie lernt bei ___ Lehrerin.",gender:"f",correct:"der (f)",options:["dem (m)","der (f)","dem (n)","den (pl)"],translation:"She's learning with the teacher."},{type:2,sentence:"Ich gehe zu ___ Arzt.",gender:"m",correct:"dem (m)",options:["der (f)","den (pl)","dem (m)","dem (n)"],translation:"I'm going to the doctor."},{type:2,sentence:"Er spricht mit ___ Kindern.",gender:"pl",correct:"den (pl)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"He's speaking with the children."},{type:2,sentence:"Nach ___ Essen gehe ich.",gender:"n",correct:"dem (n)",options:["dem (n)","der (f)","den (pl)","dem (m)"],translation:"After the meal I'm going."},{type:2,sentence:"Er fährt mit ___ Bus.",gender:"m",correct:"dem (m)",options:["den (pl)","dem (m)","der (f)","dem (n)"],translation:"He's taking the bus."},{type:2,sentence:"Ich komme von ___ Schule.",gender:"f",correct:"der (f)",options:["dem (m)","dem (n)","den (pl)","der (f)"],translation:"I'm coming from the school."},{type:2,sentence:"Sie arbeitet bei ___ Firma.",gender:"f",correct:"der (f)",options:["der (f)","dem (m)","dem (n)","den (pl)"],translation:"She works at the company."},{type:2,sentence:"Wir sind bei ___ Eltern.",gender:"pl",correct:"den (pl)",options:["dem (m)","den (pl)","der (f)","dem (n)"],translation:"We're at the parents."},{type:2,sentence:"Das ist von ___ Mann.",gender:"m",correct:"dem (m)",options:["der (f)","dem (n)","den (pl)","dem (m)"],translation:"That's from the man."},{type:2,sentence:"Ich gehe zu ___ Schwester.",gender:"f",correct:"der (f)",options:["dem (m)","der (f)","dem (n)","den (pl)"],translation:"I'm going to the sister."},{type:2,sentence:"Nach ___ Tag gehe ich.",gender:"m",correct:"dem (m)",options:["dem (m)","der (f)","dem (n)","den (pl)"],translation:"After the day I'm going."},{type:2,sentence:"Mit ___ Freunden fahre ich.",gender:"pl",correct:"den (pl)",options:["der (f)","dem (m)","den (pl)","dem (n)"],translation:"I'm driving with the friends."},{type:2,sentence:"Aus ___ Land komme ich.",gender:"n",correct:"dem (n)",options:["dem (m)","den (pl)","der (f)","dem (n)"],translation:"I come from the country."},{type:2,sentence:"Sie kommt von ___ Stadt.",gender:"f",correct:"der (f)",options:["den (pl)","der (f)","dem (m)","dem (n)"],translation:"She comes from the city."},{type:2,sentence:"Ich fahre mit ___ Zug.",gender:"m",correct:"dem (m)",options:["dem (n)","den (pl)","dem (m)","der (f)"],translation:"I'm taking the train."},{type:2,sentence:"Wir sind bei ___ Freunden.",gender:"pl",correct:"den (pl)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"We're with the friends."},{type:2,sentence:"Ich fahre mit ___ Fahrrad.",gender:"n",correct:"dem (n)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"I'm riding with the bicycle."},{type:2,sentence:"Sie spricht mit ___ Chef.",gender:"m",correct:"dem (m)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"She speaks with the boss."},{type:2,sentence:"Nach ___ Kurs gehe ich.",gender:"m",correct:"dem (m)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"After the course I'm going."},{type:2,sentence:"Von ___ Lehrern lerne ich.",gender:"pl",correct:"den (pl)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"I learn from the teachers."},{type:2,sentence:"Bei ___ Wetter bleibe ich.",gender:"n",correct:"dem (n)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"In the weather I stay."},{type:2,sentence:"Zu ___ Zeit schlafe ich.",gender:"f",correct:"der (f)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"At the time I sleep."},{type:2,sentence:"Mit ___ Menschen arbeite ich.",gender:"pl",correct:"den (pl)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"I work with the people."},{type:2,sentence:"Von ___ Onkel kommt das.",gender:"m",correct:"dem (m)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"That comes from the uncle."},{type:2,sentence:"Zu ___ Tante fahre ich.",gender:"f",correct:"der (f)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"I'm driving to the aunt."},{type:2,sentence:"Nach ___ Jahr bin ich fertig.",gender:"n",correct:"dem (n)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"After the year I'm done."},{type:2,sentence:"Aus ___ Ländern kommen sie.",gender:"pl",correct:"den (pl)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"They come from the countries."},{type:2,sentence:"Bei ___ Freund wohne ich.",gender:"m",correct:"dem (m)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"I live at the friend's."},{type:2,sentence:"Mit ___ Bahn fahre ich.",gender:"f",correct:"der (f)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"I travel by train."},{type:2,sentence:"Von ___ Fenster sehe ich.",gender:"n",correct:"dem (n)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"From the window I see."},{type:2,sentence:"Seit ___ Monat arbeite ich.",gender:"m",correct:"dem (m)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"I've been working since the month."},{type:2,sentence:"Zu ___ Ärzten gehe ich.",gender:"pl",correct:"den (pl)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"I go to the doctors."},{type:2,sentence:"Bei ___ Polizei melde ich.",gender:"f",correct:"der (f)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"I report at the police."},{type:2,sentence:"Nach ___ Woche fahre ich.",gender:"f",correct:"der (f)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"After the week I'm driving."},{type:2,sentence:"Mit ___ Hund spiele ich.",gender:"m",correct:"dem (m)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"I play with the dog."},{type:2,sentence:"Von ___ Tür komme ich.",gender:"f",correct:"der (f)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"I come from the door."},{type:2,sentence:"Aus ___ Gebäude gehe ich.",gender:"n",correct:"dem (n)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"I leave from the building."},{type:2,sentence:"Seit ___ Stunden warte ich.",gender:"pl",correct:"den (pl)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"I've been waiting for hours."},{type:3,preposition:"mit",correct:"DATIV",translation:"with"},{type:3,preposition:"für",correct:"AKKUSATIV",translation:"for"},{type:3,preposition:"aus",correct:"DATIV",translation:"from/out of"},{type:3,preposition:"ohne",correct:"AKKUSATIV",translation:"without"},{type:3,preposition:"bei",correct:"DATIV",translation:"at/with"},{type:3,preposition:"durch",correct:"AKKUSATIV",translation:"through"},{type:3,preposition:"nach",correct:"DATIV",translation:"to/after"},{type:3,preposition:"seit",correct:"DATIV",translation:"since/for"},{type:3,preposition:"von",correct:"DATIV",translation:"from/of"},{type:3,preposition:"zu",correct:"DATIV",translation:"to"},{type:3,preposition:"für",correct:"AKKUSATIV",translation:"for"},{type:3,preposition:"mit",correct:"DATIV",translation:"with"},{type:3,preposition:"durch",correct:"AKKUSATIV",translation:"through"},{type:3,preposition:"aus",correct:"DATIV",translation:"from"},{type:3,preposition:"ohne",correct:"AKKUSATIV",translation:"without"},{type:3,preposition:"bei",correct:"DATIV",translation:"at"},{type:3,preposition:"von",correct:"DATIV",translation:"from"},{type:3,preposition:"nach",correct:"DATIV",translation:"to"},{type:3,preposition:"seit",correct:"DATIV",translation:"since"},{type:3,preposition:"zu",correct:"DATIV",translation:"to"},{type:3,preposition:"um",correct:"AKKUSATIV",translation:"around/at"},{type:3,preposition:"gegen",correct:"AKKUSATIV",translation:"against"},{type:3,preposition:"bis",correct:"AKKUSATIV",translation:"until/to"},{type:3,preposition:"entlang",correct:"AKKUSATIV",translation:"along"},{type:3,preposition:"ab",correct:"DATIV",translation:"from/starting from"},{type:3,preposition:"außer",correct:"DATIV",translation:"except"},{type:4,sentence:"Ich gehe mit mein___ Freund.",gender:"m",correct:"em (m)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I'm going with my friend.",noun:"Freund"},{type:4,sentence:"Sie wohnt bei ihr___ Mutter.",gender:"f",correct:"er (f)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"She lives with her mother.",noun:"Mutter"},{type:4,sentence:"Er kommt aus d___ Haus.",gender:"n",correct:"em (n)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"He comes from the house.",noun:"Haus"},{type:4,sentence:"Nach d___ Unterricht gehe ich.",gender:"m",correct:"em (m)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"After the lesson I'm going.",noun:"Unterricht"},{type:4,sentence:"Von mein___ Schwester habe ich das.",gender:"f",correct:"er (f)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I have this from my sister.",noun:"Schwester"},{type:4,sentence:"Seit ein___ Jahr lerne ich Deutsch.",gender:"n",correct:"em (n)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I've been learning German for a year.",noun:"Jahr"},{type:4,sentence:"Zu mein___ Vater fahre ich.",gender:"m",correct:"em (m)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I'm driving to my father.",noun:"Vater"},{type:4,sentence:"Bei dies___ Firma arbeite ich.",gender:"f",correct:"er (f)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I work at this company.",noun:"Firma"},{type:4,sentence:"Mit d___ Bus fahre ich.",gender:"m",correct:"em (m)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I'm taking the bus.",noun:"Bus"},{type:4,sentence:"Aus d___ Stadt komme ich.",gender:"f",correct:"er (f)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I come from the city.",noun:"Stadt"},{type:4,sentence:"Nach ein___ Monat bin ich fertig.",gender:"m",correct:"em (m)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"After a month I'm done.",noun:"Monat"},{type:4,sentence:"Von mein___ Bruder ist das.",gender:"m",correct:"em (m)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"That's from my brother.",noun:"Bruder"},{type:4,sentence:"Zu d___ Schule gehe ich.",gender:"f",correct:"er (f)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I'm going to the school.",noun:"Schule"},{type:4,sentence:"Bei mein___ Freund bin ich.",gender:"m",correct:"em (m)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I'm at my friend's place.",noun:"Freund"},{type:4,sentence:"Seit dies___ Tag lerne ich.",gender:"m",correct:"em (m)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"Since this day I'm learning.",noun:"Tag"},{type:4,sentence:"Mit mein___ Freunden fahre ich.",gender:"pl",correct:"en (pl)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I'm driving with my friends.",noun:"Freunde"},{type:4,sentence:"Aus ein___ Buch lese ich.",gender:"n",correct:"em (n)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I'm reading from a book.",noun:"Buch"},{type:4,sentence:"Er kommt aus d___ Haus.",gender:"n",correct:"em (n)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"He comes from the house.",noun:"Haus"},{type:4,sentence:"Sie spricht mit ihr___ Mutter.",gender:"f",correct:"er (f)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"She speaks with her mother.",noun:"Mutter"},{type:4,sentence:"Ich fahre mit d___ Auto.",gender:"n",correct:"em (n)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I'm driving with the car.",noun:"Auto"},{type:4,sentence:"Nach d___ Essen ruhe ich.",gender:"n",correct:"em (n)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"After the meal I rest.",noun:"Essen"},{type:4,sentence:"Von mein___ Vater kommt das.",gender:"m",correct:"em (m)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"That comes from my father.",noun:"Vater"},{type:4,sentence:"Zu d___ Arzt gehe ich.",gender:"m",correct:"em (m)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I'm going to the doctor.",noun:"Arzt"},{type:4,sentence:"Bei ein___ Freundin wohne ich.",gender:"f",correct:"er (f)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I live with a friend.",noun:"Freundin"},{type:4,sentence:"Seit ein___ Monat bin ich hier.",gender:"m",correct:"em (m)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I've been here for a month.",noun:"Monat"},{type:4,sentence:"Mit mein___ Kind spiele ich.",gender:"n",correct:"em (n)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I play with my child.",noun:"Kind"},{type:4,sentence:"Aus d___ Schule komme ich.",gender:"f",correct:"er (f)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I come from the school.",noun:"Schule"},{type:4,sentence:"Nach d___ Film gehen wir.",gender:"m",correct:"em (m)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"After the movie we're going.",noun:"Film"},{type:4,sentence:"Von dies___ Frau habe ich es.",gender:"f",correct:"er (f)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I have it from this woman.",noun:"Frau"},{type:4,sentence:"Zu mein___ Oma fahre ich.",gender:"f",correct:"er (f)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I'm driving to my grandma.",noun:"Oma"},{type:4,sentence:"Bei d___ Lehrer lerne ich.",gender:"m",correct:"em (m)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I learn with the teacher.",noun:"Lehrer"},{type:4,sentence:"Seit d___ Woche arbeite ich.",gender:"f",correct:"er (f)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I've been working since the week.",noun:"Woche"},{type:4,sentence:"Mit mein___ Freunden spreche ich.",gender:"pl",correct:"en (pl)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I speak with my friends.",noun:"Freunde"},{type:4,sentence:"Aus mein___ Land komme ich.",gender:"n",correct:"em (n)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I come from my country.",noun:"Land"},{type:4,sentence:"Ich helfe mein___ Kindern.",gender:"pl",correct:"en (pl)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I help my children.",noun:"Kinder"},{type:4,sentence:"Bei d___ Eltern wohne ich.",gender:"pl",correct:"en (pl)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I live with the parents.",noun:"Eltern"},{type:4,sentence:"Von mein___ Geschwistern kommt das.",gender:"pl",correct:"en (pl)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"That comes from my siblings.",noun:"Geschwister"},{type:4,sentence:"Zu d___ Lehrern gehe ich.",gender:"pl",correct:"en (pl)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I'm going to the teachers.",noun:"Lehrer"},{type:4,sentence:"Mit ein___ Kind spiele ich.",gender:"n",correct:"em (n)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I play with a child.",noun:"Kind"},{type:4,sentence:"Bei welch___ Freund bist du?",gender:"m",correct:"em (m)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"At which friend's are you?",noun:"Freund"},{type:4,sentence:"Von kein___ Mensch höre ich.",gender:"m",correct:"em (m)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I hear from no person.",noun:"Mensch"},{type:4,sentence:"Seit dies___ Monat warte ich.",gender:"m",correct:"em (m)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"Since this month I wait.",noun:"Monat"},{type:4,sentence:"Zu mein___ Tante fahre ich.",gender:"f",correct:"er (f)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"I'm driving to my aunt.",noun:"Tante"},{type:5,sentence:"Ich gehe ___ Arzt.",gender:"m",correct:"zum",options:["zum","zur","vom","beim"],translation:"I'm going to the doctor."},{type:5,sentence:"Sie geht ___ Schule.",gender:"f",correct:"zur",options:["zum","zur","vom","beim"],translation:"She's going to the school."},{type:5,sentence:"Er kommt ___ Bahnhof.",gender:"m",correct:"vom",options:["zum","zur","vom","beim"],translation:"He's coming from the station."},{type:5,sentence:"Ich bin ___ Essen.",gender:"n",correct:"beim",options:["zum","zur","vom","beim"],translation:"I'm eating. (literally: at the eating)"},{type:5,sentence:"Wir fahren ___ Supermarkt.",gender:"m",correct:"zum",options:["zum","zur","vom","beim"],translation:"We're driving to the supermarket."},{type:5,sentence:"Sie kommt ___ Arbeit.",gender:"f",correct:"von der",options:["von der","vom","zur","beim"],translation:"She's coming from work."},{type:5,sentence:"Er ist ___ Arzt.",gender:"m",correct:"beim",options:["zum","zur","vom","beim"],translation:"He's at the doctor."},{type:5,sentence:"Ich gehe ___ Bahnhof.",gender:"m",correct:"zum",options:["zum","zur","vom","beim"],translation:"I'm going to the station."},{type:5,sentence:"Sie fährt ___ Büro.",gender:"n",correct:"zum",options:["zum","zur","vom","beim"],translation:"She's driving to the office."},{type:5,sentence:"Er wohnt ___ Universität.",gender:"f",correct:"bei der",options:["bei der","beim","zur","vom"],translation:"He lives near the university."},{type:5,sentence:"Wir kommen ___ Kino.",gender:"n",correct:"vom",options:["zum","zur","vom","beim"],translation:"We're coming from the cinema."},{type:5,sentence:"Ich fahre ___ Apotheke.",gender:"f",correct:"zur",options:["zum","zur","vom","beim"],translation:"I'm driving to the pharmacy."},{type:5,sentence:"Sie geht ___ Park.",gender:"m",correct:"zum",options:["zum","zur","vom","beim"],translation:"She's going to the park."},{type:5,sentence:"Er ist ___ Lernen.",gender:"n",correct:"beim",options:["zum","zur","vom","beim"],translation:"He's studying. (literally: at the learning)"},{type:5,sentence:"Ich komme ___ Sport.",gender:"m",correct:"vom",options:["zum","zur","vom","beim"],translation:"I'm coming from sports."},{type:5,sentence:"Wir gehen ___ Bank.",gender:"f",correct:"zur",options:["zum","zur","vom","beim"],translation:"We're going to the bank."},{type:5,sentence:"Sie ist ___ Friseur.",gender:"m",correct:"beim",options:["zum","zur","vom","beim"],translation:"She's at the hairdresser."},{type:5,sentence:"Ich fahre ___ Flughafen.",gender:"m",correct:"zum",options:["zum","zur","vom","beim"],translation:"I'm driving to the airport."},{type:5,sentence:"Er kommt ___ Museum.",gender:"n",correct:"vom",options:["zum","zur","vom","beim"],translation:"He's coming from the museum."},{type:5,sentence:"Wir gehen ___ Post.",gender:"f",correct:"zur",options:["zum","zur","vom","beim"],translation:"We're going to the post office."},{type:5,sentence:"Ich komme ___ Bahnhof.",gender:"m",correct:"vom",options:["zum","zur","vom","beim"],translation:"I come from the station."},{type:5,sentence:"Wir fahren ___ Markt.",gender:"m",correct:"zum",options:["zum","zur","vom","beim"],translation:"We drive to the market."},{type:5,sentence:"Sie ist ___ Kochen.",gender:"n",correct:"beim",options:["zum","zur","vom","beim"],translation:"She's cooking."},{type:5,sentence:"Er geht ___ Bibliothek.",gender:"f",correct:"zur",options:["zum","zur","vom","beim"],translation:"He goes to the library."},{type:5,sentence:"Ich bin ___ Lesen.",gender:"n",correct:"beim",options:["zum","zur","vom","beim"],translation:"I'm reading."},{type:5,sentence:"Sie kommt ___ Uni.",gender:"f",correct:"von der",options:["von der","vom","zur","beim"],translation:"She comes from the university."},{type:5,sentence:"Wir gehen ___ Theater.",gender:"n",correct:"zum",options:["zum","zur","vom","beim"],translation:"We go to the theater."},{type:5,sentence:"Er ist ___ Arbeiten.",gender:"n",correct:"beim",options:["zum","zur","vom","beim"],translation:"He's working."},{type:5,sentence:"Ich fahre ___ Tankstelle.",gender:"f",correct:"zur",options:["zum","zur","vom","beim"],translation:"I drive to the gas station."},{type:5,sentence:"Sie kommt ___ Büro.",gender:"n",correct:"vom",options:["zum","zur","vom","beim"],translation:"She comes from the office."},{type:5,sentence:"Wir gehen ___ Rathaus.",gender:"n",correct:"zum",options:["zum","zur","vom","beim"],translation:"We go to the city hall."},{type:5,sentence:"Er ist ___ Schlafen.",gender:"n",correct:"beim",options:["zum","zur","vom","beim"],translation:"He's sleeping."},{type:5,sentence:"Ich gehe ___ Kirche.",gender:"f",correct:"zur",options:["zum","zur","vom","beim"],translation:"I go to church."},{type:5,sentence:"Sie kommt ___ Arzt.",gender:"m",correct:"vom",options:["zum","zur","vom","beim"],translation:"She comes from the doctor."},{type:5,sentence:"Wir fahren ___ Flughafen.",gender:"m",correct:"zum",options:["zum","zur","vom","beim"],translation:"We drive to the airport."},{type:5,sentence:"Er ist ___ Denken.",gender:"n",correct:"beim",options:["zum","zur","vom","beim"],translation:"He's thinking."},{type:5,sentence:"Ich gehe ___ Schule.",gender:"f",correct:"zur",options:["zum","zur","vom","beim"],translation:"I go to school."},{type:5,sentence:"Sie kommt ___ Park.",gender:"m",correct:"vom",options:["zum","zur","vom","beim"],translation:"She comes from the park."},{type:5,sentence:"Wir gehen ___ Stadion.",gender:"n",correct:"zum",options:["zum","zur","vom","beim"],translation:"We go to the stadium."},{type:5,sentence:"Er ist ___ Sprechen.",gender:"n",correct:"beim",options:["zum","zur","vom","beim"],translation:"He's speaking."},{type:5,sentence:"Ich fahre ___ Uni.",gender:"f",correct:"zur",options:["zum","zur","vom","beim"],translation:"I drive to the university."},{type:5,sentence:"Sie kommt ___ Supermarkt.",gender:"m",correct:"vom",options:["zum","zur","vom","beim"],translation:"She comes from the supermarket."},{type:5,sentence:"Wir gehen ___ Restaurant.",gender:"n",correct:"zum",options:["zum","zur","vom","beim"],translation:"We go to the restaurant."}
+  ];
+
+  // A1-B1 Course Mix - Real sentences from course material
+  const artikelA1B1Exercises = [
+    {type:1,sentence:"Simone hat ___ ihrem Assistenten ein Detektivbüro gegründet.",correct:"mit",options:["mit","bei","von","zu"],translation:"Simone and her assistant founded a detective agency."},
+    {type:4,sentence:"Simone hat mit ihr___ Assistenten ein Detektivbüro gegründet.",gender:"m",correct:"em (m)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"Simone and her assistant founded a detective agency."},
+    {type:5,sentence:"Der ideale Ort ___ Entspannen.",gender:"n",correct:"zum",options:["zum","zur","vom","beim"],translation:"The ideal place to relax."},
+    {type:1,sentence:"Simone und Stefan sehen das Ferienhäuschen ___ Kanzler.",correct:"vom",options:["vom","mit","von","zu"],translation:"Simone and Stefan see the Chancellor\'s holiday home."},
+    {type:1,sentence:"Der Assistent ___ Kanzler steht schon im Eingang.",correct:"vom",options:["vom","mit","von","zu"],translation:"The Chancellor\'s assistant is already in the entrance."},
+    {type:1,sentence:"Wir kennen uns noch ___ der Schulzeit.",correct:"aus",options:["aus","seit","von","bei"],translation:"We know each other from our school days."},
+    {type:2,sentence:"Wir kennen uns noch aus ___ Schulzeit.",gender:"f",correct:"der (f)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"We know each other from our school days."},
+    {type:1,sentence:"Überall sind Bilder ___ den Hunden.",correct:"von",options:["von","mit","bei","zu"],translation:"There are pictures of the dogs everywhere."},
+    {type:2,sentence:"Überall sind Bilder von ___ Hunden.",gender:"pl",correct:"den (pl)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"There are pictures of the dogs everywhere."},
+    {type:1,sentence:"Simone hat Mitleid ___ dem Mann.",correct:"mit",options:["mit","bei","von","zu"],translation:"Simone feels sorry for the man."},
+    {type:2,sentence:"Simone hat Mitleid mit ___ Mann.",gender:"m",correct:"dem (m)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"Simone feels sorry for the man."},
+    {type:1,sentence:"Simone geht ___ Nachbarhaus.",correct:"zum",options:["zum","mit","bei","von"],translation:"Simone goes to the neighboring house."},
+    {type:1,sentence:"Simone spricht weiter ___ der Nachbarin.",correct:"mit",options:["mit","bei","von","zu"],translation:"Simone continues to talk to the neighbor."},
+    {type:2,sentence:"Simone spricht weiter mit ___ Nachbarin.",gender:"f",correct:"der (f)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"Simone continues to talk to the neighbor."},
+    {type:1,sentence:"Der Kanzler kommt schon ___ einem Jahr hierher.",correct:"seit",options:["seit","nach","von","ab"],translation:"The Chancellor has been coming here for a year."},
+    {type:4,sentence:"Der Kanzler kommt schon seit ein___ Jahr hierher.",gender:"n",correct:"em (n)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"The Chancellor has been coming here for a year."},
+    {type:1,sentence:"Es gibt Probleme ___ seinem Assistenten.",correct:"mit",options:["mit","bei","von","zu"],translation:"There are problems with his assistant."},
+    {type:4,sentence:"Es gibt Probleme mit sein___ Assistenten.",gender:"m",correct:"em (m)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"There are problems with his assistant."},
+    {type:1,sentence:"Leise schleichen sie durch den Garten ___ Zaun.",correct:"zum",options:["zum","mit","bei","von"],translation:"They creep quietly through the garden to the fence."},
+    {type:1,sentence:"Sie gehen vorsichtig ___ Kellereingang.",correct:"zum",options:["zum","mit","nach","bei"],translation:"They carefully go to the basement entrance."},
+    {type:5,sentence:"Die Straße endet ___ Haus von Herrn Fischer.",gender:"n",correct:"beim",options:["zum","zur","vom","beim"],translation:"The street ends at Mr. Fischer\'s house."},
+    {type:1,sentence:"Die Detektive gehen zurück ___ Herrn Müller.",correct:"zu",options:["zu","mit","bei","von"],translation:"The detectives go back to Mr. Müller."},
+    {type:1,sentence:"Sie gehen ___ Haus von Frau Kaiser.",correct:"zum",options:["zum","mit","bei","nach"],translation:"They go to Mrs. Kaiser\'s house."},
+    {type:1,sentence:"Frau Kaiser ist ___ ihrer Ohnmacht erwacht.",correct:"aus",options:["aus","von","bei","nach"],translation:"Ms. Kaiser has woken up from her faint."},
+    {type:2,sentence:"Frau Kaiser ist aus ___ Ohnmacht erwacht.",gender:"f",correct:"der (f)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"Ms. Kaiser woke up from her faint."},
+    {type:1,sentence:"Nach ___ halben Stunde kommt ein Polizist vorbei.",correct:"einer",options:["einer","einem","der","den"],translation:"After half an hour a police officer comes by."},
+    {type:1,sentence:"Foxi schnappt ___ der Hand von Herrn Müller.",correct:"nach",options:["nach","mit","bei","von"],translation:"Foxi grabs Mr. Müller\'s hand."},
+    {type:2,sentence:"Foxi schnappt nach ___ Hand von Herrn Müller.",gender:"f",correct:"der (f)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"Foxi grabs Mr. Müller\'s hand."},
+    {type:1,sentence:"Sie kennen sich doch sicherlich ___ dem Verhalten von Hunden aus.",correct:"mit",options:["mit","bei","von","zu"],translation:"You certainly know about dog behavior."},
+    {type:2,sentence:"Sie kennen sich doch sicherlich mit ___ Verhalten von Hunden aus.",gender:"n",correct:"dem (n)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"You certainly know about dog behavior."},
+    {type:1,sentence:"Frau Kaiser ist sehr glücklich ___ den beiden Hunden.",correct:"mit",options:["mit","bei","von","zu"],translation:"Ms. Kaiser is very happy with the two dogs."},
+    {type:2,sentence:"Frau Kaiser ist sehr glücklich mit ___ beiden Hunden.",gender:"pl",correct:"den (pl)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"Ms. Kaiser is very happy with the two dogs."},
+    {type:1,sentence:"Sie ist ___ ihrem Mann an die Nordsee gefahren.",correct:"mit",options:["mit","bei","von","zu"],translation:"She went to the North Sea with her husband."},
+    {type:4,sentence:"Sie ist mit ihr___ Mann an die Nordsee gefahren.",gender:"m",correct:"em (m)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"She went to the North Sea with her husband."},
+    {type:1,sentence:"Im Gegensatz ___ ihrem Assistenten Stefan.",correct:"zu",options:["zu","mit","von","bei"],translation:"In contrast to her assistant Stefan."},
+    {type:4,sentence:"Im Gegensatz zu ihr___ Assistenten Stefan.",gender:"m",correct:"em (m)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"In contrast to her assistant Stefan."},
+    {type:1,sentence:"Sie fahren ___ der U-Bahn.",correct:"mit",options:["mit","bei","von","zu"],translation:"You take the subway."},
+    {type:2,sentence:"Sie fahren mit ___ U-Bahn.",gender:"f",correct:"der (f)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"You take the subway."},
+    {type:1,sentence:"Drei unserer Schüler haben ___ letzten Test gefehlt.",correct:"beim",options:["beim","mit","nach","von"],translation:"Three of our students missed the last test."},
+    {type:1,sentence:"Ich habe ___ den beiden auch nicht wirklich viel zu tun.",correct:"mit",options:["mit","bei","von","zu"],translation:"I don\'t really have much to do with either of them."},
+    {type:2,sentence:"Ich habe mit ___ beiden auch nicht wirklich viel zu tun.",gender:"pl",correct:"den (pl)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"I don\'t really have much to do with either of them."},
+    {type:1,sentence:"Er hat letztes Jahr ___ einem Ausflug ein paar Kekse gegessen.",correct:"bei",options:["bei","mit","nach","von"],translation:"He ate some cookies on a trip last year."},
+    {type:4,sentence:"Er hat letztes Jahr bei ein___ Ausflug Kekse gegessen.",gender:"m",correct:"em (m)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"He ate cookies on a trip last year."},
+    {type:1,sentence:"Die Geräusche kommen ___ der letzten Kabine.",correct:"aus",options:["aus","von","bei","nach"],translation:"The noises come from the last cabin."},
+    {type:2,sentence:"Die Geräusche kommen aus ___ letzten Kabine.",gender:"f",correct:"der (f)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"The noises come from the last cabin."},
+    {type:1,sentence:"Simone reicht ___ Mädchen eine Packung Taschentücher.",correct:"dem",options:["dem","der","den","einem"],translation:"Simone hands the girl a pack of tissues."},
+    {type:1,sentence:"Er hat mich aufgemuntert, wenn die anderen gemein ___ mir waren.",correct:"zu",options:["zu","mit","bei","von"],translation:"He cheered me up when others were mean to me."},
+    {type:1,sentence:"Wir haben überlegt, wie ich ___ der Sache wieder rauskomme.",correct:"aus",options:["aus","von","bei","mit"],translation:"We thought about how I could get out of this."},
+    {type:2,sentence:"Wir haben überlegt, wie ich aus ___ Sache wieder rauskomme.",gender:"f",correct:"der (f)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"We thought about how I could get out of this."},
+    {type:1,sentence:"Es sollte nie ___ einem unbelüfteten Raum gearbeitet werden.",correct:"in",options:["in","mit","bei","von"],translation:"You should never work in an unventilated room."},
+    {type:1,sentence:"Es ist nicht einfach, dauernd ___ verwöhnten Jugendlichen zu tun zu haben.",correct:"mit",options:["mit","bei","von","zu"],translation:"It\'s not easy to constantly deal with spoiled young people."},
+    {type:1,sentence:"Sie gehen durch das hohe Gras auf die Gruppe ___ wilden Büschen zu.",correct:"von",options:["von","mit","bei","zu"],translation:"They walk through the tall grass towards the group of wild bushes."},
+    {type:1,sentence:"Simone hat eine Kopie ___ dem Artikel gemacht.",correct:"von",options:["von","mit","bei","aus"],translation:"Simone made a copy of the article."},
+    {type:2,sentence:"Simone hat eine Kopie von ___ Artikel gemacht.",gender:"m",correct:"dem (m)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"Simone made a copy of the article."},
+    {type:1,sentence:"Sie fährt ___ dem Bus nach Hause.",correct:"mit",options:["mit","bei","von","zu"],translation:"She takes the bus home."},
+    {type:2,sentence:"Sie fährt mit ___ Bus nach Hause.",gender:"m",correct:"dem (m)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"She takes the bus home."},
+    {type:1,sentence:"Sie telefoniert ___ ihrem Assistenten.",correct:"mit",options:["mit","bei","von","zu"],translation:"She is on the phone with her assistant."},
+    {type:4,sentence:"Sie telefoniert mit ihr___ Assistenten.",gender:"m",correct:"em (m)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"She is on the phone with her assistant."},
+    {type:1,sentence:"Simone reicht ___ eine Kopie von dem Artikel.",correct:"ihm",options:["ihm","ihr","ihnen","mir"],translation:"Simone hands him a copy of the article."},
+    {type:1,sentence:"Sie fährt ___ Gärtner Blumfeld.",correct:"zum",options:["zum","mit","bei","nach"],translation:"She goes to the gardener Blumfeld."},
+    {type:1,sentence:"Vor der Tür steht ein älterer Herr ___ grauen Haaren.",correct:"mit",options:["mit","bei","von","zu"],translation:"An older man with gray hair stands in front of the door."},
+    {type:1,sentence:"Blumfeld legt den Kopf ___ Seite.",correct:"zur",options:["zur","mit","bei","nach"],translation:"Blumfeld tilts his head to the side."},
+    {type:1,sentence:"Stefan und Simone folgen ___.",correct:"ihm",options:["ihm","ihr","ihnen","mir"],translation:"Stefan and Simone follow him."},
+    {type:1,sentence:"Und ___ Garten vor dem Haus war auch alles normal?",correct:"im",options:["im","mit","bei","vom"],translation:"And was everything normal in the garden in front of the house?"},
+    {type:1,sentence:"Herr Schmalbach hat ___ dem Gespräch gesagt.",correct:"bei",options:["bei","mit","nach","von"],translation:"Mr. Schmalbach said during the conversation."},
+    {type:2,sentence:"Herr Schmalbach hat bei ___ Gespräch gesagt.",gender:"n",correct:"dem (n)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"Mr. Schmalbach said during the conversation."},
+    {type:1,sentence:"Kannst du dir vorstellen, dass er etwas ___ der Sache zu tun hat?",correct:"mit",options:["mit","bei","von","zu"],translation:"Can you imagine that he has anything to do with this?"},
+    {type:2,sentence:"Kannst du dir vorstellen, dass er etwas mit ___ Sache zu tun hat?",gender:"f",correct:"der (f)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"Can you imagine that he has anything to do with this?"},
+    {type:1,sentence:"Irgendetwas stimmt ___ der Sache nicht.",correct:"bei",options:["bei","mit","von","an"],translation:"There\'s something wrong with this."},
+    {type:2,sentence:"Irgendetwas stimmt bei ___ Sache nicht.",gender:"f",correct:"der (f)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"There\'s something wrong with this."},
+    {type:1,sentence:"Man kann ihn ___ der Straße nicht sehen.",correct:"von",options:["von","mit","bei","aus"],translation:"You can\'t see him from the street."},
+    {type:2,sentence:"Man kann ihn von ___ Straße nicht sehen.",gender:"f",correct:"der (f)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"You can\'t see him from the street."},
+    {type:1,sentence:"Ich möchte im Archiv ___ interessanten Artikeln suchen.",correct:"nach",options:["nach","mit","bei","von"],translation:"I would like to search the archive for interesting articles."},
+    {type:1,sentence:"Simone sagt ___ Journalisten, dass sie nachdenkt.",correct:"zum",options:["zum","mit","bei","vom"],translation:"Simone tells the journalist that she is thinking."},
+    {type:1,sentence:"Sie setzt sich an einen Tisch ___ einem Computer.",correct:"mit",options:["mit","bei","von","zu"],translation:"She sits down at a table with a computer."},
+    {type:4,sentence:"Sie setzt sich an einen Tisch mit ein___ Computer.",gender:"m",correct:"em (m)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"She sits down at a table with a computer."},
+    {type:1,sentence:"Stefan kommt ___ dem Garten ein Mann entgegen.",correct:"aus",options:["aus","von","bei","nach"],translation:"A man approaches Stefan from the garden."},
+    {type:2,sentence:"Stefan kommt aus ___ Garten ein Mann entgegen.",gender:"m",correct:"dem (m)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"A man approaches Stefan from the garden."},
+    {type:1,sentence:"Vielleicht wäre es besser, häufiger ___ meinem Haus zu schauen.",correct:"nach",options:["nach","mit","bei","zu"],translation:"Maybe it would be better to check on my house more often."},
+    {type:4,sentence:"Vielleicht wäre es besser, häufiger nach mein___ Haus zu schauen.",gender:"n",correct:"em (n)",options:["em (m)","em (n)","er (f)","en (pl)"],translation:"Maybe it would be better to check on my house more often."},
+    {type:1,sentence:"Das war doch die Frau ___ dem Steinbrech, oder?",correct:"von",options:["von","mit","bei","aus"],translation:"That was the saxifrage\'s wife, right?"},
+    {type:2,sentence:"Das war doch die Frau von ___ Steinbrech, oder?",gender:"m",correct:"dem (m)",options:["dem (m)","dem (n)","der (f)","den (pl)"],translation:"That was the saxifrage\'s wife, right?"},
+    {type:1,sentence:"Ich hatte früher einmal etwas ___ ihm zu tun.",correct:"mit",options:["mit","bei","von","zu"],translation:"I used to have something to do with him."},
+  ];
+
+  let currentExercises = [];
+  let currentIndex = 0;
+  let score = 0;
+  let showingTranslation = false;
+  let answered = false;
+  let translationTimer = null;
+  let lockedType = null;
+  let mistakes = [];
+
+  function shuffleArray(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  }
+
+  window.changeExerciseType = function() {
+    const selector = document.getElementById('exerciseTypeSelector');
+    if (selector.value === '') return;
+    lockedType = selector.value;
+    startGame();
+  }
+
+  window.artikelStartGame = function() {
+    if (!lockedType) lockedType = document.getElementById('exerciseTypeSelector').value;
+    startGame();
+  }
+
+  function startGame() {
+    if (!lockedType || lockedType === '') return;
+
+    // DISABLE dropdown during game
+    document.getElementById('exerciseTypeSelector').disabled = true;
+
+    let exercisesToUse;
+    if (lockedType === 'a1b1') {
+      exercisesToUse = artikelA1B1Exercises;
+    } else if (lockedType === 'all') {
+      exercisesToUse = artikelAllExercises;
+    } else {
+      const typeNum = parseInt(lockedType);
+      exercisesToUse = artikelAllExercises.filter(ex => ex.type === typeNum);
+    }
+
+    const shuffled = shuffleArray([...exercisesToUse]);
+    currentExercises = shuffled.slice(0, 20);
+    currentIndex = 0;
+    score = 0;
+    mistakes = [];
+
+    document.getElementById('artikelExerciseArea').classList.remove('artikel-hidden');
+    document.getElementById('artikelResults').classList.add('artikel-hidden');
+
+    showExercise();
+  }
+
+  function showExercise() {
+    answered = false;
+    showingTranslation = false;
+    if (translationTimer) clearTimeout(translationTimer);
+
+    const exercise = currentExercises[currentIndex];
+    document.getElementById('artikelCurrentEx').textContent = currentIndex + 1;
+    document.getElementById('artikelScore').textContent = score;
+    document.getElementById('artikelTranslationDisplay').classList.add('artikel-hidden');
+    document.getElementById('artikelFeedback').classList.add('artikel-hidden');
+
+    const progressPercent = (currentIndex / 20) * 100;
+    document.getElementById('artikelProgressBar').style.width = progressPercent + '%';
+
+    if (exercise.type === 1) renderType1(exercise);
+    else if (exercise.type === 2) renderType2(exercise);
+    else if (exercise.type === 3) renderType3(exercise);
+    else if (exercise.type === 4) renderType4(exercise);
+    else if (exercise.type === 5) renderType5(exercise);
+  }
+
+  function renderType1(exercise) {
+    document.getElementById('artikelQuestionLabel').textContent = 'Choose the correct preposition:';
+    document.getElementById('artikelQuestionText').textContent = exercise.sentence;
+    document.getElementById('artikelHintBtnTranslation').classList.remove('artikel-hidden');
+    const container = document.getElementById('artikelButtonContainer');
+    container.className = 'artikel-button-grid-4';
+    container.innerHTML = '';
+    const shortcuts = ['A', 'S', 'D', 'F'];
+    exercise.options.forEach((option, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'artikel-btn';
+      btn.textContent = option;
+      btn.innerHTML += '<span class="artikel-shortcut">(' + shortcuts[i] + ')</span>';
+      btn.onclick = () => checkAnswer(option);
+      container.appendChild(btn);
+    });
+  }
+
+  function renderType2(exercise) {
+    document.getElementById('artikelQuestionLabel').textContent = 'Choose the correct dative article (' + exercise.gender + '):';
+    document.getElementById('artikelQuestionText').textContent = exercise.sentence;
+    document.getElementById('artikelHintBtnTranslation').classList.remove('artikel-hidden');
+    const container = document.getElementById('artikelButtonContainer');
+    container.className = 'artikel-button-grid-4';
+    container.innerHTML = '';
+    const shortcuts = ['A', 'S', 'D', 'F'];
+    // Always show in fixed order: m, n, f, pl with color coding
+    const fixedOptions = [
+      {full: 'dem (m)', display: 'dem', colorClass: 'artikel-btn-masculine'},
+      {full: 'dem (n)', display: 'dem', colorClass: 'artikel-btn-neuter'},
+      {full: 'der (f)', display: 'der', colorClass: 'artikel-btn-feminine'},
+      {full: 'den (pl)', display: 'den', colorClass: 'artikel-btn-plural'}
+    ];
+    fixedOptions.forEach((option, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'artikel-btn ' + option.colorClass;
+      btn.textContent = option.display;
+      btn.innerHTML += '<span class="artikel-shortcut">(' + shortcuts[i] + ')</span>';
+      btn.onclick = () => checkAnswer(option.full);
+      container.appendChild(btn);
+    });
+  }
+
+  function renderType3(exercise) {
+    document.getElementById('artikelQuestionLabel').textContent = 'Which case does this preposition require?';
+    document.getElementById('artikelQuestionText').textContent = exercise.preposition;
+    document.getElementById('artikelHintBtnTranslation').classList.add('artikel-hidden');
+    const container = document.getElementById('artikelButtonContainer');
+    container.className = 'artikel-button-grid';
+    container.innerHTML = '';
+    const options = ['AKKUSATIV', 'DATIV'];
+    const shortcuts = ['A', 'D'];
+    options.forEach((option, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'artikel-btn';
+      btn.textContent = option;
+      btn.innerHTML += '<span class="artikel-shortcut">(' + shortcuts[i] + ')</span>';
+      btn.onclick = () => checkAnswer(option);
+      container.appendChild(btn);
+    });
+  }
+
+  function renderType4(exercise) {
+    document.getElementById('artikelQuestionLabel').textContent = 'Complete with the correct dative ending (' + exercise.gender + '):';
+    document.getElementById('artikelQuestionText').textContent = exercise.sentence;
+    document.getElementById('artikelHintBtnTranslation').classList.remove('artikel-hidden');
+    const container = document.getElementById('artikelButtonContainer');
+    container.className = 'artikel-button-grid-4';
+    container.innerHTML = '';
+    const shortcuts = ['A', 'S', 'D', 'F'];
+    // Always show in fixed order: m, n, f, pl with color coding, no gender labels
+    const fixedOptions = [
+      {full: 'em (m)', display: 'em', colorClass: 'artikel-btn-masculine'},
+      {full: 'em (n)', display: 'em', colorClass: 'artikel-btn-neuter'},
+      {full: 'er (f)', display: 'er', colorClass: 'artikel-btn-feminine'},
+      {full: 'en (pl)', display: 'en', colorClass: 'artikel-btn-plural'}
+    ];
+    fixedOptions.forEach((option, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'artikel-btn ' + option.colorClass;
+      btn.textContent = option.display;
+      btn.innerHTML += '<span class="artikel-shortcut">(' + shortcuts[i] + ')</span>';
+      btn.onclick = () => checkAnswer(option.full);
+      container.appendChild(btn);
+    });
+  }
+
+  function renderType5(exercise) {
+    document.getElementById('artikelQuestionLabel').textContent = 'Select the correct contraction (' + exercise.gender + '):';
+    document.getElementById('artikelQuestionText').textContent = exercise.sentence;
+    document.getElementById('artikelHintBtnTranslation').classList.remove('artikel-hidden');
+    const container = document.getElementById('artikelButtonContainer');
+    container.className = 'artikel-button-grid-4';
+    container.innerHTML = '';
+    const shortcuts = ['A', 'S', 'D', 'F'];
+    exercise.options.forEach((option, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'artikel-btn';
+      btn.textContent = option;
+      btn.innerHTML += '<span class="artikel-shortcut">(' + shortcuts[i] + ')</span>';
+      btn.onclick = () => checkAnswer(option);
+      container.appendChild(btn);
+    });
+  }
+
+  window.artikelToggleTranslation = function() {
+    if (answered) return;
+    showingTranslation = !showingTranslation;
+    const translationEl = document.getElementById('artikelTranslationDisplay');
+    const exercise = currentExercises[currentIndex];
+    if (translationTimer) clearTimeout(translationTimer);
+    if (showingTranslation) {
+      translationEl.textContent = exercise.translation;
+      translationEl.className = 'artikel-translation';
+      translationEl.classList.remove('artikel-hidden');
+      translationTimer = setTimeout(() => {
+        translationEl.classList.add('artikel-fade-out');
+        setTimeout(() => {
+          translationEl.classList.add('artikel-hidden');
+          translationEl.classList.remove('artikel-fade-out');
+          showingTranslation = false;
+        }, 500);
+      }, 3000);
+    } else {
+      translationEl.classList.add('artikel-hidden');
+    }
+  }
+
+  function checkAnswer(selectedAnswer) {
+    if (answered) return;
+    answered = true;
+    const exercise = currentExercises[currentIndex];
+    const isCorrect = selectedAnswer === exercise.correct;
+    if (translationTimer) clearTimeout(translationTimer);
+
+    const buttons = document.querySelectorAll('#artikelButtonContainer .artikel-btn');
+    buttons.forEach(btn => {
+      btn.disabled = true;
+      const btnText = btn.textContent.replace(/\([ASDF]\)/g, '').trim();
+      if (btnText === exercise.correct) {
+        btn.classList.add('correct');
+      } else if (btnText === selectedAnswer && !isCorrect) {
+        btn.classList.add('wrong');
+      }
+    });
+
+    if (isCorrect) {
+      score++;
+      document.getElementById('artikelScore').textContent = score;
+    } else {
+      // Track mistake with explanation
+      let explanation = '';
+      if (exercise.type === 2) {
+        const nounMatch = exercise.sentence.match(/___\s+(\w+)/);
+        const noun = nounMatch ? nounMatch[1] : '';
+        explanation = noun + ' is ' + exercise.gender;
+      } else if (exercise.type === 3) {
+        explanation = exercise.preposition + ' takes ' + exercise.correct;
+      } else if (exercise.type === 4) {
+        explanation = exercise.noun + ' is ' + exercise.gender + ' → dative ending is ' + exercise.correct.replace(/\s*\(.*?\)\s*/g, '');
+      } else if (exercise.type === 5) {
+        // For Type 5, determine the contraction pattern
+        const genderInfo = exercise.gender === 'f' ? 'der (f)' : 'dem (m/n)';
+        if (exercise.correct === 'zum') explanation = 'zum = zu + dem';
+        else if (exercise.correct === 'zur') explanation = 'zur = zu + der';
+        else if (exercise.correct === 'vom') explanation = 'vom = von + dem';
+        else if (exercise.correct === 'beim') explanation = 'beim = bei + dem';
+        else if (exercise.correct === 'von der') explanation = 'von der (no contraction with feminine)';
+        else if (exercise.correct === 'bei der') explanation = 'bei der (no contraction with feminine)';
+        else explanation = exercise.correct + ' (' + exercise.gender + ')';
+      }
+      mistakes.push({
+        question: exercise.sentence || exercise.preposition,
+        yourAnswer: selectedAnswer,
+        correctAnswer: exercise.correct,
+        explanation: explanation,
+        translation: exercise.translation
+      });
+    }
+
+    const feedbackEl = document.getElementById('artikelFeedback');
+    feedbackEl.className = 'artikel-feedback ' + (isCorrect ? 'correct' : 'wrong');
+    feedbackEl.textContent = isCorrect ? 'Correct!' : 'Wrong! Correct answer: ' + exercise.correct;
+    feedbackEl.classList.remove('artikel-hidden');
+
+    setTimeout(() => {
+      if (currentIndex < 19) {
+        currentIndex++;
+        showExercise();
+      } else {
+        showResults();
+      }
+    }, 750);
+  }
+
+  function showResults() {
+    // RE-ENABLE dropdown when game ends
+    document.getElementById('exerciseTypeSelector').disabled = false;
+
+    document.getElementById('artikelExerciseArea').classList.add('artikel-hidden');
+    document.getElementById('artikelResults').classList.remove('artikel-hidden');
+    const percentage = Math.round((score / 20) * 100);
+    document.getElementById('artikelPercentage').textContent = percentage + '%';
+    document.getElementById('artikelResultScore').textContent = score;
+
+    // Show mistakes if any
+    const mistakesContainer = document.getElementById('artikelMistakesContainer');
+    const mistakesList = document.getElementById('artikelMistakesList');
+    if (mistakes.length > 0) {
+      mistakesContainer.classList.remove('artikel-hidden');
+      mistakesList.innerHTML = '';
+      mistakes.forEach(mistake => {
+        const item = document.createElement('div');
+        item.className = 'artikel-mistake-item';
+
+        let html = '<div class="artikel-mistake-question">' + mistake.question + '</div>';
+        html += '<div class="artikel-mistake-details">Your answer: <span class="artikel-mistake-your-answer">' + mistake.yourAnswer + '</span></div>';
+        html += '<div class="artikel-mistake-details">Correct answer: <span class="artikel-mistake-correct-answer">' + mistake.correctAnswer + '</span></div>';
+        if (mistake.explanation) {
+          html += '<div class="artikel-mistake-explanation">' + mistake.explanation + '</div>';
+        }
+        if (mistake.translation) {
+          html += '<div class="artikel-mistake-translation">' + mistake.translation + '</div>';
+        }
+
+        item.innerHTML = html;
+        mistakesList.appendChild(item);
+      });
+    } else {
+      mistakesContainer.classList.add('artikel-hidden');
+    }
+  }
+
+  window.artikelChangeType = function() {
+    lockedType = null;
+    document.getElementById('exerciseTypeSelector').value = '';
+    document.getElementById('exerciseTypeSelector').disabled = false;
+    document.getElementById('artikelResults').classList.add('artikel-hidden');
+    document.getElementById('artikelExerciseArea').classList.add('artikel-hidden');
+  }
+
+  window.artikelEndSession = function() {
+    if (confirm('Are you sure you want to end this session? Your progress will be shown.')) {
+      showResults();
+    }
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (document.getElementById('artikelExerciseArea').classList.contains('artikel-hidden')) return;
+
+    // ESC key to end session
+    if (e.key === 'Escape') {
+      artikelEndSession();
+      return;
+    }
+
+    if (answered) return;
+    const key = e.key.toLowerCase();
+    const exercise = currentExercises[currentIndex];
+    if (key === 't') {
+      artikelToggleTranslation();
+      return;
+    }
+    // Special handling for Type 2 (fixed article order)
+    if (exercise.type === 2) {
+      const fixedOptions = ['dem (m)', 'dem (n)', 'der (f)', 'den (pl)'];
+      const shortcuts = ['a', 's', 'd', 'f'];
+      const keyIndex = shortcuts.indexOf(key);
+      if (keyIndex !== -1) {
+        checkAnswer(fixedOptions[keyIndex]);
+        return;
+      }
+    }
+    // Special handling for Type 3 (DATIV/AKKUSATIV)
+    if (exercise.type === 3) {
+      if (key === 'a') {
+        checkAnswer('AKKUSATIV');
+        return;
+      } else if (key === 'd') {
+        checkAnswer('DATIV');
+        return;
+      }
+    }
+    // Special handling for Type 4 (fixed ending order)
+    if (exercise.type === 4) {
+      const fixedOptions = ['em (m)', 'em (n)', 'er (f)', 'en (pl)'];
+      const shortcuts = ['a', 's', 'd', 'f'];
+      const keyIndex = shortcuts.indexOf(key);
+      if (keyIndex !== -1) {
+        checkAnswer(fixedOptions[keyIndex]);
+        return;
+      }
+    }
+    const shortcuts = ['a', 's', 'd', 'f'];
+    const keyIndex = shortcuts.indexOf(key);
+    if (keyIndex !== -1 && exercise.options && exercise.options[keyIndex]) {
+      checkAnswer(exercise.options[keyIndex]);
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

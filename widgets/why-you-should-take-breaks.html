@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why You Should Take Breaks</title>
+</head>
+<body>
+<section class="sg-subtitles sg-dense">
+  <style>
+    .sg-subtitles{
+      --ink:#151515; --muted:#616161; --card:#fff; --accent:#ff3b8a; --border:#e7e7e7;
+      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:var(--ink);line-height:1.45;max-width:880px;margin:0 auto
+    }
+    .sg-subtitles button{font:inherit}
+    .sg-subtitles .toggle-btn{padding:8px 12px;border:1px solid var(--border);border-radius:10px;background:#fff;cursor:pointer}
+    .sg-subtitles .panel{display:none;margin-top:10px}
+    .sg-subtitles .wrap{border:1px solid var(--border);border-radius:12px;padding:12px}
+    .sg-subtitles h2{margin:0 0 4px;font-size:1.1rem}
+    .sg-subtitles p.lead{margin:0 0 8px;color:var(--muted);font-size:.92rem}
+
+    /* Compact slider */
+    .sg-slider{position:relative;overflow:hidden;border:1px solid var(--border);border-radius:10px}
+    .sg-track{display:flex;transition:transform .3s ease;will-change:transform}
+    .sg-slide{min-width:100%;padding:8px 10px;box-sizing:border-box;display:grid;gap:8px;align-items:center}
+    @media (min-width:740px){ .sg-slide{grid-template-columns:1fr 1fr} }
+    .sg-slide .imgbox{display:flex;align-items:center;justify-content:center;background:#fafafa;border:1px dashed #ddd;border-radius:8px;padding:6px}
+    .sg-slide img{max-width:100%;height:auto;display:block;max-height:260px} /* clamp image height */
+    .sg-caption{font-size:.93rem}
+    .sg-caption b{color:var(--ink)}
+    .sg-caption .sg-step{font-size:.85rem;color:var(--muted);margin-bottom:4px}
+
+    .sg-meta{display:flex;align-items:center;justify-content:space-between;padding:6px 6px 2px}
+    .sg-ctr{display:flex;gap:6px}
+    .sg-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:.92rem}
+    .sg-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+    .sg-btn:disabled{opacity:.55;cursor:not-allowed}
+    .sg-count{font-size:.9rem;color:var(--muted)}
+    .sg-dots{display:flex;gap:5px;align-items:center;justify-content:center;padding:4px 0 8px}
+    .sg-dot{width:7px;height:7px;border-radius:50%;background:#d8d8d8;border:none}
+    .sg-dot[aria-current="true"]{background:var(--accent)}
+    .sg-note{margin-top:8px;background:#fff3f8;border-left:3px solid var(--accent);padding:8px 10px;border-radius:8px;font-size:.9rem}
+    /* Slightly denser overall spacing on mobile */
+    @media (max-width:739px){ .sg-subtitles .wrap{padding:10px} .sg-slide img{max-height:220px} }
+  </style>
+
+  <!-- Toggle -->
+  <button class="toggle-btn" id="sg-sub-toggle" aria-expanded="false">English Subtitles</button>
+
+  <!-- Panel -->
+  <div class="panel" id="sg-sub-panel">
+    <div class="wrap" role="region" aria-label="How to enable English subtitles">
+      <h2>Enable English Subtitles (Auto-Translate)</h2>
+      <p class="lead">5 quick slides. Use arrows, dots, or keyboard (← →).</p>
+
+      <div class="sg-slider" id="sg-slider" tabindex="0">
+        <div class="sg-track" id="sg-track">
+          <!-- Slide 1 -->
+          <article class="sg-slide" aria-roledescription="slide" aria-label="Step 1">
+            <div class="imgbox">
+              <img loading="lazy" src="https://uploads.teachablecdn.com/attachments/5c6ae6745f684ac1bdae947f55796286.png" alt="YouTube settings menu with 'Untertitel (1)' highlighted">
+            </div>
+            <div class="sg-caption">
+              <div class="sg-step">Step 1 of 5</div>
+              <p><b>Open subtitle settings:</b> Tap the gear (⚙️) or CC icon at the bottom of the player.</p>
+            </div>
+          </article>
+
+          <!-- Slide 2 -->
+          <article class="sg-slide" aria-roledescription="slide" aria-label="Step 2">
+            <div class="imgbox">
+              <img loading="lazy" src="https://uploads.teachablecdn.com/attachments/66d480db36044516b12fc2def8cde943.png" alt="Subtitles menu showing Off and Deutsch">
+            </div>
+            <div class="sg-caption">
+              <div class="sg-step">Step 2 of 5</div>
+              <p><b>Open the subtitles list:</b> Tap <em>Untertitel</em> to view available tracks.</p>
+            </div>
+          </article>
+
+          <!-- Slide 3 -->
+          <article class="sg-slide" aria-roledescription="slide" aria-label="Step 3">
+            <div class="imgbox">
+              <img loading="lazy" src="https://uploads.teachablecdn.com/attachments/677dcb6408b84feb8119c482adbf8c57.png" alt="German subtitle track selected">
+            </div>
+            <div class="sg-caption">
+              <div class="sg-step">Step 3 of 5</div>
+              <p><b>Select the provided track:</b> Choose the available subtitles (e.g., <em>Deutsch</em>).</p>
+            </div>
+          </article>
+
+          <!-- Slide 4 -->
+          <article class="sg-slide" aria-roledescription="slide" aria-label="Step 4">
+            <div class="imgbox">
+              <img loading="lazy" src="https://uploads.teachablecdn.com/attachments/66d480db36044516b12fc2def8cde943.png" alt="Option 'Automatisch übersetzen' visible">
+            </div>
+            <div class="sg-caption">
+              <div class="sg-step">Step 4 of 5</div>
+              <p><b>Tap <em>Automatisch übersetzen</em>:</b> This enables translation options.</p>
+            </div>
+          </article>
+
+          <!-- Slide 5 -->
+          <article class="sg-slide" aria-roledescription="slide" aria-label="Step 5">
+            <div class="imgbox">
+              <img loading="lazy" src="https://uploads.teachablecdn.com/attachments/16f6436cd99b4a40a144feecf01ff9e9.png" alt="Language list with English selected">
+            </div>
+            <div class="sg-caption">
+              <div class="sg-step">Step 5 of 5</div>
+              <p><b>Pick <em>Englisch</em>:</b> Close the menu — subtitles will now display in English.</p>
+            </div>
+          </article>
+        </div>
+
+        <!-- Controls -->
+        <div class="sg-meta">
+          <div class="sg-ctr">
+            <button class="sg-btn" id="sg-prev" aria-label="Previous slide" title="Previous (←)">&larr; Prev</button>
+            <button class="sg-btn primary" id="sg-next" aria-label="Next slide" title="Next (→)">Next &rarr;</button>
+          </div>
+          <div class="sg-count" id="sg-count">1 / 5</div>
+        </div>
+        <div class="sg-dots" id="sg-dots" aria-label="Slide navigation"></div>
+      </div>
+
+      <div class="sg-note">Tip: For real recovery during breaks, avoid new input (no screens). Micro-breaks refresh working memory.</div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      // Toggle
+      const toggle = document.getElementById('sg-sub-toggle');
+      const panel  = document.getElementById('sg-sub-panel');
+      toggle.addEventListener('click', () => {
+        const open = panel.style.display === 'block';
+        panel.style.display = open ? 'none' : 'block';
+        toggle.setAttribute('aria-expanded', (!open).toString());
+        if(!open) document.getElementById('sg-slider').focus();
+      });
+
+      // Slider
+      const track = document.getElementById('sg-track');
+      const slides = Array.from(track.children);
+      const prev = document.getElementById('sg-prev');
+      const next = document.getElementById('sg-next');
+      const dotsWrap = document.getElementById('sg-dots');
+      const count = document.getElementById('sg-count');
+      let i = 0;
+
+      slides.forEach((_, idx) => {
+        const b = document.createElement('button');
+        b.className = 'sg-dot';
+        b.setAttribute('aria-label','Go to slide ' + (idx+1));
+        b.addEventListener('click', () => go(idx));
+        dotsWrap.appendChild(b);
+      });
+
+      function update(){
+        track.style.transform = 'translateX(' + (-i*100) + '%)';
+        prev.disabled = (i===0);
+        next.disabled = (i===slides.length-1);
+        count.textContent = (i+1) + ' / ' + slides.length;
+        Array.from(dotsWrap.children).forEach((d, idx)=>{
+          d.setAttribute('aria-current', idx===i ? 'true' : 'false');
+        });
+      }
+      function go(idx){ i = Math.max(0, Math.min(slides.length-1, idx)); update(); }
+      prev.addEventListener('click', ()=> go(i-1));
+      next.addEventListener('click', ()=> go(i+1));
+
+      // Keyboard
+      document.getElementById('sg-slider').addEventListener('keydown', (e)=>{
+        if(e.key === 'ArrowLeft') go(i-1);
+        if(e.key === 'ArrowRight') go(i+1);
+      });
+
+      // Touch swipe
+      let sx=0, dx=0;
+      track.addEventListener('touchstart', e=>{ sx = e.touches[0].clientX; dx=0; }, {passive:true});
+      track.addEventListener('touchmove',  e=>{ dx = e.touches[0].clientX - sx; }, {passive:true});
+      track.addEventListener('touchend',   ()=>{ if(Math.abs(dx)>50){ if(dx<0) go(i+1); else go(i-1);} });
+
+      update();
+    })();
+  </script>
+</section>
+
+</body>
+</html>

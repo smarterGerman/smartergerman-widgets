@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>haben und sein</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding: 20px; color: #333; }
+    .sg-verb-widget { max-width: 580px; margin: 0 auto; }
+    .sg-verb-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .sg-verb-title { font-size: 20px; font-weight: 600; color: #2c3e50; }
+    .sg-verb-page { font-size: 16px; color: #666; }
+    .sg-verb-ref { margin-bottom: 12px; }
+    .sg-verb-toggle { background: none; border: 1px solid #ddd; padding: 8px 14px; border-radius: 6px; font-size: 15px; cursor: pointer; color: #666; display: flex; align-items: center; gap: 6px; }
+    .sg-verb-toggle:hover { background: #f9f9f9; }
+    .sg-verb-toggle svg { width: 16px; height: 16px; transition: transform .2s; }
+    .sg-verb-toggle.collapsed svg { transform: rotate(-90deg); }
+    .sg-verb-tables { display: flex; gap: 12px; margin-top: 10px; }
+    .sg-verb-tables.hidden { display: none; }
+    .sg-verb-table { flex: 1; border: 1px solid #e0e0e0; border-radius: 6px; overflow: hidden; background: white; }
+    .sg-verb-table-head { background: #00BCD4; color: white; padding: 8px 10px; font-size: 16px; font-weight: 600; text-align: center; }
+    .sg-verb-table-body { display: grid; grid-template-columns: 1fr 1fr; }
+    .sg-verb-cell { padding: 6px 10px; font-size: 16px; border-bottom: 1px solid #eee; display: flex; gap: 8px; }
+    .sg-verb-cell:nth-child(odd) { border-right: 1px solid #eee; }
+    .sg-verb-cell:nth-last-child(-n+2) { border-bottom: none; }
+    .sg-verb-pro { font-weight: 600; color: #555; min-width: 28px; }
+    .sg-verb-form { color: #E91E63; font-weight: 600; }
+    .sg-verb-list { background: white; border-radius: 8px; border: 1px solid #e0e0e0; }
+    .sg-verb-row { display: flex; align-items: center; gap: 6px; padding: 10px 14px; font-size: 18px; border-bottom: 1px solid #eee; cursor: pointer; }
+    .sg-verb-row:last-child { border-bottom: none; }
+    .sg-verb-row.complete { background: #f0fdf4; }
+    .sg-verb-num { color: #999; font-size: 16px; width: 24px; flex-shrink: 0; }
+    .sg-verb-subject { font-weight: 600; color: #00BCD4; flex-shrink: 0; }
+    .sg-verb-input { border: 1px solid #ddd; border-radius: 4px; padding: 6px 8px; width: 100px; font-size: 18px; flex-shrink: 0; text-align: center; }
+    .sg-verb-input:focus { outline: none; border-color: #aaa; }
+    .sg-verb-input.correct { border-color: #22c55e; background: #f0fdf4; }
+    .sg-verb-input.wrong { border-color: #ef4444; }
+    .sg-verb-text { color: #444; }
+    .sg-verb-tr { font-size: 15px; color: #666; font-style: italic; display: none; padding: 4px 14px 10px 52px; background: #fafafa; border-bottom: 1px solid #eee; }
+    .sg-verb-tr.show { display: block; }
+    .sg-verb-hint { display: none; padding: 6px 14px 10px 52px; background: #fff8e1; border-bottom: 1px solid #eee; }
+    .sg-verb-hint.show { display: flex; gap: 10px; align-items: center; }
+    .sg-verb-hint-opt { background: #fff; border: 1px solid #ddd; padding: 4px 12px; border-radius: 4px; font-size: 16px; cursor: pointer; }
+    .sg-verb-hint-opt:hover { background: #f5f5f5; }
+    .sg-verb-hint-btn { background: #f5f5f5; border: 1px solid #ddd; color: #666; font-size: 13px; cursor: pointer; padding: 3px 8px; border-radius: 4px; margin-left: auto; flex-shrink: 0; }
+    .sg-verb-hint-btn:hover { background: #eee; }
+    .sg-verb-nav { display: flex; justify-content: space-between; margin-top: 12px; }
+    .sg-verb-btn { background: #00BCD4; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-size: 16px; cursor: pointer; }
+    .sg-verb-btn:hover { background: #00ACC1; }
+    .sg-verb-btn:disabled { background: #ccc; cursor: not-allowed; }
+    .sg-verb-note { font-size: 14px; color: #999; text-align: center; margin-top: 10px; }
+  </style>
+</head>
+<body>
+<div class="sg-verb-widget">
+  <div class="sg-verb-top">
+    <div class="sg-verb-title">haben und sein</div>
+    <div class="sg-verb-page" id="pageIndicator">1 / 2</div>
+  </div>
+
+  <div class="sg-verb-ref">
+    <button class="sg-verb-toggle" id="refToggle">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      Reference
+    </button>
+    <div class="sg-verb-tables" id="refTables">
+      <div class="sg-verb-table">
+        <div class="sg-verb-table-head">haben</div>
+        <div class="sg-verb-table-body">
+          <div class="sg-verb-cell"><span class="sg-verb-pro">ich</span><span class="sg-verb-form">habe</span></div>
+          <div class="sg-verb-cell"><span class="sg-verb-pro">wir</span><span class="sg-verb-form">haben</span></div>
+          <div class="sg-verb-cell"><span class="sg-verb-pro">du</span><span class="sg-verb-form">hast</span></div>
+          <div class="sg-verb-cell"><span class="sg-verb-pro">ihr</span><span class="sg-verb-form">habt</span></div>
+          <div class="sg-verb-cell"><span class="sg-verb-pro">es</span><span class="sg-verb-form">hat</span></div>
+          <div class="sg-verb-cell"><span class="sg-verb-pro">sie</span><span class="sg-verb-form">haben</span></div>
+        </div>
+      </div>
+      <div class="sg-verb-table">
+        <div class="sg-verb-table-head">sein</div>
+        <div class="sg-verb-table-body">
+          <div class="sg-verb-cell"><span class="sg-verb-pro">ich</span><span class="sg-verb-form">bin</span></div>
+          <div class="sg-verb-cell"><span class="sg-verb-pro">wir</span><span class="sg-verb-form">sind</span></div>
+          <div class="sg-verb-cell"><span class="sg-verb-pro">du</span><span class="sg-verb-form">bist</span></div>
+          <div class="sg-verb-cell"><span class="sg-verb-pro">ihr</span><span class="sg-verb-form">seid</span></div>
+          <div class="sg-verb-cell"><span class="sg-verb-pro">es</span><span class="sg-verb-form">ist</span></div>
+          <div class="sg-verb-cell"><span class="sg-verb-pro">sie</span><span class="sg-verb-form">sind</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sg-verb-list" id="sgList"></div>
+  <div class="sg-verb-nav">
+    <button class="sg-verb-btn" id="prevBtn">← Zurück</button>
+    <button class="sg-verb-btn" id="nextBtn">Weiter →</button>
+  </div>
+  <div class="sg-verb-note">Click sentence to translate | ← → pages</div>
+</div>
+
+<script>
+(function(){
+  const ALL=[
+    {sub:'Ich',post:'müde.',ans:'bin',tr:'I am tired.'},
+    {sub:'Wir',post:'ein Auto.',ans:'haben',tr:'We have a car.'},
+    {sub:'Er',post:'Lehrer.',ans:'ist',tr:'He is a teacher.'},
+    {sub:'Du',post:'Hunger.',ans:'hast',tr:'You are hungry.'},
+    {sub:'Sie',post:'aus Deutschland.',ans:'ist',tr:'She is from Germany.'},
+    {sub:'Ihr',post:'zwei Kinder.',ans:'habt',tr:'You have two children.'},
+    {sub:'Ich',post:'keine Zeit.',ans:'habe',tr:'I have no time.'},
+    {sub:'Wir',post:'heute zu Hause.',ans:'sind',tr:'We are at home today.'},
+    {sub:'Er',post:'Kopfschmerzen.',ans:'hat',tr:'He has a headache.'},
+    {sub:'Du',post:'sehr nett.',ans:'bist',tr:'You are very nice.'},
+    {sub:'Die Kinder',post:'im Garten.',ans:'sind',tr:'The children are in the garden.'},
+    {sub:'Ich',post:'Deutscher.',ans:'bin',tr:'I am German.'},
+    {sub:'Wir',post:'Glück.',ans:'haben',tr:'We are lucky.'},
+    {sub:'Sie (formal)',post:'freundlich.',ans:'sind',tr:'You are friendly.'},
+    {sub:'Ihr',post:'meine Freunde.',ans:'seid',tr:'You are my friends.'},
+    {sub:'Er',post:'krank.',ans:'ist',tr:'He is sick.'}
+  ];
+
+  const HABEN=['habe','hast','hat','haben','habt'];
+  const SEIN=['bin','bist','ist','sind','seid'];
+
+  const PER_PAGE=8;
+  const PAGES=[];
+  for(let i=0;i<ALL.length;i+=PER_PAGE)PAGES.push(ALL.slice(i,i+PER_PAGE));
+
+  const list=document.getElementById('sgList');
+  const refToggle=document.getElementById('refToggle');
+  const refTables=document.getElementById('refTables');
+  const prevBtn=document.getElementById('prevBtn');
+  const nextBtn=document.getElementById('nextBtn');
+  const pageIndicator=document.getElementById('pageIndicator');
+  let page=0,inputs=[];
+
+  refToggle.onclick=()=>{
+    const h=refTables.classList.toggle('hidden');
+    refToggle.classList.toggle('collapsed',h);
+  };
+
+  function getWrongOption(correct){
+    const pool=HABEN.includes(correct)?HABEN:SEIN;
+    const others=pool.filter(x=>x!==correct);
+    return others[Math.floor(Math.random()*others.length)];
+  }
+
+  function render(idx){
+    page=Math.max(0,Math.min(PAGES.length-1,idx));
+    pageIndicator.textContent=`${page+1} / ${PAGES.length}`;
+    prevBtn.disabled=(page===0);
+    nextBtn.disabled=(page===PAGES.length-1);
+    list.innerHTML='';
+    inputs=[];
+    const offset=page*PER_PAGE;
+
+    PAGES[page].forEach((it,i)=>{
+      const row=document.createElement('div');
+      row.className='sg-verb-row';
+      row.innerHTML=`<span class="sg-verb-num">${offset+i+1}.</span><input type="text" class="sg-verb-input"><span class="sg-verb-text">${it.sub} ... ${it.post}</span><button class="sg-verb-hint-btn">50/50</button>`;
+
+      const tr=document.createElement('div');
+      tr.className='sg-verb-tr';
+      tr.textContent=it.tr;
+
+      const hint=document.createElement('div');
+      hint.className='sg-verb-hint';
+      const opts=[it.ans,getWrongOption(it.ans)].sort(()=>Math.random()-.5);
+      hint.innerHTML=opts.map(o=>`<button class="sg-verb-hint-opt">${o}</button>`).join('');
+
+      const input=row.querySelector('.sg-verb-input');
+      const hintBtn=row.querySelector('.sg-verb-hint-btn');
+      const ans=it.ans.toLowerCase();
+      inputs.push({input,row,ans,hint});
+
+      input.addEventListener('input',()=>{
+        const v=input.value.trim().toLowerCase();
+        if(!v){input.className='sg-verb-input';row.classList.remove('complete');return;}
+        if(v===ans){
+          input.className='sg-verb-input correct';
+          row.classList.add('complete');
+          hint.classList.remove('show');
+          if(i+1<inputs.length)setTimeout(()=>inputs[i+1].input.focus(),80);
+          else if(page<PAGES.length-1)setTimeout(goNext,200);
+        }else{
+          input.className='sg-verb-input wrong';
+          row.classList.remove('complete');
+        }
+      });
+
+      hintBtn.onclick=(e)=>{
+        e.stopPropagation();
+        hint.classList.toggle('show');
+      };
+
+      hint.querySelectorAll('.sg-verb-hint-opt').forEach(btn=>{
+        btn.onclick=()=>{
+          input.value=btn.textContent;
+          input.dispatchEvent(new Event('input'));
+        };
+      });
+
+      row.addEventListener('click',e=>{if(e.target.tagName!=='INPUT'&&e.target.tagName!=='BUTTON')tr.classList.toggle('show');});
+      list.appendChild(row);
+      list.appendChild(hint);
+      list.appendChild(tr);
+    });
+    list.querySelector('.sg-verb-input')?.focus();
+  }
+
+  function goPrev(){render(page-1);}
+  function goNext(){render(page+1);}
+  prevBtn.onclick=goPrev;
+  nextBtn.onclick=goNext;
+  document.addEventListener('keydown',e=>{
+    const f=document.activeElement;
+    const inInp=f?.classList.contains('sg-verb-input');
+    if(e.key==='ArrowLeft'&&(!inInp||!f.value))goPrev();
+    if(e.key==='ArrowRight'&&(!inInp||!f.value))goNext();
+  });
+  render(0);
+})();
+</script>
+</body>
+</html>

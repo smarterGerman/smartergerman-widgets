@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learning Vocab Efficiently</title>
+</head>
+<body>
+<style>
+.sg-widget {
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    background: #ffffff;
+    line-height: 1.6;
+    color: #2c3e50;
+    padding: 50px 30px;
+}
+
+.sg-widget * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.sg-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.sg-h1 {
+    font-size: 2.5em;
+    color: #2c3e50;
+    margin-bottom: 35px;
+    font-weight: 600;
+}
+
+.sg-text {
+    font-size: 1.1em;
+    color: #546e7a;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.sg-text strong {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.sg-section-title {
+    font-size: 1.6em;
+    color: #2c3e50;
+    margin: 40px 0 25px 0;
+    font-weight: 600;
+}
+
+/* Tool boxes with subtle backgrounds */
+.sg-tool-box {
+    background: #fafbfc;
+    padding: 25px 30px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.sg-tool-primary {
+    background: #fff5f5;
+    border-left: 4px solid #ff6b6b;
+}
+
+.sg-tool-title {
+    font-size: 1.2em;
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.sg-tool-box code {
+    background: #dbeafe;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+    color: #dc2626;
+    font-weight: 600;
+}
+
+.sg-link {
+    color: #ff6b6b !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+}
+
+.sg-link:hover {
+    text-decoration: underline !important;
+}
+
+/* Flashcard - Better Design */
+.sg-flashcard {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 40px 30px;
+    margin: 30px 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+.sg-flashcard-display {
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.sg-flashcard-front, .sg-flashcard-back {
+    font-size: 1.8em;
+    color: #2c3e50;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.sg-flashcard-back {
+    display: none;
+}
+
+.sg-blank {
+    display: inline-block;
+    min-width: 120px;
+    border-bottom: 2px solid #ff6b6b;
+    margin: 0 8px;
+}
+
+.sg-flashcard-back strong {
+    color: #ff6b6b;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.sg-hint-line {
+    font-size: 0.9em;
+    color: #ff6b6b;
+    font-weight: 600;
+    margin-top: 20px;
+    display: none;
+}
+
+.sg-translation-line {
+    font-size: 0.9em;
+    color: #546e7a;
+    font-style: italic;
+    margin-top: 20px;
+    display: none;
+}
+
+.sg-flashcard-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.sg-btn {
+    padding: 10px 24px;
+    border: 2px solid #37474f;
+    background: white;
+    color: #37474f;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-width: 140px;
+}
+
+.sg-btn:hover {
+    background: #37474f;
+    color: white;
+}
+
+/* States */
+.show-hint .sg-hint-line { display: block; }
+.flipped .sg-flashcard-front { display: none; }
+.flipped .sg-flashcard-back { display: block; }
+.show-translation .sg-translation-line { display: block; }
+
+/* Tips with light backgrounds */
+.sg-tips-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.sg-tip-card {
+    background: #f8fafb;
+    padding: 25px 30px;
+    border-radius: 8px;
+}
+
+.sg-tip-card:nth-child(2) {
+    background: #f7f8f9;
+}
+
+.sg-tip-card:nth-child(3) {
+    background: #fff8f4;
+}
+
+.sg-tip-title {
+    font-size: 1.2em;
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.sg-tip-text {
+    font-size: 1.05em;
+    color: #546e7a;
+    line-height: 1.7;
+}
+
+.sg-tip-example {
+    font-size: 0.95em;
+    color: #7a8a96;
+    font-style: italic;
+    margin-top: 10px;
+}
+
+/* Highlight box */
+.sg-highlight-box {
+    background: #dbeafe;
+    padding: 25px 30px;
+    margin: 35px 0;
+    border-radius: 8px;
+}
+
+.sg-highlight-box p {
+    font-size: 1.1em;
+    color: #2c3e50;
+    margin: 0;
+}
+
+/* Number badges */
+.sg-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    min-height: 30px;
+    background: #ff6b6b;
+    color: white;
+    border-radius: 50%;
+    font-weight: 600;
+    font-size: 1em;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+/* Footnote */
+.sg-footnote {
+    font-size: 0.85em;
+    color: #7a8a96;
+    margin-top: 8px;
+}
+
+.sg-footnote sup {
+    color: #ff6b6b;
+    font-weight: 600;
+}
+</style>
+
+<div class="sg-widget">
+    <div class="sg-container">
+        <h1 class="sg-h1">Building Your Word Foundation</h1>
+        
+        <p class="sg-text">
+            Words are the foundation of language learning—but not just any words. 
+            Randomly collecting vocabulary is like building with mismatched materials. 
+            You need the <strong>right words at the right time</strong>, which is exactly 
+            what my vocab tool provides.
+        </p>
+        
+        <p class="sg-text">
+            Throughout this course, you'll have access to my vocabulary tool that lets you 
+            highlight and learn words as you encounter them in context. This means you're 
+            learning relevant vocabulary that actually appears in your lessons, not random 
+            word lists.
+        </p>
+        
+        <h2 class="sg-section-title">Recommended Tools</h2>
+        
+        <div class="sg-tool-box sg-tool-primary">
+            <h3 class="sg-tool-title">✓ SmarterGerman Vocab Tool (Built-in)</h3>
+            <p class="sg-tip-text">
+                Your primary tool, integrated directly into the course. Simply highlight any word 
+                in the Reading Comprehension lectures to save and review it. All vocabulary is 
+                tailored to your current lesson—no hunting for random word lists needed.
+            </p>
+        </div>
+        
+        <div class="sg-tool-box">
+            <h3 class="sg-tool-title">DeepL Desktop App</h3>
+            <p class="sg-tip-text">
+                For words outside the course, install the <a href="https://www.deepl.com/app" target="_blank" class="sg-link">DeepL desktop app</a> (Mac/Windows). 
+                Just highlight any word and press <code>Cmd+C+C</code> (Mac) or <code>Ctrl+C+C</code> (Windows) 
+                for instant translation without leaving your page.
+            </p>
+        </div>
+        
+        <div class="sg-tool-box">
+            <h3 class="sg-tool-title">Alternative: Readlang</h3>
+            <p class="sg-tip-text">
+                A browser tool available at <a href="https://readlang.com" target="_blank" class="sg-link">readlang.com</a> that translates 
+                words on any website with a single click, automatically saving them for later review. 
+                Good for expanding vocabulary beyond the course. (Free version has daily limits; paid is $5/month)
+            </p>
+        </div>
+        
+        <h2 class="sg-section-title">About Flashcards</h2>
+        
+        <p class="sg-text">
+            Flashcards do work—research on spaced repetition and active recall shows they can roughly 
+            <strong>double retention rates</strong> when used correctly.<sup>1</sup> The key is using them for just 
+            <strong>10-15 minutes per session</strong> to avoid burnout. But here's the catch: they can 
+            quickly become boring.
+        </p>
+        
+        <p class="sg-text">
+            Most importantly, <strong>never study isolated words or loosely grouped themes</strong>. 
+            Groups like "foods" or "in the restaurant" might seem logical, but they lack real context. 
+            Instead, learn words from an actual story—like a man ordering coffee and complaining about 
+            the 1€ tip. The narrative makes words memorable, coherent, and urgent because you need them 
+            to understand what happens next:
+        </p>
+        
+        <div class="sg-flashcard" id="flashcard">
+            <div class="sg-flashcard-display">
+                <div class="sg-sentence-area">
+                    <div class="sg-flashcard-front">
+                        Mein <span class="sg-blank"></span> ist Michael.
+                    </div>
+                    <div class="sg-flashcard-back">
+                        Mein <strong>Name</strong> ist Michael.
+                    </div>
+                </div>
+                <div class="sg-hint-line">→ name</div>
+                <div class="sg-translation-line">My name is Michael.</div>
+            </div>
+            <div class="sg-flashcard-buttons">
+                <button class="sg-btn" id="hintBtn" onclick="toggleHint()">Show Hint</button>
+                <button class="sg-btn" id="flipBtn" onclick="flipCard()">Flip Card</button>
+            </div>
+        </div>
+        
+        <p class="sg-footnote">
+            <sup>1</sup> Karpicke, J.D. & Roediger, H.L. (2008). "The Critical Importance of Retrieval for Learning." 
+            Science, 319(5865), 966-968. <a href="https://www.researchgate.net/publication/5574966_The_Critical_Importance_of_Retrieval_for_Learning" target="_blank" class="sg-link">View on ResearchGate</a>
+        </p>
+        
+        <h2 class="sg-section-title">Smart Learning Tips</h2>
+        
+        <div class="sg-tips-grid">
+            <div class="sg-tip-card">
+                <div style="display: flex; align-items: flex-start;">
+                    <span class="sg-number">1</span>
+                    <div>
+                        <h3 class="sg-tip-title">Spread it out</h3>
+                        <p class="sg-tip-text">
+                            Practice vocabulary throughout your day in small moments: waiting in line, 
+                            before bed, or just after waking up. These micro-sessions are surprisingly effective.
+                        </p>
+                        <p class="sg-tip-example">
+                            Example: 5 minutes while having coffee, 10 minutes on the train, 5 minutes before sleep
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sg-tip-card">
+                <div style="display: flex; align-items: flex-start;">
+                    <span class="sg-number" style="background: #37474f;">2</span>
+                    <div>
+                        <h3 class="sg-tip-title">Keep it brief</h3>
+                        <p class="sg-tip-text">
+                            10-20 minutes at a time beats marathon sessions. Your brain absorbs more 
+                            when you work in focused bursts rather than exhausting 1-2 hour chunks.
+                        </p>
+                        <p class="sg-tip-example">
+                            Better: 3 x 15-minute sessions | Worse: 1 x 45-minute session
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sg-tip-card">
+                <div style="display: flex; align-items: flex-start;">
+                    <span class="sg-number" style="background: #ff9800;">3</span>
+                    <div>
+                        <h3 class="sg-tip-title">Follow the 20% rule</h3>
+                        <p class="sg-tip-text">
+                            For every hour you spend on lessons, add 12-15 minutes of vocabulary review. 
+                            This balance keeps words fresh without overwhelming your study time.
+                        </p>
+                        <p class="sg-tip-example">
+                            1 hour lesson = 12-15 min vocab | 3 hour lesson = 36-45 min vocab
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="sg-highlight-box">
+            <p>
+                <strong>Remember:</strong> Consistency beats intensity. Daily 10-minute sessions will build 
+                a stronger vocabulary than weekly cramming sessions.
+            </p>
+        </div>
+        
+        <div class="sg-highlight-box" style="background: #f5f7fa;">
+            <h3 style="margin-bottom: 10px;">What Actually Works Best</h3>
+            <p>
+                After 30 years of teaching: <strong>Reading is the most effective way to build vocabulary</strong>. 
+                Instead of memorizing isolated words for 20 minutes, spend that time re-reading texts 
+                you've already worked with. Vocabulary learned through natural repetition sticks without extra effort.
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleHint() {
+    const card = document.getElementById('flashcard');
+    const hintBtn = document.getElementById('hintBtn');
+    
+    if (card.classList.contains('show-hint')) {
+        card.classList.remove('show-hint');
+        hintBtn.textContent = 'Show Hint';
+    } else {
+        card.classList.remove('flipped', 'show-translation');
+        card.classList.add('show-hint');
+        hintBtn.textContent = 'Hide Hint';
+        document.getElementById('flipBtn').textContent = 'Flip Card';
+    }
+}
+
+function flipCard() {
+    const card = document.getElementById('flashcard');
+    const flipBtn = document.getElementById('flipBtn');
+    const hintBtn = document.getElementById('hintBtn');
+    
+    if (!card.classList.contains('flipped')) {
+        card.classList.remove('show-hint', 'show-translation');
+        card.classList.add('flipped');
+        flipBtn.textContent = 'Translate';
+        hintBtn.textContent = 'Show Hint';
+    } else if (!card.classList.contains('show-translation')) {
+        card.classList.add('show-translation');
+        flipBtn.textContent = 'Hide Translation';
+    } else {
+        card.classList.remove('show-translation');
+        flipBtn.textContent = 'Translate';
+    }
+}
+</script>
+</body>
+</html>

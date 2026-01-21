@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nominalization: How to turn "to calculate" into "the invoice"</title>
+</head>
+<body>
+<style>
+    .ung-widget * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .ung-widget {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        background: #ffffff;
+        color: #1a1a1a;
+        max-width: 900px;
+        margin: 0 auto;
+        line-height: 1.5;
+    }
+
+    .ung-widget .ung-header {
+        background: #FFC519;
+        padding: 18px 20px;
+        margin-bottom: 0;
+    }
+
+    .ung-widget .ung-header h1 {
+        font-size: 1.4em;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 3px;
+    }
+
+    .ung-widget .ung-header p {
+        font-size: 0.9em;
+        color: #333333;
+    }
+
+ .ung-widget .ung-section-intro {
+        background: transparent;
+        padding: 30px 20px;
+    }
+
+    .ung-widget .ung-section-process {
+        background: transparent;
+        padding: 30px 20px;
+    }
+
+    .ung-widget .ung-section-practice {
+        background: transparent;
+        padding: 30px 20px;
+    }
+
+    .ung-widget .ung-section-divider {
+        height: 3px;
+        background: linear-gradient(to right, #FFC519 0%, #FFD84A 50%, #FFC519 100%);
+    }
+
+    .ung-widget .ung-intro-text {
+        font-size: 0.95em;
+        color: #333333;
+        line-height: 1.6;
+        margin-bottom: 25px;
+    }
+
+    .ung-widget .ung-rule-box {
+        background: #FFC519;
+        padding: 20px 25px;
+        margin-bottom: 0;
+        border-radius: 8px;
+        max-width: 600px;
+    }
+
+    .ung-widget .ung-rule-box p {
+        font-size: 1em;
+        color: #1a1a1a;
+        line-height: 1.6;
+        margin-bottom: 10px;
+    }
+
+    .ung-widget .ung-rule-box p:last-child {
+        margin-bottom: 0;
+    }
+
+    .ung-widget h2 {
+        font-size: 1.15em;
+        color: #1a1a1a;
+        font-weight: 600;
+        margin: 0 0 20px 0;
+    }
+
+    .ung-widget .ung-animation-box {
+        background: #333333;
+        border-radius: 6px;
+        padding: 30px 20px;
+        margin: 20px 0;
+        min-height: 200px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .ung-widget .ung-animation-steps {
+        position: relative;
+        width: 100%;
+        min-height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .ung-widget .ung-animation-step {
+        text-align: center;
+        position: absolute;
+        width: 100%;
+        opacity: 0;
+        transition: opacity 0.8s ease-in-out;
+        pointer-events: none;
+    }
+
+    .ung-widget .ung-animation-step.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .ung-widget .ung-step-label {
+        font-size: 0.85em;
+        color: #FFC519;
+        font-weight: 500;
+        margin-bottom: 15px;
+    }
+
+    .ung-widget .ung-step-content {
+        font-size: 2.5em;
+        font-weight: 600;
+        color: #ffffff;
+        padding: 12px;
+    }
+
+    .ung-widget .ung-verb-display {
+        color: #ffffff;
+    }
+
+    .ung-widget .ung-stem-display {
+        color: #ffffff;
+    }
+
+    .ung-widget .ung-ending-crossed {
+        color: #ffffff;
+        text-decoration: line-through;
+        text-decoration-color: #ff0000;
+        text-decoration-thickness: 4px;
+    }
+
+    .ung-widget .ung-suffix-display {
+        color: #FFC519;
+    }
+
+    .ung-widget .ung-result-display {
+        color: #ffffff;
+    }
+
+    .ung-widget .ung-result-article {
+        color: #FFC519;
+    }
+
+    .ung-widget .ung-result-ending {
+        color: #FFC519;
+    }
+
+    .ung-widget .ung-animation-controls {
+        margin-top: 20px;
+    }
+
+    .ung-widget .ung-btn {
+        background: #FFC519;
+        color: #333333;
+        border: none;
+        padding: 8px 20px;
+        font-size: 0.9em;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: 0 5px;
+        font-weight: 600;
+    }
+
+    .ung-widget .ung-btn:hover {
+        background: #FFD04A;
+    }
+
+    .ung-widget .ung-examples {
+        background: transparent;
+        padding: 0;
+        margin: 20px 0 0 0;
+    }
+
+    .ung-widget .ung-examples-intro {
+        font-size: 0.9em;
+        color: #666666;
+        margin-bottom: 12px;
+        font-style: italic;
+    }
+
+    .ung-widget .ung-examples ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .ung-widget .ung-examples-page {
+        display: none;
+    }
+
+    .ung-widget .ung-examples-page.active {
+        display: block;
+    }
+
+    .ung-widget .ung-examples li {
+        font-size: 0.95em;
+        color: #333333;
+        padding: 8px 0;
+        border-bottom: 1px solid #e0e0e0;
+        min-height: 60px;
+    }
+
+    .ung-widget .ung-examples li:last-child {
+        border-bottom: none;
+    }
+
+    .ung-widget .ung-ex-verb {
+        color: #333333;
+        font-weight: 600;
+    }
+
+    .ung-widget .ung-ex-noun {
+        color: #1a1a1a;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .ung-widget .ung-ex-noun:hover {
+        background: #1a1a1a;
+        color: #FFC519;
+        padding: 2px 4px;
+        border-radius: 2px;
+    }
+
+    .ung-widget .ung-ex-translation {
+        font-size: 0.85em;
+        color: #666666;
+        margin-top: 4px;
+        font-style: italic;
+        min-height: 20px;
+    }
+
+    .ung-widget .ung-practice-area h2 {
+        margin-bottom: 15px;
+    }
+
+    .ung-widget .ung-practice-pages {
+        margin-top: 15px;
+    }
+
+    .ung-widget .ung-practice-page {
+        display: none;
+    }
+
+    .ung-widget .ung-practice-page.active {
+        display: block;
+    }
+
+    .ung-widget .ung-ex-item {
+        margin-bottom: 20px;
+    }
+
+    .ung-widget .ung-input-line {
+        font-size: 0.95em;
+        color: #333333;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .ung-widget .ung-ex-item input {
+        border: 1px solid #cccccc;
+        padding: 6px 10px;
+        font-size: 0.95em;
+        border-radius: 3px;
+        font-family: inherit;
+        width: 180px;
+    }
+
+    .ung-widget .ung-ex-item input:focus {
+        outline: none;
+        border-color: #FFC519;
+    }
+
+    .ung-widget .ung-feedback-icon {
+        font-size: 1.1em;
+        min-width: 20px;
+    }
+
+    .ung-widget .ung-feedback-icon.correct {
+        color: #4CAF50;
+    }
+
+    .ung-widget .ung-feedback-icon.incorrect {
+        color: #f44336;
+    }
+
+    .ung-widget .ung-translation {
+        font-size: 0.85em;
+        color: #666666;
+        margin-top: 4px;
+        margin-left: 0;
+        font-style: italic;
+        min-height: 18px;
+    }
+
+    .ung-widget .ung-pagination {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid #cccccc;
+    }
+
+    .ung-widget .ung-pagination button {
+        background: #FFC519;
+        color: #333333;
+        border: none;
+        padding: 8px 16px;
+        font-size: 0.9em;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    .ung-widget .ung-pagination button:hover:not(:disabled) {
+        background: #FFD04A;
+    }
+
+    .ung-widget .ung-pagination button:disabled {
+        background: #e0e0e0;
+        color: #999999;
+        cursor: not-allowed;
+    }
+
+    .ung-widget .ung-page-info {
+        font-size: 0.9em;
+        color: #666666;
+    }
+
+    @media (max-width: 600px) {
+        .ung-widget .ung-header h1 {
+            font-size: 1.2em;
+        }
+        
+        .ung-widget .ung-step-content {
+            font-size: 1.8em;
+        }
+    }
+</style>
+
+<div class="ung-widget">
+    <!-- Header -->
+    
+    <!-- Intro Section -->
+    <div class="ung-section-intro">
+        <div class="ung-intro-text">
+            In German, you can easily create nouns from verbs by using the suffix <strong>-ung</strong>. These nouns are always feminine and use the article <strong>die</strong>.
+        </div>
+        <div class="ung-rule-box">
+            <p><strong>The Rule:</strong></p>
+            <p>verb stem + <strong>-ung</strong> = <strong>die Stem<span style="color: #ff6b00;">ung</span></strong></p>
+        </div>
+    </div>
+<br><br>
+    <div class="ung-section-divider"></div>
+
+    <!-- Process Section -->
+    <div class="ung-section-process">
+        <h2>How It Works</h2>
+        <div class="ung-animation-box">
+            <div class="ung-animation-steps" id="ungAnimSteps"></div>
+        </div>
+        <div class="ung-animation-controls">
+            <button class="ung-btn" id="ungPlayPauseBtn" onclick="ungToggleAnim()">▶ Play</button>
+        </div>
+<br><br>
+        <div class="ung-examples">
+            <h2>Examples</h2>
+            <p class="ung-examples-intro">Click on the nouns below to see their English translations:</p>
+            
+            <!-- Examples Page 1 -->
+            <div class="ung-examples-page active" data-page="1">
+                <ul>
+                    <li><span class="ung-ex-verb">wohnen</span> → <span class="ung-ex-noun" onclick="ungShowExampleTranslation(this)">die Wohnung</span><div class="ung-ex-translation" data-translation="to live → the apartment"></div></li>
+                    <li><span class="ung-ex-verb">leisten</span> → <span class="ung-ex-noun" onclick="ungShowExampleTranslation(this)">die Leistung</span><div class="ung-ex-translation" data-translation="to perform → the performance"></div></li>
+                    <li><span class="ung-ex-verb">üben</span> → <span class="ung-ex-noun" onclick="ungShowExampleTranslation(this)">die Übung</span><div class="ung-ex-translation" data-translation="to practice → the practice/exercise"></div></li>
+                    <li><span class="ung-ex-verb">bedeuten</span> → <span class="ung-ex-noun" onclick="ungShowExampleTranslation(this)">die Bedeutung</span><div class="ung-ex-translation" data-translation="to mean → the meaning"></div></li>
+                    <li><span class="ung-ex-verb">erfahren</span> → <span class="ung-ex-noun" onclick="ungShowExampleTranslation(this)">die Erfahrung</span><div class="ung-ex-translation" data-translation="to experience → the experience"></div></li>
+                </ul>
+            </div>
+
+            <!-- Examples Page 2 -->
+            <div class="ung-examples-page" data-page="2">
+                <ul>
+                    <li><span class="ung-ex-verb">entdecken</span> → <span class="ung-ex-noun" onclick="ungShowExampleTranslation(this)">die Entdeckung</span><div class="ung-ex-translation" data-translation="to discover → the discovery"></div></li>
+                    <li><span class="ung-ex-verb">erklären</span> → <span class="ung-ex-noun" onclick="ungShowExampleTranslation(this)">die Erklärung</span><div class="ung-ex-translation" data-translation="to explain → the explanation"></div></li>
+                    <li><span class="ung-ex-verb">impfen</span> → <span class="ung-ex-noun" onclick="ungShowExampleTranslation(this)">die Impfung</span><div class="ung-ex-translation" data-translation="to vaccinate → the vaccination"></div></li>
+                    <li><span class="ung-ex-verb">meinen</span> → <span class="ung-ex-noun" onclick="ungShowExampleTranslation(this)">die Meinung</span><div class="ung-ex-translation" data-translation="to think/believe → the opinion"></div></li>
+                    <li><span class="ung-ex-verb">ordnen</span> → <span class="ung-ex-noun" onclick="ungShowExampleTranslation(this)">die Ordnung</span><div class="ung-ex-translation" data-translation="to organize → the order"></div></li>
+                </ul>
+            </div>
+
+            <!-- Examples Page 3 -->
+            <div class="ung-examples-page" data-page="3">
+                <ul>
+                    <li><span class="ung-ex-verb">prüfen</span> → <span class="ung-ex-noun" onclick="ungShowExampleTranslation(this)">die Prüfung</span><div class="ung-ex-translation" data-translation="to test → the exam"></div></li>
+                    <li><span class="ung-ex-verb">rechnen</span> → <span class="ung-ex-noun" onclick="ungShowExampleTranslation(this)">die Rechnung</span><div class="ung-ex-translation" data-translation="to calculate → the bill"></div></li>
+                    <li><span class="ung-ex-verb">trainieren</span> → <span class="ung-ex-noun" onclick="ungShowExampleTranslation(this)">die Trainierung</span><div class="ung-ex-translation" data-translation="to train → the training"></div></li>
+                    <li><span class="ung-ex-verb">untersuchen</span> → <span class="ung-ex-noun" onclick="ungShowExampleTranslation(this)">die Untersuchung</span><div class="ung-ex-translation" data-translation="to examine → the examination"></div></li>
+                    <li><span class="ung-ex-verb">warnen</span> → <span class="ung-ex-noun" onclick="ungShowExampleTranslation(this)">die Warnung</span><div class="ung-ex-translation" data-translation="to warn → the warning"></div></li>
+                </ul>
+            </div>
+
+            <!-- Examples Page 4 -->
+            <div class="ung-examples-page" data-page="4">
+                <ul>
+                    <li><span class="ung-ex-verb">zahlen</span> → <span class="ung-ex-noun" onclick="ungShowExampleTranslation(this)">die Zahlung</span><div class="ung-ex-translation" data-translation="to pay → the payment"></div></li>
+                    <li><span class="ung-ex-verb">zählen</span> → <span class="ung-ex-noun" onclick="ungShowExampleTranslation(this)">die Zählung</span><div class="ung-ex-translation" data-translation="to count → the count"></div></li>
+                    <li><span class="ung-ex-verb">beziehen</span> → <span class="ung-ex-noun" onclick="ungShowExampleTranslation(this)">die Beziehung</span><div class="ung-ex-translation" data-translation="to relate → the relationship"></div></li>
+                    <li><span class="ung-ex-verb">führen</span> → <span class="ung-ex-noun" onclick="ungShowExampleTranslation(this)">die Führung</span><div class="ung-ex-translation" data-translation="to lead → the leadership"></div></li>
+                    <li><span class="ung-ex-verb">leisten</span> → <span class="ung-ex-noun" onclick="ungShowExampleTranslation(this)">die Leistung</span><div class="ung-ex-translation" data-translation="to perform → the performance"></div></li>
+                </ul>
+            </div>
+
+            <div class="ung-pagination">
+                <button id="ungExamplesPrevBtn" onclick="ungChangeExamplesPage(-1)" disabled>← Previous</button>
+                <span class="ung-page-info">Page <span id="ungExamplesCurrentPage">1</span> of 4</span>
+                <button id="ungExamplesNextBtn" onclick="ungChangeExamplesPage(1)">Next →</button>
+            </div>
+        </div>
+    </div>
+<br>
+    <div class="ung-section-divider"></div>
+<br>
+    <!-- Practice Section -->
+    <div class="ung-section-practice">
+        <div class="ung-practice-area">
+            <h2>Practice: Create the Nouns</h2>
+            <div class="ung-practice-pages">
+                <!-- Page 1 -->
+                <div class="ung-practice-page active" data-page="1">
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">1. wohnen → die <input type="text" data-answer="Wohnung" data-translation="to live → the apartment"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">2. leisten → die <input type="text" data-answer="Leistung" data-translation="to perform → the performance"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">3. üben → die <input type="text" data-answer="Übung" data-translation="to practice → the practice/exercise"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">4. bedeuten → die <input type="text" data-answer="Bedeutung" data-translation="to mean → the meaning"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">5. erfahren → die <input type="text" data-answer="Erfahrung" data-translation="to experience → the experience"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                </div>
+
+                <!-- Page 2 -->
+                <div class="ung-practice-page" data-page="2">
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">6. entdecken → die <input type="text" data-answer="Entdeckung" data-translation="to discover → the discovery"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">7. erklären → die <input type="text" data-answer="Erklärung" data-translation="to explain → the explanation"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">8. impfen → die <input type="text" data-answer="Impfung" data-translation="to vaccinate → the vaccination"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">9. meinen → die <input type="text" data-answer="Meinung" data-translation="to think/believe → the opinion"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">10. ordnen → die <input type="text" data-answer="Ordnung" data-translation="to organize → the order"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                </div>
+
+                <!-- Page 3 -->
+                <div class="ung-practice-page" data-page="3">
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">11. prüfen → die <input type="text" data-answer="Prüfung" data-translation="to test → the exam"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">12. rechnen → die <input type="text" data-answer="Rechnung" data-translation="to calculate → the bill"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">13. trainieren → die <input type="text" data-answer="Trainierung" data-translation="to train → the training"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">14. untersuchen → die <input type="text" data-answer="Untersuchung" data-translation="to examine → the examination"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">15. warnen → die <input type="text" data-answer="Warnung" data-translation="to warn → the warning"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                </div>
+
+                <!-- Page 4 -->
+                <div class="ung-practice-page" data-page="4">
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">16. zahlen → die <input type="text" data-answer="Zahlung" data-translation="to pay → the payment"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">17. zählen → die <input type="text" data-answer="Zählung" data-translation="to count → the count"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">18. beziehen → die <input type="text" data-answer="Beziehung" data-translation="to relate → the relationship"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">19. führen → die <input type="text" data-answer="Führung" data-translation="to lead → the leadership"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">20. leisten → die <input type="text" data-answer="Leistung" data-translation="to perform → the performance"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                </div>
+
+                <!-- Page 5 -->
+                <div class="ung-practice-page" data-page="5">
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">21. handeln → die <input type="text" data-answer="Handlung" data-translation="to act → the action"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">22. beschreiben → die <input type="text" data-answer="Beschreibung" data-translation="to describe → the description"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">23. entwickeln → die <input type="text" data-answer="Entwicklung" data-translation="to develop → the development"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">24. entscheiden → die <input type="text" data-answer="Entscheidung" data-translation="to decide → the decision"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">25. entspannen → die <input type="text" data-answer="Entspannung" data-translation="to relax → the relaxation"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                </div>
+
+                <!-- Page 6 -->
+                <div class="ung-practice-page" data-page="6">
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">26. schätzen → die <input type="text" data-answer="Schätzung" data-translation="to estimate → the estimate"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">27. lösen → die <input type="text" data-answer="Lösung" data-translation="to solve → the solution"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">28. sammeln → die <input type="text" data-answer="Sammlung" data-translation="to collect → the collection"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">29. vorbereiten → die <input type="text" data-answer="Vorbereitung" data-translation="to prepare → the preparation"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">30. vorstellen → die <input type="text" data-answer="Vorstellung" data-translation="to introduce → the introduction/imagination"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                </div>
+
+                <!-- Page 7 -->
+                <div class="ung-practice-page" data-page="7">
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">31. bewegen → die <input type="text" data-answer="Bewegung" data-translation="to move → the movement"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">32. ernähren → die <input type="text" data-answer="Ernährung" data-translation="to nourish → the nutrition"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">33. zeigen → die <input type="text" data-answer="Zeigung" data-translation="to show → the showing"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">34. mischen → die <input type="text" data-answer="Mischung" data-translation="to mix → the mixture"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">35. planen → die <input type="text" data-answer="Planung" data-translation="to plan → the planning"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                </div>
+
+                <!-- Page 8 -->
+                <div class="ung-practice-page" data-page="8">
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">36. verpacken → die <input type="text" data-answer="Verpackung" data-translation="to pack → the packaging"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">37. zeichnen → die <input type="text" data-answer="Zeichnung" data-translation="to draw → the drawing"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">38. senden → die <input type="text" data-answer="Sendung" data-translation="to send → the shipment"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">39. retten → die <input type="text" data-answer="Rettung" data-translation="to rescue → the rescue"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">40. regeln → die <input type="text" data-answer="Regelung" data-translation="to regulate → the regulation"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                </div>
+
+                <!-- Page 9 -->
+                <div class="ung-practice-page" data-page="9">
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">41. reinigen → die <input type="text" data-answer="Reinigung" data-translation="to clean → the cleaning"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">42. klären → die <input type="text" data-answer="Klärung" data-translation="to clarify → the clarification"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">43. streichen → die <input type="text" data-answer="Streichung" data-translation="to cancel → the cancellation"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">44. teilen → die <input type="text" data-answer="Teilung" data-translation="to divide → the division"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">45. trennen → die <input type="text" data-answer="Trennung" data-translation="to separate → the separation"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                </div>
+
+                <!-- Page 10 -->
+                <div class="ung-practice-page" data-page="10">
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">46. versichern → die <input type="text" data-answer="Versicherung" data-translation="to insure → the insurance"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">47. betreuen → die <input type="text" data-answer="Betreuung" data-translation="to care for → the care"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">48. fördern → die <input type="text" data-answer="Förderung" data-translation="to promote → the promotion"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">49. erwarten → die <input type="text" data-answer="Erwartung" data-translation="to expect → the expectation"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                    <div class="ung-ex-item">
+                        <div class="ung-input-line">50. bezahlen → die <input type="text" data-answer="Bezahlung" data-translation="to pay → the payment"><span class="ung-feedback-icon"></span></div>
+                        <div class="ung-translation"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ung-pagination">
+                <button id="ungPrevBtn" onclick="ungChangePracticePage(-1)" disabled>← Previous</button>
+                <span class="ung-page-info">Page <span id="ungCurrentPage">1</span> of 10</span>
+                <button id="ungNextBtn" onclick="ungChangePracticePage(1)">Next →</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const ungExamples = [
+        { verb: 'wohnen', stem: 'wohn', ending: 'en', noun: 'Wohnung' },
+        { verb: 'leisten', stem: 'leist', ending: 'en', noun: 'Leistung' },
+        { verb: 'üben', stem: 'üb', ending: 'en', noun: 'Übung' }
+    ];
+    let ungCurrentExample = 0;
+    let ungCurrentStep = 0;
+    let ungIsAnimating = false;
+    let ungAnimationInterval = null;
+
+    const ungSteps = [
+        { 
+            label: 'Step 1: Start with the verb', 
+            content: (ex) => `<div class="ung-step-content ung-verb-display">${ex.verb}</div>` 
+        },
+        { 
+            label: 'Step 2: Remove -en ending to get the stem', 
+            content: (ex) => `<div class="ung-step-content ung-stem-display">${ex.stem}<span class="ung-ending-crossed">${ex.ending}</span></div>` 
+        },
+        { 
+            label: 'Step 3: Add -ung suffix', 
+            content: (ex) => `<div class="ung-step-content ung-stem-display">${ex.stem}<span class="ung-suffix-display">ung</span></div>` 
+        },
+        { 
+            label: 'Step 4: Capitalize and add article "die"', 
+            content: (ex) => `<div class="ung-step-content ung-result-display"><span class="ung-result-article">die </span>${ex.stem.charAt(0).toUpperCase() + ex.stem.slice(1)}<span class="ung-result-ending">ung</span></div>` 
+        }
+    ];
+
+    function ungRenderAllSteps() {
+        const container = document.getElementById('ungAnimSteps');
+        container.innerHTML = '';
+        
+        ungSteps.forEach((step, index) => {
+            const ex = ungExamples[ungCurrentExample];
+            const stepDiv = document.createElement('div');
+            stepDiv.className = 'ung-animation-step';
+            if (index === ungCurrentStep) {
+                stepDiv.classList.add('active');
+            }
+            stepDiv.innerHTML = `
+                <div class="ung-step-label">${step.label}</div>
+                ${step.content(ex)}
+            `;
+            container.appendChild(stepDiv);
+        });
+    }
+
+    function ungShowStep(stepIndex) {
+        const steps = document.querySelectorAll('.ung-animation-step');
+        steps.forEach((step, index) => {
+            if (index === stepIndex) {
+                step.classList.add('active');
+            } else {
+                step.classList.remove('active');
+            }
+        });
+    }
+
+    function ungToggleAnim() {
+        if (ungIsAnimating) {
+            ungStopAnim();
+        } else {
+            ungStartAnim();
+        }
+    }
+
+    function ungStartAnim() {
+        ungIsAnimating = true;
+        document.getElementById('ungPlayPauseBtn').innerHTML = '⏸ Pause';
+        
+        ungCurrentStep = 0;
+        ungRenderAllSteps();
+        
+        ungAnimationInterval = setInterval(() => {
+            ungCurrentStep++;
+            if (ungCurrentStep >= ungSteps.length) {
+                ungCurrentExample = (ungCurrentExample + 1) % ungExamples.length;
+                ungCurrentStep = 0;
+                ungRenderAllSteps();
+            }
+            ungShowStep(ungCurrentStep);
+        }, 2000);
+    }
+
+    function ungStopAnim() {
+        ungIsAnimating = false;
+        document.getElementById('ungPlayPauseBtn').innerHTML = '▶ Play';
+        if (ungAnimationInterval) {
+            clearInterval(ungAnimationInterval);
+            ungAnimationInterval = null;
+        }
+    }
+
+    function ungShowExampleTranslation(element) {
+        const translationDiv = element.closest('li').querySelector('.ung-ex-translation');
+        const translation = translationDiv.getAttribute('data-translation');
+        if (translationDiv.textContent === '') {
+            translationDiv.textContent = translation;
+        } else {
+            translationDiv.textContent = '';
+        }
+    }
+
+    let ungExamplesCurrentPage = 1;
+    const ungExamplesTotalPages = 4;
+
+    function ungChangeExamplesPage(direction) {
+        const newPage = ungExamplesCurrentPage + direction;
+        if (newPage < 1 || newPage > ungExamplesTotalPages) return;
+        
+        document.querySelector(`.ung-examples-page[data-page="${ungExamplesCurrentPage}"]`).classList.remove('active');
+        ungExamplesCurrentPage = newPage;
+        document.querySelector(`.ung-examples-page[data-page="${ungExamplesCurrentPage}"]`).classList.add('active');
+        
+        document.getElementById('ungExamplesCurrentPage').textContent = ungExamplesCurrentPage;
+        document.getElementById('ungExamplesPrevBtn').disabled = ungExamplesCurrentPage === 1;
+        document.getElementById('ungExamplesNextBtn').disabled = ungExamplesCurrentPage === ungExamplesTotalPages;
+    }
+
+    let ungCurrentPage = 1;
+    const ungTotalPages = 10;
+
+    function ungChangePracticePage(direction) {
+        const newPage = ungCurrentPage + direction;
+        if (newPage < 1 || newPage > ungTotalPages) return;
+        
+        document.querySelector(`.ung-practice-page[data-page="${ungCurrentPage}"]`).classList.remove('active');
+        ungCurrentPage = newPage;
+        document.querySelector(`.ung-practice-page[data-page="${ungCurrentPage}"]`).classList.add('active');
+        
+        document.getElementById('ungCurrentPage').textContent = ungCurrentPage;
+        document.getElementById('ungPrevBtn').disabled = ungCurrentPage === 1;
+        document.getElementById('ungNextBtn').disabled = ungCurrentPage === ungTotalPages;
+    }
+
+    document.querySelectorAll('.ung-widget .ung-ex-item input').forEach(input => {
+        input.addEventListener('input', function() {
+            const answer = this.getAttribute('data-answer');
+            const value = this.value.trim();
+            const translationDiv = this.closest('.ung-ex-item').querySelector('.ung-translation');
+            const feedbackIcon = this.closest('.ung-input-line').querySelector('.ung-feedback-icon');
+            const translation = this.getAttribute('data-translation');
+            
+            if (value === '') {
+                feedbackIcon.textContent = '';
+                feedbackIcon.className = 'ung-feedback-icon';
+                translationDiv.textContent = '';
+            } else if (value === answer) {
+                feedbackIcon.textContent = '✓';
+                feedbackIcon.className = 'ung-feedback-icon correct';
+                translationDiv.textContent = translation;
+            } else {
+                feedbackIcon.textContent = '✗';
+                feedbackIcon.className = 'ung-feedback-icon incorrect';
+                translationDiv.textContent = '';
+            }
+        });
+    });
+
+    ungRenderAllSteps();
+</script>
+</body>
+</html>

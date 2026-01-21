@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dative Prepositions Practice</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding: 20px; color: #333; }
+    .sg-verb-widget { max-width: 600px; margin: 0 auto; }
+    .sg-verb-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .sg-verb-title { font-size: 20px; font-weight: 600; color: #2c3e50; }
+    .sg-verb-page { font-size: 16px; color: #666; }
+    .sg-verb-list { background: white; border-radius: 8px; border: 1px solid #e0e0e0; }
+    .sg-verb-row { display: flex; align-items: center; gap: 6px; padding: 10px 14px; font-size: 18px; border-bottom: 1px solid #eee; cursor: pointer; }
+    .sg-verb-row:last-child { border-bottom: none; }
+    .sg-verb-row.complete { background: #f0fdf4; }
+    .sg-verb-num { color: #999; font-size: 16px; }
+    .sg-verb-input { border: 1px solid #ddd; border-radius: 4px; padding: 6px 8px; font-size: 18px; width: 100px; }
+    .sg-verb-text { color: #444; }
+    .sg-verb-input:focus { outline: none; border-color: #aaa; }
+    .sg-verb-input.correct { border-color: #22c55e; background: #f0fdf4; }
+    .sg-verb-input.wrong { border-color: #ef4444; }
+    .sg-verb-text { color: #444; }
+    .sg-verb-tr { font-size: 15px; color: #666; font-style: italic; display: none; padding: 4px 14px 10px 52px; background: #fafafa; border-bottom: 1px solid #eee; }
+    .sg-verb-tr.show { display: block; }
+    .sg-verb-hint { display: none; padding: 6px 14px 10px 52px; background: #fff8e1; border-bottom: 1px solid #eee; }
+    .sg-verb-hint.show { display: flex; gap: 10px; align-items: center; }
+    .sg-verb-hint-opt { background: #fff; border: 1px solid #ddd; padding: 4px 12px; border-radius: 4px; font-size: 16px; cursor: pointer; }
+    .sg-verb-hint-opt:hover { background: #f5f5f5; }
+    .sg-verb-hint-btn { background: #f5f5f5; border: 1px solid #ddd; color: #666; font-size: 13px; cursor: pointer; padding: 3px 8px; border-radius: 4px; margin-left: auto; flex-shrink: 0; }
+    .sg-verb-hint-btn:hover { background: #eee; }
+    .sg-verb-nav { display: flex; justify-content: space-between; margin-top: 12px; }
+    .sg-verb-btn { background: #00BCD4; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-size: 16px; cursor: pointer; }
+    .sg-verb-btn:hover { background: #00ACC1; }
+    .sg-verb-btn:disabled { background: #ccc; cursor: not-allowed; }
+    .sg-verb-note { font-size: 14px; color: #999; text-align: center; margin-top: 10px; }
+  </style>
+</head>
+<body>
+<div class="sg-verb-widget">
+  <div class="sg-verb-top">
+    <div class="sg-verb-title">Dativ-Präpositionen</div>
+    <div class="sg-verb-page" id="pageIndicator">1 / 6</div>
+  </div>
+  <div class="sg-verb-list" id="sgList"></div>
+  <div class="sg-verb-nav">
+    <button class="sg-verb-btn" id="prevBtn">← Zurück</button>
+    <button class="sg-verb-btn" id="nextBtn">Weiter →</button>
+  </div>
+  <div class="sg-verb-note">Click sentence to translate | ← → pages</div>
+</div>
+
+<script>
+(function(){
+  const ALL=[
+    {pre:'Ich komme',post:'Deutschland.',ans:'aus',tr:'I come from Germany.'},
+    {pre:'Er wohnt',post:'seiner Tante.',ans:'bei',tr:'He lives at his aunt\'s place.'},
+    {pre:'Sie geht',post:'dem Haus.',ans:'aus',tr:'She goes out of the house.'},
+    {pre:'Wir sind',post:'der Arbeit.',ans:'bei',tr:'We are at work.'},
+    {pre:'Ich fahre',post:'dem Bus.',ans:'mit',tr:'I go by bus.'},
+    {pre:'Das ist ein Geschenk',post:'meinem Vater.',ans:'von',tr:'That is a gift from my father.'},
+    {pre:'Sie spricht',post:'ihrem Freund.',ans:'mit',tr:'She talks with her friend.'},
+    {pre:'Wir kommen',post:'der Party.',ans:'von',tr:'We come from the party.'},
+    {pre:'Ich gehe',post:'Hause.',ans:'nach',tr:'I go home.'},
+    {pre:'Er fährt',post:'Berlin.',ans:'nach',tr:'He drives to Berlin.'},
+    {pre:'Sie geht',post:'dem Arzt.',ans:'zu',tr:'She goes to the doctor.'},
+    {pre:'Wir fahren',post:'meinen Eltern.',ans:'zu',tr:'We drive to my parents.'},
+    {pre:'Ich lerne Deutsch',post:'drei Jahren.',ans:'seit',tr:'I have been learning German for three years.'},
+    {pre:'Alle sind da',post:'Peter.',ans:'außer',tr:'Everyone is here except Peter.'},
+    {pre:'',post:'wann wohnst du hier?',ans:'Seit',tr:'Since when have you lived here?'},
+    {pre:'',post:'mir spricht niemand Deutsch.',ans:'Außer',tr:'Apart from me, nobody speaks German.'},
+    {pre:'Die Bank ist',post:'dem Supermarkt.',ans:'gegenüber',tr:'The bank is opposite the supermarket.'},
+    {pre:'Er sitzt mir',post:'.',ans:'gegenüber',tr:'He sits opposite me.'},
+    {pre:'Ich gehe',post:'der Schule nach Hause.',ans:'nach',tr:'I go home after school.'},
+    {pre:'Sie kommt',post:'München.',ans:'aus',tr:'She comes from Munich.'},
+    {pre:'Er fährt jeden Tag',post:'dem Fahrrad.',ans:'mit',tr:'He rides his bike every day.'},
+    {pre:'Das Kind kommt',post:'der Schule.',ans:'aus',tr:'The child comes out of school.'},
+    {pre:'Wir wohnen',post:'zwei Jahren in Berlin.',ans:'seit',tr:'We have been living in Berlin for two years.'},
+    {pre:'Gehen wir',post:'dir?',ans:'zu',tr:'Shall we go to your place?'}
+  ];
+
+  const PREPS=['aus','außer','bei','mit','nach','seit','von','zu','gegenüber'];
+  const PER_PAGE=4;
+  const PAGES=[];
+  for(let i=0;i<ALL.length;i+=PER_PAGE)PAGES.push(ALL.slice(i,i+PER_PAGE));
+
+  const list=document.getElementById('sgList');
+  const prevBtn=document.getElementById('prevBtn');
+  const nextBtn=document.getElementById('nextBtn');
+  const pageIndicator=document.getElementById('pageIndicator');
+  let page=0,inputs=[];
+
+  function getWrongOption(correct){
+    const others=PREPS.filter(p=>p.toLowerCase()!==correct.toLowerCase());
+    return others[Math.floor(Math.random()*others.length)];
+  }
+
+  function render(idx){
+    page=Math.max(0,Math.min(PAGES.length-1,idx));
+    pageIndicator.textContent=`${page+1} / ${PAGES.length}`;
+    prevBtn.disabled=(page===0);
+    nextBtn.disabled=(page===PAGES.length-1);
+    list.innerHTML='';
+    inputs=[];
+    const offset=page*PER_PAGE;
+
+    PAGES[page].forEach((it,i)=>{
+      const row=document.createElement('div');
+      row.className='sg-verb-row';
+      row.innerHTML=`<span class="sg-verb-num">${offset+i+1}.</span>${it.pre ? `<span class="sg-verb-text">${it.pre}</span>` : ''}<input type="text" class="sg-verb-input"><span class="sg-verb-text">${it.post}</span><button class="sg-verb-hint-btn">50/50</button>`;
+
+      const tr=document.createElement('div');
+      tr.className='sg-verb-tr';
+      tr.textContent=it.tr;
+
+      const hint=document.createElement('div');
+      hint.className='sg-verb-hint';
+      const opts=[it.ans,getWrongOption(it.ans)].sort(()=>Math.random()-.5);
+      hint.innerHTML=opts.map(o=>`<button class="sg-verb-hint-opt">${o}</button>`).join('');
+
+      const input=row.querySelector('.sg-verb-input');
+      const hintBtn=row.querySelector('.sg-verb-hint-btn');
+      const ans=it.ans.toLowerCase();
+      inputs.push({input,row,ans,hint});
+
+      input.addEventListener('input',()=>{
+        const v=input.value.trim().toLowerCase();
+        if(!v){input.className='sg-verb-input';row.classList.remove('complete');return;}
+        if(v===ans){
+          input.className='sg-verb-input correct';
+          row.classList.add('complete');
+          hint.classList.remove('show');
+          if(i+1<inputs.length)setTimeout(()=>inputs[i+1].input.focus(),80);
+          else if(page<PAGES.length-1)setTimeout(goNext,200);
+        }else{
+          input.className='sg-verb-input wrong';
+          row.classList.remove('complete');
+        }
+      });
+
+      hintBtn.onclick=(e)=>{
+        e.stopPropagation();
+        hint.classList.toggle('show');
+      };
+
+      hint.querySelectorAll('.sg-verb-hint-opt').forEach(btn=>{
+        btn.onclick=()=>{
+          input.value=btn.textContent;
+          input.dispatchEvent(new Event('input'));
+        };
+      });
+
+      row.addEventListener('click',e=>{if(e.target.tagName!=='INPUT'&&e.target.tagName!=='BUTTON')tr.classList.toggle('show');});
+      list.appendChild(row);
+      list.appendChild(hint);
+      list.appendChild(tr);
+    });
+    list.querySelector('.sg-verb-input')?.focus();
+  }
+
+  function goPrev(){render(page-1);}
+  function goNext(){render(page+1);}
+  prevBtn.onclick=goPrev;
+  nextBtn.onclick=goNext;
+  document.addEventListener('keydown',e=>{
+    const f=document.activeElement;
+    const inInp=f?.classList.contains('sg-verb-input');
+    if(e.key==='ArrowLeft'&&(!inInp||!f.value))goPrev();
+    if(e.key==='ArrowRight'&&(!inInp||!f.value))goNext();
+  });
+  render(0);
+})();
+</script>
+</body>
+</html>

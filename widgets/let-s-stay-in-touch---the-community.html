@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Let's Stay In Touch - The Community</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Info Widget</title>
+    <style>
+        .support-info-widget {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #ffffff;
+            line-height: 1.5;
+            color: #1a1a1a;
+            padding: 40px 20px;
+            overflow: visible;
+            padding-bottom: 100px;
+        }
+
+        .support-info-widget * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .support-info-widget .widget-container {
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .support-info-widget h1 {
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        .support-info-widget .main-text {
+            font-size: 1.05em;
+            color: #333333;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .support-info-widget .accordion-container {
+            margin-bottom: 40px;
+        }
+
+        .support-info-widget .accordion-item {
+            margin-bottom: 15px;
+            list-style: none;
+        }
+
+        .support-info-widget .accordion-item::before,
+        .support-info-widget .accordion-item::after {
+            content: none !important;
+            display: none !important;
+        }
+
+        .support-info-widget .accordion-header::before,
+        .support-info-widget .accordion-header::after {
+            content: none !important;
+            display: none !important;
+        }
+
+        .support-info-widget .accordion-title::before,
+        .support-info-widget .accordion-title::after {
+            content: none !important;
+            display: none !important;
+        }
+
+        .support-info-widget .accordion-header {
+            background: #FFC519;
+            padding: 20px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+        }
+
+        .support-info-widget .accordion-header:hover {
+            background: #FFD04A;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .support-info-widget .accordion-title {
+            font-size: 1.15em;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .support-info-widget .accordion-arrow {
+            background: #333333;
+            color: #FFC519;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            font-weight: 700;
+            transition: transform 0.3s;
+        }
+
+        .support-info-widget .accordion-header.active .accordion-arrow {
+            transform: rotate(180deg);
+        }
+
+        .support-info-widget .accordion-content {
+            background: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            border-radius: 0 0 6px 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .support-info-widget .accordion-content.active {
+            max-height: 800px;
+            padding: 20px 25px;
+        }
+
+        .support-info-widget .accordion-content p {
+            font-size: 0.98em;
+            color: #333333;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .support-info-widget .accordion-content ul {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+
+        .support-info-widget .accordion-content li {
+            margin-bottom: 8px;
+            color: #333333;
+        }
+
+        .support-info-widget .step-list {
+            counter-reset: step-counter;
+            list-style: none;
+            padding: 0;
+        }
+
+        .support-info-widget .step-list li {
+            counter-increment: step-counter;
+            position: relative;
+            padding-left: 32px;
+            margin-bottom: 12px;
+            font-size: 0.98em;
+            color: #333333;
+            line-height: 1.6;
+        }
+
+        .support-info-widget .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 22px;
+            height: 22px;
+            background: #333333;
+            color: #ffffff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 22px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .support-info-widget .accordion-content a {
+            color: #0066CC !important;
+            text-decoration: none !important;
+            font-weight: 600 !important;
+        }
+
+        .support-info-widget .accordion-content a:hover {
+            text-decoration: underline !important;
+        }
+
+        .support-info-widget .legal-note {
+            font-size: 0.88em;
+            color: #666666;
+            font-style: italic;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+            line-height: 1.5;
+        }
+
+        .support-info-widget .support-section {
+            margin: 0;
+            margin-top: 80px;
+        }
+
+        .support-info-widget .info-box {
+            background: #FFC519;
+            border-radius: 6px;
+            padding: 20px 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .support-info-widget .info-box-title {
+            font-weight: 700;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            display: block;
+            color: #1a1a1a;
+        }
+
+        .support-info-widget .troubleshooting-accordions {
+            margin-top: 15px;
+        }
+
+        .support-info-widget .troubleshooting-accordions .accordion-item {
+            margin-bottom: 8px;
+            list-style: none;
+        }
+
+        .support-info-widget .troubleshooting-accordions .accordion-item::before,
+        .support-info-widget .troubleshooting-accordions .accordion-item::after {
+            content: none !important;
+            display: none !important;
+        }
+
+        .support-info-widget .troubleshooting-accordions .accordion-header::before,
+        .support-info-widget .troubleshooting-accordions .accordion-header::after {
+            content: none !important;
+            display: none !important;
+        }
+
+        .support-info-widget .troubleshooting-accordions .accordion-title::before,
+        .support-info-widget .troubleshooting-accordions .accordion-title::after {
+            content: none !important;
+            display: none !important;
+        }
+
+        .support-info-widget .troubleshooting-accordions .accordion-header {
+            background: #333333;
+            padding: 12px 16px;
+            box-shadow: none;
+        }
+
+        .support-info-widget .troubleshooting-accordions .accordion-header:hover {
+            background: #444444;
+        }
+
+        .support-info-widget .troubleshooting-accordions .accordion-title {
+            font-size: 0.95em;
+            color: #FFC519;
+        }
+
+        .support-info-widget .troubleshooting-accordions .accordion-arrow {
+            background: transparent;
+            color: #FFC519;
+            width: auto;
+            height: auto;
+            font-size: 1em;
+        }
+
+        .support-info-widget .troubleshooting-accordions .accordion-content {
+            background: #ffffff;
+            border: 2px solid #333333;
+            border-top: none;
+            box-shadow: none;
+        }
+
+        .support-info-widget .troubleshooting-accordions .accordion-content.active {
+            max-height: 300px;
+            padding: 12px 16px;
+        }
+
+        .support-info-widget .troubleshooting-accordions .accordion-content a {
+            color: #0066CC !important;
+        }
+
+        .support-info-widget .info-box-footer {
+            font-size: 0.9em;
+            color: #1a1a1a;
+            line-height: 1.5;
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 2px solid #333333;
+        }
+
+        .support-info-widget .bookmark-box {
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .support-info-widget .bookmark-box.hidden-in-app {
+            display: none;
+        }
+
+        .support-info-widget .bookmark-question {
+            font-size: 1.8em;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 25px;
+            line-height: 1.3;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.7; }
+        }
+
+        .support-info-widget .bookmark-options {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 25px;
+        }
+
+        .support-info-widget .checkbox-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 12px 20px;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .support-info-widget .checkbox-container:hover {
+            background: #e8e8e8;
+        }
+
+        .support-info-widget .custom-checkbox {
+            width: 28px;
+            height: 28px;
+            border: 3px solid #333333;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .support-info-widget input[type="checkbox"] {
+            display: none;
+        }
+
+        .support-info-widget input[type="checkbox"]:checked + .checkbox-container .custom-checkbox {
+            background: #4CAF50;
+            border-color: #4CAF50;
+        }
+
+        .support-info-widget .checkmark {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .support-info-widget input[type="checkbox"]:checked + .checkbox-container .checkmark {
+            display: block;
+        }
+
+        .support-info-widget .checkbox-label {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #333333;
+        }
+
+        .support-info-widget .bookmark-link-wrapper {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .support-info-widget .bookmark-drag-link {
+            display: inline-block;
+            padding: 18px 40px;
+            background: #FFC519;
+            color: #1a1a1a;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 1.3em;
+            border: 3px solid #333333;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .support-info-widget .bookmark-drag-link:hover {
+            background: #FFD04A;
+        }
+
+        .support-info-widget .drag-instruction {
+            font-size: 0.85em;
+            color: #666666;
+            margin-top: 5px;
+        }
+
+        .support-info-widget .mobile-bookmark-instructions {
+            background: #FFC519;
+            padding: 20px;
+            border-radius: 6px;
+            border: 3px solid #333333;
+            margin-bottom: 25px;
+            display: none;
+        }
+
+        .support-info-widget .mobile-bookmark-instructions h3 {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+
+        .support-info-widget .mobile-bookmark-instructions p {
+            font-size: 1em;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .bookmark-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .bookmark-modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 500px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-content h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+
+        .modal-content .shortcut-key {
+            font-size: 2.5em;
+            font-weight: 800;
+            color: #FFC519;
+            background: #333333;
+            padding: 20px 30px;
+            border-radius: 8px;
+            display: inline-block;
+            margin: 20px 0;
+            font-family: monospace;
+        }
+
+        .modal-content p {
+            font-size: 1.1em;
+            color: #333333;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .modal-close {
+            background: #333333;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 4px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            background: #555555;
+        }
+
+        @keyframes confetti {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-120vh) rotate(720deg); opacity: 0; }
+        }
+
+        .confetti-piece {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            z-index: 9999;
+            pointer-events: none;
+            animation: confetti 3s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="support-info-widget">
+        <div class="widget-container">
+            <p class="main-text">
+                There will be moments when you feel overwhelmed or stuck and that's actually a good sign. It means you're learning and growing. But when frustration starts to feel too heavy, it's easy to lose momentum.
+             Don't let that happen. You're not alone. Let me and other learners support you. Here's how:
+            </p>
+
+            <div class="accordion-container">
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div class="accordion-title">Personal Support Members</div>
+                        <div class="accordion-arrow">▼</div>
+                    </div>
+                    <div class="accordion-content">
+                        <p>If you're subscribed to the Personal Support Membership, please skip the link below.<br>Instead, open your "Personal Support Membership" course under My Courses.<br>There, you'll find:</p>
+                        <ul>
+                            <li>Access to our exclusive Personal Support Channel</li>
+                            <li>Announcements and Invitations to exclusive live Q&A sessions</li>
+                            <li>Direct contact with me</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div class="accordion-title">Scholarship Members</div>
+                        <div class="accordion-arrow">▼</div>
+                    </div>
+                    <div class="accordion-content">
+                        <p>If you're a Scholarship Member, you'll receive an email about a week after your admission to the program with special community access instructions.</p>
+                        <p><strong>Please do not sign up to the regular community.</strong> You'll get access to a special progress reporting channel and dedicated support.</p>
+                        <p>Watch your inbox for the email with your exclusive access details.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <div class="accordion-title">All Other Learners — Join the SG Community</div>
+                        <div class="accordion-arrow">▼</div>
+                    </div>
+                    <div class="accordion-content">
+                        <p>For all other learners:</p>
+                        <ol class="step-list">
+                            <li>Go to <a href="https://community.smartergerman.com" target="_blank">community.smartergerman.com</a></li>
+                            <li>Log in using your Teachable account</li>
+                            <li>Explore the left sidebar — start with Onboarding, Resources, and Motivation</li>
+                            <li>Post in the INBOX or Motivation channels to connect with others</li>
+                        </ol>
+                        <p>I moderate the community to keep it safe and supportive, but I don't personally answer German-learning questions there unless you're a Personal Support Member.</p>
+                        <p class="legal-note">
+                            For legal reasons — yes, really — online courses and personal support must remain separate. The community is therefore peer-to-peer: learners helping learners.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="support-section">
+                <div class="info-box">
+                    <span class="info-box-title">Having Trouble?</span>
+                    
+                    <div class="troubleshooting-accordions">
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleTroubleshooting(this)">
+                                <div class="accordion-title">Can't log in to Teachable?</div>
+                                <div class="accordion-arrow">▼</div>
+                            </div>
+                            <div class="accordion-content">
+                                <p>First, check <a href="https://community.smartergerman.com/c/course-updates/" target="_blank">Course Updates</a> and <a href="https://www.teachablestatus.com/" target="_blank">Teachable Status Page</a> to see if there's a known issue.
+                                If the problem persists, go directly to <a href="https://community.smartergerman.com" target="_blank">community.smartergerman.com</a> — you can still access the Community and send me a direct message (DM) there.</p>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleTroubleshooting(this)">
+                                <div class="accordion-title">Payment or billing questions?</div>
+                                <div class="accordion-arrow">▼</div>
+                            </div>
+                            <div class="accordion-content">
+                                <p>Send me a private direct message inside the Community (not a public post).
+                                I'll help you sort it out privately and quickly.</p>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleTroubleshooting(this)">
+                                <div class="accordion-title">Completely locked out?</div>
+                                <div class="accordion-arrow">▼</div>
+                            </div>
+                            <div class="accordion-content">
+                                <p>If you cannot access Teachable OR the Community and the teachable status doesn't show any downtime on their end, use the contact form on <a href="https://smartergerman.com/contact" target="_blank">smartergerman.com</a>.
+                                This is your backup option when nothing else works.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="info-box-footer">Please don't send emails for anything that can be handled inside the Community — it keeps everything organized and helps me keep your learning affordable.</p>
+                </div>
+
+                <div class="bookmark-box" id="bookmarkBox">
+                    <div class="bookmark-question">Have you bookmarked the Community page?</div>
+
+                    <div class="mobile-bookmark-instructions" id="mobileInstructions">
+                        <h3>How to Bookmark on Mobile:</h3>
+                        <p id="mobileBrowserInstructions">Tap the share button and select "Add to Home Screen" or "Add Bookmark"</p>
+                    </div>
+
+                    <div class="bookmark-link-wrapper" id="desktopBookmark">
+                        <a href="https://community.smartergerman.com" class="bookmark-drag-link" id="bookmarkLink" onclick="showBookmarkModal(event)" title="Click for instructions or drag to bookmarks bar">Click here to bookmark</a>
+                        <div class="drag-instruction">Click for instructions • Or drag to bookmarks bar</div>
+                    </div>
+                    
+                    <div class="bookmark-options">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="bookmarkCheckbox">
+                            <div class="checkbox-container">
+                                <div class="custom-checkbox">
+                                    <span class="checkmark">✓</span>
+                                </div>
+                                <span class="checkbox-label">Yes, I've bookmarked it!</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="bookmark-modal" id="bookmarkModal">
+        <div class="modal-content">
+            <h2>Quick! Bookmark this page now!</h2>
+            <p>Press this keyboard shortcut:</p>
+            <div class="shortcut-key" id="shortcutKey">Ctrl + D</div>
+            <p>This works in all browsers (Chrome, Firefox, Edge, Safari)</p>
+            <button class="modal-close" onclick="closeModal()">Got it!</button>
+        </div>
+    </div>
+
+    <script>
+        const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+        const shortcutText = isMac ? 'Cmd + D' : 'Ctrl + D';
+        
+        // Detect if we're in the Teachable app or mobile browser
+        function detectEnvironment() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            const isTeachableApp = userAgent.includes('teachable') || 
+                                   window.navigator.standalone === true ||
+                                   window.matchMedia('(display-mode: standalone)').matches;
+            const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+            const isIOS = /iphone|ipad|ipod/.test(userAgent);
+            const isAndroid = /android/.test(userAgent);
+            
+            return {
+                isTeachableApp: isTeachableApp,
+                isMobile: isMobile,
+                isIOS: isIOS,
+                isAndroid: isAndroid
+            };
+        }
+        
+        // Setup bookmark section based on environment
+        function setupBookmarkSection() {
+            const env = detectEnvironment();
+            const bookmarkBox = document.getElementById('bookmarkBox');
+            const desktopBookmark = document.getElementById('desktopBookmark');
+            const mobileInstructions = document.getElementById('mobileInstructions');
+            const mobileBrowserInstructions = document.getElementById('mobileBrowserInstructions');
+            
+            if (env.isTeachableApp) {
+                // Hide bookmark section entirely in Teachable app
+                bookmarkBox.classList.add('hidden-in-app');
+            } else if (env.isMobile) {
+                // Show mobile instructions, hide desktop bookmark button
+                desktopBookmark.style.display = 'none';
+                mobileInstructions.style.display = 'block';
+                
+                // Customize instructions based on OS
+                if (env.isIOS) {
+                    mobileBrowserInstructions.innerHTML = 
+                        '1. Tap the Share button <span style="font-size: 1.2em;">⬆</span> at the bottom<br>' +
+                        '2. Scroll down and tap "Add to Home Screen"<br>' +
+                        '3. Name it "SG Community" and tap "Add"';
+                } else if (env.isAndroid) {
+                    mobileBrowserInstructions.innerHTML = 
+                        '1. Tap the menu button (3 dots) in your browser<br>' +
+                        '2. Select "Add to Home screen" or "Bookmark"<br>' +
+                        '3. Name it "SG Community" and tap "Add"';
+                } else {
+                    mobileBrowserInstructions.innerHTML = 
+                        'Tap your browser\'s menu button and look for "Add Bookmark" or "Add to Home Screen"';
+                }
+            } else {
+                // Desktop - keep existing functionality
+                desktopBookmark.style.display = 'block';
+                mobileInstructions.style.display = 'none';
+            }
+        }
+        
+        // Call setup on page load
+        setupBookmarkSection();
+
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const isActive = header.classList.contains('active');
+            
+            document.querySelectorAll('.accordion-container .accordion-header').forEach(h => {
+                h.classList.remove('active');
+                h.nextElementSibling.classList.remove('active');
+            });
+            
+            if (!isActive) {
+                header.classList.add('active');
+                content.classList.add('active');
+            }
+        }
+
+        function toggleTroubleshooting(header) {
+            const content = header.nextElementSibling;
+            const isActive = header.classList.contains('active');
+            
+            document.querySelectorAll('.troubleshooting-accordions .accordion-header').forEach(h => {
+                h.classList.remove('active');
+                h.nextElementSibling.classList.remove('active');
+            });
+            
+            if (!isActive) {
+                header.classList.add('active');
+                content.classList.add('active');
+            }
+        }
+
+        function showBookmarkModal(event) {
+            event.preventDefault();
+            document.getElementById('shortcutKey').textContent = shortcutText;
+            document.getElementById('bookmarkModal').classList.add('show');
+        }
+
+        document.getElementById('bookmarkCheckbox').addEventListener('change', function() {
+            if (this.checked) {
+                createConfetti();
+            }
+        });
+
+        function closeModal() {
+            document.getElementById('bookmarkModal').classList.remove('show');
+        }
+
+        document.getElementById('bookmarkModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        function createConfetti() {
+            const colors = ['#FFC519', '#00BCD4', '#FF6B6B', '#4CAF50', '#9C27B0', '#FF9800'];
+            const confettiCount = 50;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti-piece';
+                    
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.backgroundColor = color;
+                    
+                    const startX = Math.random() * window.innerWidth;
+                    const startY = window.innerHeight;
+                    confetti.style.left = startX + 'px';
+                    confetti.style.top = startY + 'px';
+                    
+                    confetti.style.animationDelay = Math.random() * 0.3 + 's';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 3500);
+                }, i * 30);
+            }
+        }
+    </script>
+</body>
+</html>
+</body>
+</html>
